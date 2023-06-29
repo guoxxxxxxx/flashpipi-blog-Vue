@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import("../components/layout/TopBar.vue")
+      component: () => import('@/components/home/Home.vue')
     }
   ]
 })

@@ -1,7 +1,7 @@
 <template>
-<div class="article-cover">
-    <slot></slot>
-</div>
+    <div class="article-cover">
+        <slot></slot>
+    </div>
 </template>
 
 <script lang='ts' setup>
@@ -13,7 +13,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: '../../../public/images/top_img_mini.jpg';
+    background-image: url("../../../public/images/header-cover.jpg");
     height: 400px;
     width: 100%;
     animation: fadeUpInCover 1s;

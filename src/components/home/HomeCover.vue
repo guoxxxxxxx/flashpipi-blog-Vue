@@ -1,20 +1,29 @@
 <template>
-<div class="cover">
+  <div class="cover" :style="HomeCoverStyle">
     <div class="cover-word-container">
-        <h1 class="cover-title">
-            {{ store.websiteInfo.websiteName }}
-        </h1>
-        <div class="cover-content">
-            
-        </div>
+      <h1 class="cover-title">
+        {{ store.websiteInfo.websiteName }}
+      </h1>
+      <div class="cover-content">
+        <Typewriter></Typewriter>
+      </div>
     </div>
-</div>
+    <down-outlined style="font-size: 30px" class="arrow-down"/>
+  </div>
 </template>
 
 <script lang='ts' setup>
+import { reactive } from 'vue';
 import { useStore } from '../../stores';
+import Typewriter from '../others/Typewriter.vue';
+import { DownOutlined } from "@ant-design/icons-vue";
 
 const store = useStore();
+let HomeCoverStyle = reactive({
+  background: `url(${store.backgroundImg.homeUrl})`,
+  backgroundSize: "cover",
+})
+
 </script>
 
 <style scoped>

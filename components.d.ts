@@ -7,11 +7,21 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AAvatar: typeof import('ant-design-vue/es')['Avatar']
     ABackTop: typeof import('ant-design-vue/es')['BackTop']
     AButton: typeof import('ant-design-vue/es')['Button']
-    HeaderCover: typeof import('./src/components/others/HeaderCover.vue')['default']
+    ACard: typeof import('ant-design-vue/es')['Card']
+    ACardMeta: typeof import('ant-design-vue/es')['CardMeta']
+    ACol: typeof import('ant-design-vue/es')['Col']
+    ARow: typeof import('ant-design-vue/es')['Row']
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElImage: typeof import('element-plus/es')['ElImage']
+    ElPopover: typeof import('element-plus/es')['ElPopover']
+    FootBar: typeof import('./src/components/layout/FootBar.vue')['default']
+    HeaderCover: typeof import('./src/components/header/HeaderCover.vue')['default']
     Home: typeof import('./src/components/home/Home.vue')['default']
     HomeCover: typeof import('./src/components/home/HomeCover.vue')['default']
+    HomeToolBar: typeof import('./src/components/home/HomeToolBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopBar: typeof import('./src/components/layout/TopBar.vue')['default']

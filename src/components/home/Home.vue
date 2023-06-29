@@ -1,17 +1,129 @@
 <template>
-<div class="home">
+  <div class="home">
     <!-- 网站封面 -->
     <home-cover></home-cover>
+    <!-- 首页主体 -->
+    <div class="container">
+      <div class="sider-card">
+        <!-- 用户个人信息 -->
+        <a-card class="card-style">
+          <template #cover>
+            <div class="blog-avatar">
+              <a-avatar :src="store.authorInfo.avator" :size="110" />
+            </div>
+            <div class="author-info">
+              ✨{{ store.authorInfo.name }}✨
+            </div>
+          </template>
+          <a-card-meta>
+            <template #description>
+              <div class="blog-info">
+                <a-row style="font-size: 16px;">
+                  <a-col :span="8"><span>文章</span></a-col>
+                  <a-col :span="8"><span>标签</span></a-col>
+                  <a-col :span="8"><span>分类</span></a-col>
+                </a-row>
+                <a-row style="margin-top: 10px; font-style:italic; font-family: sans-serif;">
+                  <a-col :span="8"><span>{{ store.articlesInfo.articleCount }}</span></a-col>
+                  <a-col :span="8"><span>{{ store.articlesInfo.tagsCount }}</span></a-col>
+                  <a-col :span="8"><span>{{ store.articlesInfo.categoryCount }}</span></a-col>
+                </a-row>
+                <!-- go to github button -->
+                <el-button type="primary" :round="true" size="large" :icon="GithubOutlined"
+                  style="margin-top: 20px; width: 90%; font-size: 17px;" @click="toGitHub" :color="gitHubBtnStyle">
+                  Go to GitHub
+                </el-button>
 
-</div>
+                <!-- icon-link -->
+                <a-row type="flex" justify="space-around">
+                  <a-col :span="4" class="icon-link">
+                    <el-popover placement="top" trigger="hover" :effect="getCurrentThemeClass">
+                      <el-image style="width: 125px; height: 125px" src="/images/qq.jpg" fit="fill" />
+                      <template #reference>
+                        <QqOutlined />
+                      </template>
+                    </el-popover>
+                  </a-col>
+                  <a-col :span="4" class="icon-link">
+                    <el-popover placement="top" trigger="hover" :effect="getCurrentThemeClass">
+                      <el-image style="width: 125px; height: 125px" src="/images/wechat.jpg" fit="fill" />
+                      <template #reference>
+                        <WechatOutlined />
+                      </template>
+                    </el-popover>
+                  </a-col>
+                  <a-col :span="4" class="icon-link">
+                    <MailOutlined @click="mailto"/>
+                  </a-col>
+                </a-row>
+
+              </div>
+            </template>
+          </a-card-meta>
+        </a-card>
+
+        <!-- 公告栏 -->
+        <a-card class="card-style">
+          <a-card-meta>
+            <template #title>
+              <bell-filled style="color: rgb(240, 17, 17)" />&nbsp;<span class="card-title">公告</span>
+            </template>
+            <template #description>
+              <div class="blog-notice">
+                ????????
+              </div>
+            </template>
+          </a-card-meta>
+        </a-card>
+
+
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang='ts' setup>
 import HomeCover from './HomeCover.vue';
+import { useStore } from '@/stores/index';
+import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined } from '@ant-design/icons-vue';
+import { computed, reactive } from 'vue';
+
+const store = useStore();
+
+// mailto 跳转到发送邮件界面
+const mailto = () => {
+  window.location.href = "mailto: guo_x0315@163.com";
+}
+
+// 跳转到我的GitHub主页
+const toGitHub = () => {
+  const newWindow = window.open("about:blank");
+  if (newWindow != null) {
+    newWindow.location.href = "https://github.com/guoxxxxxxx";
+  }
+  else {
+    window.location.href = "https://github.com/guoxxxxxxx";
+  }
+}
+
+// 通过计算属性获得当前主题并修改github-btn的css
+const gitHubBtnStyle = computed(() => {
+  return store.themeName === 'dark' ? '#000080' : '';
+})
+
+// 通过计算属性获取当前主题
+const getCurrentThemeClass = computed(() => {
+  return store.themeName;
+})
 
 </script>
 
 <style scoped lang="less">
+.icon-link {
+  font-size: 20px;
+  margin-top: 15px;
+}
+
 .home {
   height: 100%;
   width: 100%;
@@ -118,7 +230,7 @@ import HomeCover from './HomeCover.vue';
     }
 
     .sider-card {
-      flex: 0.2;
+      flex: 0.25;
       padding: 0 16px;
       height: 100vh;
       position: sticky;

@@ -5,7 +5,11 @@ import { defineStore } from 'pinia';
 export const useStore = defineStore('pinia', {
     state: () => {
         return{
+            websiteInfo:{
+                websiteName: "Pipi's Blog"
+            },
             themeName: 'light',
+
         }
     }
 })

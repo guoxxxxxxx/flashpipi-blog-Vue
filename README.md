@@ -2,6 +2,7 @@
 
 
 
-## 一、所使用到的组件（部分）
-- 🍍pinia: https://pinia.web3doc.top/core-concepts/#defining-a-store
-- <img src="https://aliyuncdn.antdv.com/v2/assets/logo.1ef800a8.svg" alt="logo" style="zoom:5%;" />Ant Design Vue: https://2x.antdv.com/docs/vue/introduce-cn
+## 一、所使用到的第三方 package（部分）
+- 🍍 pinia: https://pinia.web3doc.top/core-concepts/#defining-a-store
+- ⚓ Ant Design Vue: https://2x.antdv.com/docs/vue/introduce-cn
+- 🅰️ Axios: https://www.axios-http.cn/

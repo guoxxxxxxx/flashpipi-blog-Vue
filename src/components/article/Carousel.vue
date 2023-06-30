@@ -1,3 +1,7 @@
+<!-- 
+    说明:
+    此组件为华而不实的跑马灯组件,说有用呢?还有用,说没用呢.不要其实也行. 美观至上,还是要着吧.
+ -->
 <template>
     <div class="carousel-container">
         <el-carousel height="300px" direction="vertical" :autoplay="true">
@@ -17,8 +21,8 @@
                         <div class="date text-children">
                             📅<span style="font-style: italic;">{{ item.date }}</span>
                         </div>
-                        <div class="title text-children">{{ (emoj as any)[item.id % 13] }}  {{ item.title }}</div>
-                        <div class="desc text-children">{{ (emoj as any)[item.id+3 % 13] }}  {{ item.description }}</div>
+                        <div class="title text-children">{{ (emoj as any)[item.id % 13] }} {{ item.title }}</div>
+                        <div class="desc text-children">{{ (emoj as any)[item.id + 3 % 13] }} {{ item.description }}</div>
                     </div>
                 </div>
             </el-carousel-item>
@@ -79,8 +83,33 @@ const data = reactive([
     height: 100%;
     border-radius: 18px;
     display: flex;
-    justify-content: space-around;
     align-items: center;
+
+    @media (min-width: 860px) {
+
+        justify-content: space-around;
+
+        .img-container {
+            display: true;
+        }
+
+        .text-container {
+            width: 50%;
+        }
+    }
+
+    @media (max-width: 859px) {
+
+        padding-left: 20px;
+
+        .img-container {
+            display: none;
+        }
+
+        .text-container {
+            width: 90%;
+        }
+    }
 }
 
 .img-container {
@@ -90,7 +119,6 @@ const data = reactive([
 }
 
 .text-container {
-    width: 50%;
     height: 90%;
     border-radius: 18px;
     color: var(--theme-font-color);
@@ -114,10 +142,6 @@ const data = reactive([
         font-size: 20px;
         font-style: italic;
         margin-top: 2%;
-    }
-
-    .text-children {
-        margin-left: 5%;
     }
 }
 </style>

@@ -11,10 +11,11 @@
         <CategoryCard></CategoryCard>
         <!-- 文章模块 -->
         <div class="article-container">
-          <ArticleCard v-for="item in 11"></ArticleCard>
+          <ArticleCard v-for="item in 11" :data="data.articles[0]"></ArticleCard>
         </div>
       </div>
 
+      <!-- 侧边组件懒着拆开了,反正就home里用一次,不拆了 -->
       <div class="sider-card">
         <!-- 用户个人信息 -->
         <a-card class="card-style">
@@ -121,12 +122,29 @@ const getCurrentThemeClass = computed(() => {
   return store.themeName;
 })
 
+/**
+ * 待删除测试数据
+ */
+const data = reactive({
+  count: 11,
+  articles: [{
+    id: 1,
+    title: '动手学习深度学习',
+    detail: '教你使用pytorch框架迅速完成深度学习内容',
+    imgUrl: '/images/header-cover.jpg',
+    date: '2023-07-04',
+    update: '2023-08-09',
+    tags: ['vue'],
+    category: '深度学习'
+  }]
+});
+
 </script>
 
 <style scoped lang="less">
 .article-container {
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   flex-wrap: wrap;
   flex-grow: 1;
 }
@@ -210,22 +228,30 @@ const getCurrentThemeClass = computed(() => {
     display: flex;
     margin: calc(100vh - 10px) auto auto 0px;
     animation: fadeInUp 1s;
+    // animation: 3s ease-in 1s infinite reverse both running slidein;
 
-    @media (min-width: 760px) {
+    @media (min-width: 1100px) {
       // changed 15% -> 12%
       padding: 40px 12% 0px 12%;
+
+      .main-card {
+        flex: 0.8;
+      }
     }
 
-    @media (max-width: 759px) {
-      padding: 40px 8px 0px 8px;
+    @media (max-width: 1099px) {
+      padding: 40px 2% 0px 2%;
 
       .sider-card {
         display: none;
       }
+
+      .main-card {
+        flex: 1;
+      }
     }
 
     .main-card {
-      flex: 0.8;
 
       .post-article-list {
         width: 100%;
@@ -246,7 +272,7 @@ const getCurrentThemeClass = computed(() => {
       flex: 0.23;
       padding: 0 16px;
       height: 100vh;
-      position: sticky;
+      // position: sticky;
       top: 24px;
       margin-bottom: 20px;
 

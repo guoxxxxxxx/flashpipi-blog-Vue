@@ -1,4 +1,7 @@
 <template>
+<div class="unuse">
+
+</div>
 <div class="footer-wrap">
     <div class="web-info">
         @ {{ startYear === currentYear ? currentYear : startYear + ' - ' + currentYear }}
@@ -15,6 +18,10 @@ const currentYear:Number = new Date().getFullYear();
 </script>
 
 <style scoped lang="less">
+.unuse {
+  background-color: var(--theme-background);
+  height: 40px;
+}
 .footer-wrap {
   position: relative;
   display: flex;
@@ -29,7 +36,6 @@ const currentYear:Number = new Date().getFullYear();
   font-size: 0.9rem;
   text-align: center;
   background: linear-gradient(-45deg,var(--theme-footer-left),var(--theme-footer-right));
-  margin-top: 30px;
 
   .web-info {
     display: flex;

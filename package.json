@@ -10,9 +10,9 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "ant-design-vue": "^3.2.20",
     "axios": "^1.4.0",
-    "bootstrap": "^5.3.0-alpha1",
     "easy-typer-js": "^2.1.0",
     "element-plus": "^2.3.7",
     "md-editor-v3": "^4.2.0",

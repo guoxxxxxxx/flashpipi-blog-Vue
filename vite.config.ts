@@ -9,11 +9,20 @@ import AutoImport from 'unplugin-auto-import/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 // 按需引入element-plus组件
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+// 按需引入quasar组件库
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue(
+      {
+        template: { transformAssetUrls }
+      }
+    ),
+    quasar({
+      sassVariables: 'src/quasar-variables.sass'
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()]
     }),

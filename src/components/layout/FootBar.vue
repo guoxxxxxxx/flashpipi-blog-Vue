@@ -29,6 +29,7 @@ const currentYear:Number = new Date().getFullYear();
   font-size: 0.9rem;
   text-align: center;
   background: linear-gradient(-45deg,var(--theme-footer-left),var(--theme-footer-right));
+  margin-top: 30px;
 
   .web-info {
     display: flex;

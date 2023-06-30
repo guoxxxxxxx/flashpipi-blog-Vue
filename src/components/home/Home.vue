@@ -4,6 +4,17 @@
     <home-cover></home-cover>
     <!-- 首页主体 -->
     <div class="container">
+      <div class="main-card">
+        <!-- 轮播图 -->
+        <Carousel></Carousel>
+        <!-- 分类模块 -->
+        <CategoryCard></CategoryCard>
+        <!-- 文章模块 -->
+        <div class="article-container">
+          <ArticleCard v-for="item in 11"></ArticleCard>
+        </div>
+      </div>
+
       <div class="sider-card">
         <!-- 用户个人信息 -->
         <a-card class="card-style">
@@ -53,7 +64,7 @@
                     </el-popover>
                   </a-col>
                   <a-col :span="4" class="icon-link">
-                    <MailOutlined @click="mailto"/>
+                    <MailOutlined @click="mailto" />
                   </a-col>
                 </a-row>
 
@@ -64,16 +75,7 @@
 
         <!-- 公告栏 -->
         <a-card class="card-style">
-          <a-card-meta>
-            <template #title>
-              <bell-filled style="color: rgb(240, 17, 17)" />&nbsp;<span class="card-title">公告</span>
-            </template>
-            <template #description>
-              <div class="blog-notice">
-                ????????
-              </div>
-            </template>
-          </a-card-meta>
+
         </a-card>
 
 
@@ -84,6 +86,9 @@
 
 <script lang='ts' setup>
 import HomeCover from './HomeCover.vue';
+import Carousel from '@/components/article/Carousel.vue'
+import CategoryCard from './CategoryCard.vue';
+import ArticleCard from '../article/ArticleCard.vue';
 import { useStore } from '@/stores/index';
 import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined } from '@ant-design/icons-vue';
 import { computed, reactive } from 'vue';
@@ -119,6 +124,13 @@ const getCurrentThemeClass = computed(() => {
 </script>
 
 <style scoped lang="less">
+.article-container {
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
 .icon-link {
   font-size: 20px;
   margin-top: 15px;
@@ -200,7 +212,8 @@ const getCurrentThemeClass = computed(() => {
     animation: fadeInUp 1s;
 
     @media (min-width: 760px) {
-      padding: 40px 15% 0px 15%;
+      // changed 15% -> 12%
+      padding: 40px 12% 0px 12%;
     }
 
     @media (max-width: 759px) {
@@ -230,7 +243,7 @@ const getCurrentThemeClass = computed(() => {
     }
 
     .sider-card {
-      flex: 0.25;
+      flex: 0.23;
       padding: 0 16px;
       height: 100vh;
       position: sticky;
@@ -244,11 +257,13 @@ const getCurrentThemeClass = computed(() => {
       }
 
       .card-style {
-        border-radius: 8px;
+        border-radius: 18px;
         margin-bottom: 16px;
         box-shadow: 0 3px 8px 6px rgba(7, 17, 27, 0.05);
         border: 1px solid var(--theme-card-color);
         background: var(--theme-card-color);
+        border: 1px solid gray;
+
       }
 
       .card-title {

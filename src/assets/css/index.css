@@ -5,6 +5,7 @@
     --theme-card-color: #fff;
     --theme-footer-left:#03a9f4;
     --theme-footer-right:#23a6d5;
+    --theme-font-color: black;
   }
   /* 更改dark类名下变量的取值 */
   .dark{
@@ -13,11 +14,12 @@
     --theme-card-color: #000;
     --theme-footer-left:#333;
     --theme-footer-right:#000;
+    --theme-font-color: white;
   }
   
   body {
     overflow: overlay;
-    cursor: url(https://static.talkxj.com/css/default.cur), default;
+    /* cursor: url(https://static.talkxj.com/css/default.cur), default; */
   }
   
   /*鼠标样式*/

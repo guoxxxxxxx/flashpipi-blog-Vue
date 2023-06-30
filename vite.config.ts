@@ -10,7 +10,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 // 按需引入element-plus组件
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 // 按需引入quasar组件库
-import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -34,5 +34,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    host: '0.0.0.0'
   }
 })

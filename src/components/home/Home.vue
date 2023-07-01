@@ -12,6 +12,8 @@
         <!-- 文章模块 -->
         <div class="article-container">
           <ArticleCard v-for="item in 11" :data="data.articles[0]"></ArticleCard>
+          <!-- 此行代码解决了最后一行剩偶数个卡片时分布显示的Bug -->
+          <div class="none-card" v-if="11 % 3 == 2"></div>
         </div>
       </div>
 
@@ -74,10 +76,84 @@
           </a-card-meta>
         </a-card>
 
+        <!-- 站内小提示 -->
+        <a-card class="card-style">
+          <div class="notice-card">
+            <div class="notice-title">
+              🔍 Tips 🔍
+            </div>
+            <hr />
+            <div class="notice-text-container" style="color: var(--theme-font-color);">
+              <div style="margin-top: 10px;">
+                <span style="text-indent:2em; display: block; font-weight: lighter;
+                 font-size: 1.1em; padding-top: 10px;">
+                  本站图片📷托管在Github上, 国内🌏有时可能访问不到且访问速度可能会比较慢🐢。此时需要您进行科学上网🚀，
+                  科学上网🚀相关技术小站💻暂不提供任何技术支持，给您带来不便尽情谅解🥹！
+                </span>
+              </div>
+            </div>
+          </div>
+        </a-card>
+
         <!-- 公告栏 -->
         <a-card class="card-style">
-
+          <div class="notice-card">
+            <div class="notice-title">
+              ❗公告栏❗
+            </div>
+            <hr />
+            <div class="notice-text-container" style="color: var(--theme-font-color);">
+              <div class="notice-text">
+                🔗本网站域名:<br> <a href="https://www.baidu.com" style="font-weight: bold;">还没申请域名</a>
+              </div>
+            </div>
+          </div>
         </a-card>
+
+        <!-- 小站资讯 -->
+        <a-card class="card-style">
+          <div class="notice-card">
+            <div class="notice-title">
+              <LineChartOutlined :style="'color: grey'" /> 小站资讯
+            </div>
+            <hr />
+            <div class="information-container">
+              <div class="info-child">
+                <div class="info-label">
+                  文章数目:
+                </div>
+                <div class="info-value">
+                  12346
+                </div>
+              </div>
+              <div class="info-child">
+                <div class="info-label">
+                  已运行时间:
+                </div>
+                <div class="info-value">
+                  888天
+                </div>
+              </div>
+              <div class="info-child">
+                <div class="info-label">
+                  本站总访客量:
+                </div>
+                <div class="info-value">
+                  99999999
+                </div>
+              </div>
+              <div class="info-child">
+                <div class="info-label">
+                  最后更新时间:
+                </div>
+                <div class="info-value">
+                  2065-03-15
+                </div>
+              </div>
+            </div>
+          </div>
+        </a-card>
+
 
 
       </div>
@@ -91,7 +167,7 @@ import Carousel from '@/components/article/Carousel.vue'
 import CategoryCard from './CategoryCard.vue';
 import ArticleCard from '../article/ArticleCard.vue';
 import { useStore } from '@/stores/index';
-import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined } from '@ant-design/icons-vue';
+import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined, LineChartOutlined } from '@ant-design/icons-vue';
 import { computed, reactive } from 'vue';
 
 const store = useStore();
@@ -131,7 +207,8 @@ const data = reactive({
     id: 1,
     title: '动手学习深度学习',
     detail: '教你使用pytorch框架迅速完成深度学习内容',
-    imgUrl: '/images/header-cover.jpg',
+    // imgUrl: '/images/header-cover.jpg',
+    imgUrl: 'https://cdn.jsdelivr.net/gh/guoxxxxxxx/Pic-Go@main/img/image-20230701153250507.png',
     date: '2023-07-04',
     update: '2023-08-09',
     tags: ['vue'],
@@ -142,6 +219,70 @@ const data = reactive({
 </script>
 
 <style scoped lang="less">
+// 用于占位
+.none-card {
+
+  // 当屏幕小于449像素时,卡片充满一行
+  @media (max-width: 449px) {
+    width: 100%;
+  }
+
+  @media (min-width: 450px) and (max-width: 649px) {
+    width: 49%;
+  }
+
+  @media (min-width: 650px) and (max-width: 1099px) {
+    width: 32%;
+  }
+
+  @media (min-width: 1100px) {
+    width: 32%;
+  }
+}
+
+.information-container {
+  margin-top: 20px;
+  font-size: 1.1em;
+  font-weight: lighter;
+  color: var(--theme-font-color);
+
+  .info-child {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .info-label {
+    width: 50%;
+  }
+
+  .info-value {
+    width: 50%;
+    text-align: right;
+  }
+}
+
+.notice-card {
+  width: 100%;
+
+  .notice-title {
+    color: var(--theme-font-color);
+    font-size: 1.5em;
+    // font-weight: lighter;
+    margin-bottom: 5%;
+    text-align: center;
+  }
+
+  .notice-text {
+    color: var(--theme-font-color);
+    font-size: 1.3em;
+    font-weight: lighter;
+    width: 100%;
+    text-align: center;
+    margin-top: 5%;
+  }
+}
+
 .article-container {
   display: flex;
   justify-content: space-between;

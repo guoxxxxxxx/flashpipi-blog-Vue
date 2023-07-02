@@ -91,15 +91,15 @@ const props = defineProps(['data'])
     @media (max-width: 449px) {
         width: 100%;
     }
-
+    // 当屏幕介于450-649像素之间时 中部卡片开始合并
     @media (min-width: 450px) and (max-width: 649px) {
         width: 49%;
     }
-
+    // 当像素值介于650-1099像素时，右侧卡片消失
     @media (min-width: 650px) and (max-width: 1099px) {
         width: 32%;
     }
-
+    // 当像素值大于1100px时，界面显示全部东西
     @media (min-width: 1100px) {
         width: 32%;
     }

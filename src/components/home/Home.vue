@@ -88,7 +88,7 @@
                 <span style="text-indent:2em; display: block; font-weight: lighter;
                  font-size: 1.1em; padding-top: 10px;">
                   本站图片📷托管在Github上, 国内🌏有时可能访问不到且访问速度可能会比较慢🐢。此时需要您进行科学上网🚀，
-                  科学上网🚀相关技术小站💻暂不提供任何技术支持，给您带来不便尽情谅解🥹！
+                  科学上网🚀相关技术小站💻暂不提供任何技术支持，给您带来不便敬请谅解🥹！
                 </span>
               </div>
             </div>

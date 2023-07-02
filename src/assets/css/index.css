@@ -6,6 +6,8 @@
     --theme-footer-left:#03a9f4;
     --theme-footer-right:#23a6d5;
     --theme-font-color: black;
+    --theme-category-btn-color: #409eff;
+    --theme-category-btn-hover-color: #a0cfff;
   }
   /* 更改dark类名下变量的取值 */
   .dark{
@@ -15,6 +17,8 @@
     --theme-footer-left:#333;
     --theme-footer-right:#000;
     --theme-font-color: white;
+    --theme-category-btn-color:#000080;
+    --theme-category-btn-hover-color: rgb(77, 77, 166);
   }
   
   body {

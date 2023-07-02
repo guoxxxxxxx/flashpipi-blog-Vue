@@ -2,7 +2,12 @@
     <div class="category-card">
         <div class="category-item-container">
             <div class="category-item" v-for="item in data" :key="item.id">
-                {{ item.category }}
+                <div style="width: 80%;">
+                    {{ item.category }}({{ item.count }})
+                </div>
+                <div style="width: 10%;">
+                    🔜
+                </div>
             </div>
         </div>
         <!-- 分页按钮 -->
@@ -13,16 +18,16 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, computed, onMounted, onUnmounted, toRaw } from 'vue';
+import { reactive } from 'vue';
 
 /**
  * 测试数据
  */
 const data = reactive([
-    { id: 1, category: '机器学习' },
-    { id: 2, category: '深度学习' },
-    { id: 3, category: '计算机视觉' },
-    { id: 4, category: 'Vue开发' },
+    { id: 1, category: '机器学习', count: 1 },
+    { id: 2, category: '深度学习', count: 23 },
+    { id: 3, category: '计算机视觉', count: 93 },
+    { id: 4, category: 'Vue开发', count: 88 },
     // { id: 5, category: 'spring-boot开发' },
     // { id: 6, category: 'Linux' },
     // { id: 7, category: 'C++' },
@@ -38,12 +43,38 @@ const data = reactive([
     justify-content: space-around;
     margin-top: 20px;
 
+    // 当屏幕小于349像素时,卡片充满一行
+    @media (max-width: 449px) {
+        height: 270px;
+    }
+
+    // 当屏幕介于450-649像素之间时 中部卡片开始合并
+    @media (min-width: 450px) and (max-width: 649px) {
+        height: 140px;
+    }
+
+    // 当像素值介于650-1099像素时，右侧卡片消失
+    @media (min-width: 650px) {
+        height: 80px;
+    }
+
     .category-item {
         height: 50px;
         margin: 5px;
         border: 1px solid gray;
-        background-color: gainsboro;
-        border-radius: 8px;
+        background-color: var(--theme-category-btn-color);
+        color: white;
+        border-radius: 30px;
+        font-size: 1.3em;
+        width: 100%;
+        text-align: left;
+        align-items: center;
+        font-family:cursive;
+        font-weight: bolder;
+        padding-left: 20px;
+        display: flex;
+        user-select: none;
+        cursor: pointer;
 
         // 当屏幕小于349像素时,卡片充满一行
         @media (max-width: 449px) {
@@ -66,19 +97,15 @@ const data = reactive([
         }
     }
 
-    // 当屏幕小于349像素时,卡片充满一行
-    @media (max-width: 449px) {
-        height: 270px;
+    .category-item:hover{
+        background-color: var(--theme-category-btn-hover-color);
+        animation: pulse;
+        animation-duration: 0.5s;
+        color: white;
     }
 
-    // 当屏幕介于450-649像素之间时 中部卡片开始合并
-    @media (min-width: 450px) and (max-width: 649px) {
-        height: 140px;
-    }
-
-    // 当像素值介于650-1099像素时，右侧卡片消失
-    @media (min-width: 650px) {
-        height: 80px;
+    .category-item:active {
+        background-color: var(--theme-category-btn-color);
     }
 }
 

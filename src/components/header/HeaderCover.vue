@@ -13,7 +13,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url("../../../public/images/header-cover.jpg");
+    background-image: url("/images/header-cover.jpg");
     height: 400px;
     width: 100%;
     animation: fadeUpInCover 1s;

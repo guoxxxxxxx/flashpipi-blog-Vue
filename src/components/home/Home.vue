@@ -15,6 +15,10 @@
           <!-- 此行代码解决了最后一行剩偶数个卡片时分布显示的Bug -->
           <div class="none-card" v-if="11 % 3 == 2"></div>
         </div>
+        <!-- 分页按钮 -->
+        <div class="pagination">
+          <el-pagination background layout="prev, pager, next" :total="1000" />
+        </div>
       </div>
 
       <!-- 侧边组件懒着拆开了,反正就home里用一次,不拆了 -->
@@ -219,6 +223,14 @@ const data = reactive({
 </script>
 
 <style scoped lang="less">
+// 分页
+.pagination {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 // 用于占位
 .none-card {
 

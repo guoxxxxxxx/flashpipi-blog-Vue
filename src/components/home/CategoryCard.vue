@@ -59,7 +59,7 @@ const data = reactive([
     }
 
     .category-item {
-        height: 50px;
+        height: 45px;
         margin: 5px;
         border: 1px solid gray;
         background-color: var(--theme-category-btn-color);
@@ -69,7 +69,7 @@ const data = reactive([
         width: 100%;
         text-align: left;
         align-items: center;
-        font-family:cursive;
+        font-family:'Courier New', Courier, monospace;
         font-weight: bolder;
         padding-left: 20px;
         display: flex;

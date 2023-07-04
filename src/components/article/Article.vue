@@ -1,14 +1,184 @@
 <template>
     <div class="article">
+        <!-- 封面 -->
+        <header-cover>
+            <div class="article-info">
+                <h1 class="article-title">
+                    {{ data.articleTitle }}
+                </h1>
+                <div class="article-meta-data-wrap">
+                    <span class="article-meta-data">
+                        <CalendarOutlined />&nbsp;发表于
+                        {{ data.createTime }}
+                    </span>
+                    <span class="article-meta-data-divider">|</span>
+                    <span class="article-meta-data">
+                        <SyncOutlined /> &nbsp;更新于
+                        {{ data.updateTime }}
+                    </span>
+                    <span class="article-meta-data-divider">|</span>
+                    <span class="article-meta-data">
+                        <ProfileOutlined /> &nbsp;分类
+                        {{ data.category }}
+                    </span>
+                </div>
+                <div class="article-meta-data-wrap">
+                    <span class="article-meta-data">
+                        <EyeOutlined />&nbsp;阅读量
+                        {{ data.viewsCount }}
+                    </span>
+                    <span class="article-meta-data-divider">|</span>
+                    <span class="article-meta-data">
+                        <FontSizeOutlined /> &nbsp;字数
+                        {{ data.content.length > 1000 ? data.content.length > 10000 ? (data.content.length /
+                            10000).toFixed(1) + 'w' : (data.content.length / 1000).toFixed(1) + 'K' : data.content.length
+                        }}
+                    </span>
+                    <span class="article-meta-data-divider">|</span>
+                    <span class="article-meta-data">
+                        <FieldTimeOutlined /> &nbsp;预计阅读时间
+                        {{ getTimeUsed }}
+                    </span>
+                </div>
+            </div>
+        </header-cover>
+        <div class="container">
+            <div class="main">
+                <a-card class="article-card">
+                    <div class="article-content">
+                        <MdPreview :editorId="id" :modelValue="data.content" :theme="store.themeName"
+                            :showCodeRowNumber="true" />
+                    </div>
 
+                    <hr>
+
+                    <!-- 版权声明 -->
+                    <div class="article-signature">
+                        <img :src="store.authorInfo.avator" alt="头像">
+                        <div class="copyright">
+                            <div class="copyright-item">
+                                <span class="copyright-title">文章作者: ✨{{ store.authorInfo.name }}✨</span>
+                            </div>
+                            <div class="copyright-item">
+                                <span class="copyright-title">本文链接: 🔗https://www.baidu.com</span>
+                            </div>
+                            <div class="copyright-item">
+                                <span class="copyright-title">版权说明: 💿</span>
+                                <span class="copyright-content">本博客所有文章除特别声明外，均采用
+                                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">《BY-NC-SA》</a>许可协议，转载请注明出处！
+                                </span>
+                            </div>
+                            <div class="copyright-item">
+                                <span class="copyright-title">联系作者: </span>
+                                <span class="copyright-content"><a href="mailto:guo_x0315@163.com">✉️</a>文章若有错误或疑惑的地方欢迎<a href="mailto:guo_x0315@163.com">联系</a>我！</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 分类 -->
+                    <div class="article-tags">
+                        🏷️分类：
+                        <el-button type="primary">{{ data.category }}</el-button>
+                    </div>
+
+                    <!-- 上一篇和下一篇 -->
+
+
+                </a-card>
+            </div>
+
+            <!-- 侧边框 -->
+            <div class="side">
+                <!-- 固定位置 -->
+                <div class="sticky-layout">
+                    <!-- 文章目录 -->
+                    <div class="catalog-card">
+                        <div class="catalog-card-header">
+                            🔍目录
+                        </div>
+                        <div class="catalog-content">
+                            <MdCatalog :editorId="id" :scrollElement="scrollElement"></MdCatalog>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 </template>
 
 <script lang='ts' setup>
+import HeaderCover from '../header/HeaderCover.vue';
+import { reactive, computed, ref } from 'vue';
+import { MdPreview, MdCatalog } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
+import {
+    CalendarOutlined, SyncOutlined, ProfileOutlined, EyeOutlined,
+    FontSizeOutlined, FieldTimeOutlined
+} from '@ant-design/icons-vue'
+import { useStore } from '@/stores';
 
+const id = 'preview-only';
+const scrollElement = document.documentElement;
+
+const store = useStore();
+
+const data = reactive({
+    articleTitle: '动手学习深度学习',
+    createTime: '2023-06-21',
+    updateTime: '2023-07-01',
+    category: '深度学习',
+    viewsCount: '983',
+    content: '# Hello World! \n\
+    ## 你d好 \n\
+    asd \n ## 第二年 \n dasd \n 你好呀 \n ## 第三行 \n \
+    ## 第卅 \n ## 习 \n ## ad \n',
+})
+
+// 计算预计阅读时间
+const getTimeUsed = computed(() => {
+    if (data.content.length < 1200) {
+        return (data.content.length / 20).toFixed(0) + 's';
+    }
+    else if (data.content.length < 72000) {
+        return (data.content.length / 1200).toFixed(0) + 'min'
+    }
+    else {
+        return (data.content.length / 72000).toFixed(0) + 'h ' + (data.content.length % 72000 / 1200).toFixed(0) + 'min';
+    }
+})
 </script>
 
 <style lang="less" scoped>
+.catalog-content {
+    font-size: 1.3em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.catalog-card {
+    background: var(--theme-card-color);
+    border-radius: 8px;
+    box-shadow: 0 3px 8px 6px rgba(7, 17, 27, 0.05);
+    padding: 20px 24px;
+    width: 100%;
+    box-sizing: border-box;
+    color: var(--theme-font-color);
+}
+
+.catalog-card-header {
+    text-align: left !important;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 2em;
+    width: 100%;
+    text-align: center;
+}
+
 .article {
     height: 100%;
     width: 100%;
@@ -55,14 +225,14 @@
         }
 
         @media (min-width: 760px) {
-            padding: 16px 20% 16px 20%;
+            padding: 16px 15% 16px 15%;
 
             .main {
-                width: 75%;
+                width: 80%;
             }
 
             .side {
-                width: 25%;
+                width: 20%;
             }
         }
 

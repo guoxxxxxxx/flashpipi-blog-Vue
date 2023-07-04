@@ -46,10 +46,10 @@ function getRandInt(): Number {
 const data = reactive([
     {
         id: 1,
-        title: '标题1',
+        title: '动手学深度学习',
         date: '2023-06-29',
         imgUrl: '/images/header-cover.jpg',
-        description: '这是一段简短的描述'
+        description: '教你使用pytorch框架迅速完成深度学习内容。'
     },
     {
         id: 2,
@@ -70,27 +70,35 @@ const data = reactive([
 
 <style scoped lang='less'>
 .carousel-container {
-    height: 300px;
     background-color: var(--theme-card-color);
     box-shadow: 0 3px 8px 6px rgba(7, 17, 27, 0.05);
     border-radius: 18px;
     margin-bottom: 16px;
     border: 1px solid gray;
+
+    @media (min-width: 860px) {
+        height: 300px;
+    }
+
+    @media (max-width: 859px) {
+        height: 400px;
+    }
+
 }
 
 .box {
     width: 100%;
-    height: 100%;
     border-radius: 18px;
-    display: flex;
     align-items: center;
 
     @media (min-width: 860px) {
 
         justify-content: space-around;
+        display: flex;
 
         .img-container {
-            display: true;
+            width: 40%;
+            margin: 20px;
         }
 
         .text-container {
@@ -100,41 +108,38 @@ const data = reactive([
 
     @media (max-width: 859px) {
 
-        padding-left: 20px;
 
         .img-container {
-            display: none;
+            width: 100%;
+
         }
 
         .text-container {
-            width: 90%;
+            width: 100%;
         }
     }
 }
 
 .img-container {
-    height: 90%;
-    width: 40%;
+    height: 240px;
     border-radius: 18px;
 }
 
 .text-container {
-    height: 90%;
     border-radius: 18px;
     color: var(--theme-font-color);
-
+    width: 100%;
 
     .date {
         width: 70%;
         font-size: 20px;
-        margin-top: 5%;
     }
 
     .title {
         width: 70%;
         font-size: 30px;
         font-weight: bold;
-        margin-top: 5%;
+        margin-top: 3%;
     }
 
     .desc {

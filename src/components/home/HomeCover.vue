@@ -8,7 +8,7 @@
         <Typewriter></Typewriter>
       </div>
     </div>
-    <down-outlined style="font-size: 30px" class="arrow-down"/>
+    <down-outlined style="font-size: 30px" class="arrow-down" @click="scrollToContent"/>
   </div>
 </template>
 
@@ -17,6 +17,12 @@ import { reactive } from 'vue';
 import { useStore } from '../../stores';
 import Typewriter from '../others/Typewriter.vue';
 import { DownOutlined } from "@ant-design/icons-vue";
+
+// 点击向下箭头滚动一个屏幕
+const scrollToContent = () => {
+  let h = document.getElementsByClassName("cover")[0].scrollHeight;
+  window.scrollTo({ top: h, behavior: "smooth" });
+};
 
 const store = useStore();
 let HomeCoverStyle = reactive({

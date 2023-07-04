@@ -11,23 +11,26 @@
  -->
 <template>
     <!-- 此处动画还有些许bug不过问题不大, 后续再改--debug -->
+
     <div class="card-style animate__animated animate__zoomIn animate__slow">
-        <div class="img-box">
-            <img class="img" :src="props.data.imgUrl">
-            <div class="detail">
-                {{ props.data.detail }}
+        <router-link to="/article">
+            <div class="img-box">
+                <img class="img" :src="props.data.imgUrl">
+                <div class="detail">
+                    {{ props.data.detail }}
+                </div>
             </div>
-        </div>
+        </router-link>
+
         <div class="text-box">
             <div class="title">
-                {{ props.data.title.length <= 14 ? props.data.title : props.data.title.substring(0, 13) + '...'}}
-            </div>
-            <div class="info">
-                📅发表于: {{ props.data.date }} | 🔄️更新于: {{ props.data.update }} | 
-                📝类别: {{ props.data.category }} | 🏷️标签: {{ props.data.tags[0] }}
+                {{ props.data.title.length <= 14 ? props.data.title : props.data.title.substring(0, 13) + '...' }} </div>
+                    <div class="info">
+                        📅发表于: {{ props.data.date }} | 🔄️更新于: {{ props.data.update }} |
+                        📝类别: {{ props.data.category }} | 🏷️标签: {{ props.data.tags[0] }}
+                    </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script lang='ts' setup>
@@ -40,6 +43,7 @@ const props = defineProps(['data'])
     text-align: center;
     color: var(--theme-font-color);
 }
+
 .title {
     font-size: 1.5em;
     width: 100%;
@@ -48,6 +52,7 @@ const props = defineProps(['data'])
     font-weight: bold;
     color: var(--theme-font-color);
 }
+
 .text-box {
     font-weight: lighter;
     width: 100%;
@@ -91,14 +96,17 @@ const props = defineProps(['data'])
     @media (max-width: 449px) {
         width: 100%;
     }
+
     // 当屏幕介于450-649像素之间时 中部卡片开始合并
     @media (min-width: 450px) and (max-width: 649px) {
         width: 49%;
     }
+
     // 当像素值介于650-1099像素时，右侧卡片消失
     @media (min-width: 650px) and (max-width: 1099px) {
         width: 32%;
     }
+
     // 当像素值大于1100px时，界面显示全部东西
     @media (min-width: 1100px) {
         width: 32%;

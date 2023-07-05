@@ -70,7 +70,8 @@
                             </div>
                             <div class="copyright-item">
                                 <span class="copyright-title">联系作者: </span>
-                                <span class="copyright-content"><a href="mailto:guo_x0315@163.com">✉️</a>文章若有错误或疑惑的地方欢迎<a href="mailto:guo_x0315@163.com">联系</a>我！</span>
+                                <span class="copyright-content"><a href="mailto:guo_x0315@163.com">✉️</a>文章若有错误或疑惑的地方欢迎<a
+                                        href="mailto:guo_x0315@163.com">联系</a>我！</span>
                             </div>
                         </div>
                     </div>
@@ -110,7 +111,7 @@
 
 <script lang='ts' setup>
 import HeaderCover from '../header/HeaderCover.vue';
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import {
@@ -147,6 +148,11 @@ const getTimeUsed = computed(() => {
     else {
         return (data.content.length / 72000).toFixed(0) + 'h ' + (data.content.length % 72000 / 1200).toFixed(0) + 'min';
     }
+});
+
+onMounted(()=>{
+    // 页面回到最上方
+    window.scroll(0,0);
 })
 </script>
 

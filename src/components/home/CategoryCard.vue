@@ -87,12 +87,7 @@ const data = reactive([
         }
 
         // 当像素值介于650-1099像素时，右侧卡片消失
-        @media (min-width: 650px) and (max-width: 1099px) {
-            width: 22%;
-        }
-
-        // 当像素值大于1100px时，界面显示全部东西
-        @media (min-width: 1100px) {
+        @media (min-width: 650px){
             width: 22%;
         }
     }

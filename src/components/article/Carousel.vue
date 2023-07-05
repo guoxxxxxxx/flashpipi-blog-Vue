@@ -1,30 +1,37 @@
-<!-- 
-    说明:
-    此组件为华而不实的跑马灯组件,说有用呢?还有用,说没用呢.不要其实也行. 美观至上,还是要着吧.
- -->
 <template>
     <div class="carousel-container">
-        <el-carousel height="300px" direction="vertical" :autoplay="true">
+        <el-carousel class="el-container" direction="vertical" :autoplay="false">
             <el-carousel-item v-for="item in data" :key="item.id">
-                <div class="box">
+                <div class="item">
                     <div class="img-container">
-                        <el-image style="width: 100%; height: 100%; border-radius: 18px;" :src="item.imgUrl" fit="cover">
-                            <template #error>
-                                <div class="image-slot">
-                                    <FrownOutlined />
-                                    Image Loading Failed!
-                                </div>
-                            </template>
-                        </el-image>
+                        <img :src="item.imgUrl">
                     </div>
                     <div class="text-container">
-                        <div class="date text-children">
-                            📅<span style="font-style: italic;">{{ item.date }}</span>
+                        <!-- <div class="title">
+                            {{ item.title }}
+                        </div> -->
+                        <div class="article-meta-data-wrap">
+                            <span class="article-meta-data">
+                                <CalendarOutlined />&nbsp;发表于:
+                                {{ item.date }}
+                            </span>
+                            <span class="article-meta-data-divider">&nbsp;|&nbsp;</span>
+                            <span class="article-meta-data">
+                                <SyncOutlined /> &nbsp;更新于:
+                                {{ item.update }}
+                            </span>
+                            <span class="article-meta-data-divider">&nbsp;|&nbsp;</span>
+                            <span class="article-meta-data">
+                                <ProfileOutlined /> &nbsp;分类:
+                                {{ item.category }}
+                            </span>
                         </div>
-                        <div class="title text-children">{{ (emoj as any)[item.id % 13] }} {{ item.title }}</div>
-                        <div class="desc text-children">{{ (emoj as any)[item.id + 3 % 13] }} {{ item.description }}</div>
+                        <div class="content">
+                            {{ item.description }}
+                        </div>
                     </div>
                 </div>
+
             </el-carousel-item>
         </el-carousel>
     </div>
@@ -32,121 +39,140 @@
 
 <script lang='ts' setup>
 import { reactive } from 'vue';
-import { FrownOutlined } from '@ant-design/icons-vue';
-
-// 除了好看一无是处
-const emoj = reactive(['❤️', '🔍', '🌎', '📬', '🍋', '🍾', '🥕', '🍉', '🚩', '♨️', '☀️', '❄️', '🪷']);
-
-
-// 获得随机数
-function getRandInt(): Number {
-    return Math.floor(Math.random() * 13);
-}
-
+import {
+    CalendarOutlined, SyncOutlined, ProfileOutlined, EyeOutlined,
+    FontSizeOutlined, FieldTimeOutlined
+} from '@ant-design/icons-vue'
 const data = reactive([
     {
         id: 1,
         title: '动手学深度学习',
         date: '2023-06-29',
+        update: '2023-07-06',
         imgUrl: '/images/header-cover.jpg',
-        description: '教你使用pytorch框架迅速完成深度学习内容。'
+        description: '教你使用pytorch框架迅速完成深度学习内容。',
+        category: '深度学习',
     },
     {
         id: 2,
         title: '标题2',
         date: '2023-07-29',
+        update: '2023-07-06',
         imgUrl: '/images/header-cover.jpg',
-        description: '这是一段简短的描述'
+        category: '深度学习',
+        description: '这是一段简短的描述',
     },
     {
         id: 3,
         title: '标题3',
+        update: '2023-07-06',
         date: '2023-05-29',
         imgUrl: '/images/header-cover.jpg',
-        description: '这是一段简短的描述'
+        category: '深度学习',
+        description: '这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述123456789',
     }
 ]);
 </script>
 
 <style scoped lang='less'>
 .carousel-container {
+    width: 100%;
+    color: var(--theme-font-color);
     background-color: var(--theme-card-color);
     box-shadow: 0 3px 8px 6px rgba(7, 17, 27, 0.05);
     border-radius: 18px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     border: 1px solid gray;
 
-    @media (min-width: 860px) {
-        height: 300px;
-    }
-
-    @media (max-width: 859px) {
-        height: 400px;
-    }
-
-}
-
-.box {
-    width: 100%;
-    border-radius: 18px;
-    align-items: center;
-
-    @media (min-width: 860px) {
-
-        justify-content: space-around;
-        display: flex;
-
+    // 当屏幕小于649像素之间时 中部卡片开始合并
+    @media (max-width: 649px) {
+        height: 460px;
         .img-container {
-            width: 40%;
-            margin: 20px;
+            width: 100%;
         }
 
-        .text-container {
+        .text-container{
+            width: 100%;
+            height: 200px;
+        }
+    }
+
+    // 当像素值大于1100px时，界面显示全部东西
+    @media (min-width: 650px) {
+
+        height: 260px;
+
+
+        .item {
+            display: flex;
+        }
+
+        .img-container {
+            width: 50%;
+        }
+
+        .text-container{
             width: 50%;
         }
     }
+}
 
-    @media (max-width: 859px) {
-
-
-        .img-container {
-            width: 100%;
-
-        }
-
-        .text-container {
-            width: 100%;
-        }
-    }
+.el-container {
+    height: 520px;
+    width: 100%;
+    padding: 8px;
 }
 
 .img-container {
+
     height: 240px;
-    border-radius: 18px;
+
+    img {
+        height: 100%;
+        width: 100%;
+        border-radius: 18px;
+    }
 }
 
 .text-container {
-    border-radius: 18px;
-    color: var(--theme-font-color);
+    padding: 10px;
+}
+
+
+.title {
+    font-size: 1.5em;
     width: 100%;
+    text-align: center;
+    padding: 8px;
+    font-weight: bold;
+    color: var(--theme-font-color);
+}
 
-    .date {
-        width: 70%;
-        font-size: 20px;
-    }
+.content {
+    // margin-top: 10px;
+    // text-indent: 2em;
+    // font-size: 1.2em;
+    // overflow: hidden;
+    // -webkit-line-clamp: 5;
+    // display: -webkit-box;
+    // -webkit-box-orient: vertical;
+    // height: 200px;
+}
 
-    .title {
-        width: 70%;
-        font-size: 30px;
-        font-weight: bold;
-        margin-top: 3%;
-    }
+.article-meta-data-wrap {
+    display: flex;
+    justify-content: center;
 
-    .desc {
-        width: 70%;
-        font-size: 20px;
-        font-style: italic;
-        margin-top: 2%;
+    .article-meta-data {
+        font-size: 14px;
+        color: var(--theme-font-color);
+        box-sizing: border-box;
+        line-height: 24px;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        height: 100%;
     }
 }
 </style>

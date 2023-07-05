@@ -1,15 +1,15 @@
 <template>
     <div class="carousel-container">
         <el-carousel class="el-container" direction="vertical" :autoplay="false">
-            <el-carousel-item v-for="item in data" :key="item.id">
+            <el-carousel-item class="item-container" v-for="item in data" :key="item.id">
                 <div class="item">
                     <div class="img-container">
                         <img :src="item.imgUrl">
                     </div>
                     <div class="text-container">
-                        <!-- <div class="title">
+                        <div class="title">
                             {{ item.title }}
-                        </div> -->
+                        </div>
                         <div class="article-meta-data-wrap">
                             <span class="article-meta-data">
                                 <CalendarOutlined />&nbsp;发表于:
@@ -40,8 +40,7 @@
 <script lang='ts' setup>
 import { reactive } from 'vue';
 import {
-    CalendarOutlined, SyncOutlined, ProfileOutlined, EyeOutlined,
-    FontSizeOutlined, FieldTimeOutlined
+    CalendarOutlined, SyncOutlined, ProfileOutlined
 } from '@ant-design/icons-vue'
 const data = reactive([
     {
@@ -69,7 +68,10 @@ const data = reactive([
         date: '2023-05-29',
         imgUrl: '/images/header-cover.jpg',
         category: '深度学习',
-        description: '这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述123456789',
+        description: '这是一段这是一段简短的描这是一段简短的描述这这是一段简\
+        短的描述这这是一段简短的描述这述这这是一段简短的描述这一段简短的描述这\
+        这是一段简短的描述这这是一段简短的描述这是一段简短的描述这是一段简短的\
+        描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述',
     }
 ]);
 </script>
@@ -86,14 +88,23 @@ const data = reactive([
 
     // 当屏幕小于649像素之间时 中部卡片开始合并
     @media (max-width: 649px) {
-        height: 460px;
+        height: 500px;
+
         .img-container {
             width: 100%;
         }
 
-        .text-container{
+        .text-container {
             width: 100%;
-            height: 200px;
+            height: 80%;
+        }
+
+        .item-container {
+            height: 520px;
+        }
+
+        .el-container {
+            height: 520px;
         }
     }
 
@@ -111,14 +122,17 @@ const data = reactive([
             width: 50%;
         }
 
-        .text-container{
+        .text-container {
             width: 50%;
+        }
+
+        .item-container {
+            height: 260px;
         }
     }
 }
 
 .el-container {
-    height: 520px;
     width: 100%;
     padding: 8px;
 }
@@ -135,7 +149,7 @@ const data = reactive([
 }
 
 .text-container {
-    padding: 10px;
+    padding: 20px;
 }
 
 
@@ -149,14 +163,13 @@ const data = reactive([
 }
 
 .content {
-    // margin-top: 10px;
-    // text-indent: 2em;
-    // font-size: 1.2em;
-    // overflow: hidden;
-    // -webkit-line-clamp: 5;
-    // display: -webkit-box;
-    // -webkit-box-orient: vertical;
-    // height: 200px;
+    margin-top: 10px;
+    text-indent: 2em;
+    font-size: 1.2em;
+    overflow: hidden;
+    -webkit-line-clamp: 5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 
 .article-meta-data-wrap {
@@ -172,7 +185,6 @@ const data = reactive([
         -webkit-line-clamp: 1;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        height: 100%;
     }
 }
 </style>

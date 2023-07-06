@@ -9,7 +9,7 @@
         <router-link to="/" class="header-menu-item">
           <home-filled /> 首页
         </router-link>
-        <router-link to="/" class="header-menu-item">
+        <router-link to="/archive" class="header-menu-item">
           <container-filled /> 归档
         </router-link>
         <router-link to="/" class="header-menu-item">

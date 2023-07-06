@@ -68,4 +68,10 @@ const test = () => {
   bottom: 124px;
   z-index: 999;
 }
+
+@media (max-width: 649px) {
+  ::-webkit-scrollbar{
+    display: none;
+  }
+}
 </style>

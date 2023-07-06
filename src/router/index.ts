@@ -10,6 +10,10 @@ const router = createRouter({
     {
       path: '/article',
       component: () => import("../components/article/Article.vue")
+    },
+    {
+      path: '/archive',
+      component: () => import("../components/archive/Archive.vue")
     }
   ]
 })

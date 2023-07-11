@@ -4,12 +4,12 @@
         <header-cover>
             <div class="article-info">
                 <h1 class="article-title">
-                    {{ data.articleTitle }}
+                    {{ data.title }}
                 </h1>
                 <div class="article-meta-data-wrap">
                     <span class="article-meta-data">
                         <CalendarOutlined />&nbsp;发表于
-                        {{ data.createTime }}
+                        {{ data.publishTime }}
                     </span>
                     <span class="article-meta-data-divider">|</span>
                     <span class="article-meta-data">
@@ -119,22 +119,25 @@ import {
     FontSizeOutlined, FieldTimeOutlined
 } from '@ant-design/icons-vue'
 import { useStore } from '@/stores';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+import axios from 'axios';
+import {baseUrl} from "@/main"
+axios.defaults.baseURL = baseUrl;
 
 const id = 'preview-only';
 const scrollElement = document.documentElement;
 
 const store = useStore();
 
-const data = reactive({
-    articleTitle: '动手学习深度学习',
-    createTime: '2023-06-21',
-    updateTime: '2023-07-01',
-    category: '深度学习',
-    viewsCount: '983',
-    content: '# Hello World! \n\
-    ## 你d好 \n\
-    asd \n ## 第二年 \n dasd \n 你好呀 \n ## 第三行 \n \
-    ## 第卅 \n ## 习 \n ## ad \n',
+
+let data = reactive({
+    title: '',
+    publishTime: '',
+    updateTime: '',
+    category: '',
+    viewsCount: '',
+    content: '',
 })
 
 // 计算预计阅读时间
@@ -150,15 +153,36 @@ const getTimeUsed = computed(() => {
     }
 });
 
+/**
+ * 根据id向后端请求文章详细信息
+ */
+function queryArticle(){
+    axios({
+        method: 'GET',
+        url: '/blog/getBlogById',
+        params: {id: route.query.id}
+    }).then((resp) => {
+        data.title = resp.data.title;
+        data.publishTime = resp.data.publishTime;
+        data.updateTime = resp.data.updateTime;
+        data.category = resp.data.category;
+        data.viewsCount = resp.data.viewsCount;
+        data.content = resp.data.content;
+    }).catch((err)=>{
+        console.log(err);        
+    })
+}
+
 onMounted(()=>{
     // 页面回到最上方
     window.scroll(0,0);
+    queryArticle();    
 })
 </script>
 
 <style lang="less" scoped>
 .catalog-content {
-    font-size: 1.3em;
+    font-size: 0.6em;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
 }

@@ -55,10 +55,6 @@ const changeTheme = () => {
   state.themeClass = !state.themeClass;
   store.switchTheme(state.themeClass);
 }
-
-const test = () => {
-  console.log(route);
-}
 </script>
 
 <style scoped>

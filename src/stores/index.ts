@@ -9,7 +9,6 @@ export const useStore = defineStore('pinia', {
             websiteInfo:{
                 websiteName: "✨Pipi's Blog"
             },
-            // 该对象中的数据保存在数据库中, 每次请求时从数据库中读取该数据.
             authorInfo:{
                 name: '闪光皮皮',
                 avator: 'images/avator.jpg',
@@ -22,7 +21,7 @@ export const useStore = defineStore('pinia', {
             },
             // 网站各个页面的背景图
             backgroundImg:{
-                homeUrl: 'https://upload.linkstarted.top/config/690cd550b6f59b2613974a3804a01d42.jpg',
+                homeUrl: 'images/header-cover.jpg',
             },
             themeName: 'light',
 

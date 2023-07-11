@@ -13,24 +13,25 @@
     <!-- 此处动画还有些许bug不过问题不大, 后续再改--debug -->
 
     <div class="card-style animate__animated animate__zoomIn animate__slow">
-        <router-link to="/article">
+        <router-link :to="{path: '/article', query:{id: props.data.id}}">
             <div class="img-box">
-                <img class="img" :src="props.data.imgUrl">
+                <img class="img" :src="props.data.imagePath">
                 <div class="detail">
                     {{ props.data.detail }}
                 </div>
             </div>
-        </router-link>
 
-        <div class="text-box">
-            <div class="title">
-                {{ props.data.title.length <= 14 ? props.data.title : props.data.title.substring(0, 13) + '...' }} </div>
+            <div class="text-box">
+                <div class="title">
+                    {{ props.data.title.length <= 14 ? props.data.title : props.data.title.substring(0, 13) + '...' }}
+                </div>
                     <div class="info">
-                        📅发表于: {{ props.data.date }} | 🔄️更新于: {{ props.data.update }} |
-                        📝类别: {{ props.data.category }} | 🏷️标签: {{ props.data.tags[0] }}
+                        📅发表于: {{ props.data.publishTime }} | 🔄️更新于: {{ props.data.updateTime }} |
+                        📝类别: {{ props.data.category }} | 🔍阅读: {{ props.data.viewsCount }}
                     </div>
             </div>
-        </div>
+        </router-link>
+    </div>
 </template>
 
 <script lang='ts' setup>

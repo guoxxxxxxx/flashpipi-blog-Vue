@@ -11,9 +11,9 @@
         <CategoryCard></CategoryCard>
         <!-- 文章模块 -->
         <div class="article-container">
-          <ArticleCard v-for="item in 11" :data="data.articles[0]"></ArticleCard>
+          <ArticleCard v-for="item in data.articles" :data="item" :key="item.id"></ArticleCard>
           <!-- 此行代码解决了最后一行剩偶数个卡片时分布显示的Bug -->
-          <div class="none-card" v-if="11 % 3 == 2"></div>
+          <div class="none-card" v-if="data.articles.length % 3 == 2"></div>
         </div>
         <!-- 分页按钮 -->
         <div class="pagination">
@@ -158,8 +158,6 @@
           </div>
         </a-card>
 
-
-
       </div>
     </div>
   </div>
@@ -172,7 +170,10 @@ import CategoryCard from './CategoryCard.vue';
 import ArticleCard from '../article/ArticleCard.vue';
 import { useStore } from '@/stores/index';
 import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined, LineChartOutlined } from '@ant-design/icons-vue';
-import { computed, reactive } from 'vue';
+import { computed, reactive, onMounted } from 'vue';
+import axios from 'axios';
+import {baseUrl} from "@/main";
+axios.defaults.baseURL = baseUrl;
 
 const store = useStore();
 
@@ -212,7 +213,7 @@ const data = reactive({
     title: '动手学习深度学习',
     detail: '教你使用pytorch框架迅速完成深度学习内容',
     // imgUrl: '/images/header-cover.jpg',
-    imgUrl: 'https://cdn.jsdelivr.net/gh/guoxxxxxxx/Pic-Go@main/img/image-20230701153250507.png',
+    imagePath: 'https://cdn.jsdelivr.net/gh/guoxxxxxxx/Pic-Go@main/img/image-20230701153250507.png',
     date: '2023-07-04',
     update: '2023-08-09',
     tags: ['vue'],
@@ -220,9 +221,33 @@ const data = reactive({
   }]
 });
 
+/**
+ * 获取博客列表
+ */
+const getArticleList = () => {
+  axios({
+    method: 'GET',
+    url: '/blog/getAllBlogs'
+  }).then((resp) => {
+    data.articles = resp.data;
+    console.log(resp.data);
+    
+  }).catch((err)=>{
+    console.log(err);    
+  })
+}
+
+onMounted(()=>{
+  getArticleList();
+})
+
 </script>
 
 <style scoped lang="less">
+.main-card{
+  min-height: 1300px;
+}
+
 // 分页
 .pagination {
   margin-top: 30px;

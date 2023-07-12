@@ -17,7 +17,8 @@
         </div>
         <!-- 分页按钮 -->
         <div class="pagination">
-          <el-pagination background layout="prev, pager, next" :total="1000" />
+          <el-pagination background layout="prev, pager, next" :total="data.articlesTotal"
+            v-model:current-page="data.currentPage" :page-size="12"/>
         </div>
       </div>
 
@@ -108,7 +109,7 @@
             <hr />
             <div class="notice-text-container" style="color: var(--theme-font-color);">
               <div class="notice-text">
-                🔗本网站域名:<br> <a href="https://www.baidu.com" style="font-weight: bold;">还没申请域名</a>
+                🔗本网站域名:<br> <a href="http://www.flashpipi.com" style="font-weight: bold;">www.flashpipi.com</a>
               </div>
             </div>
           </div>
@@ -170,9 +171,9 @@ import CategoryCard from './CategoryCard.vue';
 import ArticleCard from '../article/ArticleCard.vue';
 import { useStore } from '@/stores/index';
 import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined, LineChartOutlined } from '@ant-design/icons-vue';
-import { computed, reactive, onMounted } from 'vue';
+import { computed, reactive, onMounted, watch } from 'vue';
 import axios from 'axios';
-import {baseUrl} from "@/main";
+import { baseUrl } from "@/main";
 axios.defaults.baseURL = baseUrl;
 
 const store = useStore();
@@ -204,47 +205,67 @@ const getCurrentThemeClass = computed(() => {
 })
 
 /**
- * 待删除测试数据
+ * 数据
  */
 const data = reactive({
-  count: 11,
-  articles: [{
-    id: 1,
-    title: '动手学习深度学习',
-    detail: '教你使用pytorch框架迅速完成深度学习内容',
-    // imgUrl: '/images/header-cover.jpg',
-    imagePath: 'https://cdn.jsdelivr.net/gh/guoxxxxxxx/Pic-Go@main/img/image-20230701153250507.png',
-    date: '2023-07-04',
-    update: '2023-08-09',
-    tags: ['vue'],
-    category: '深度学习'
-  }]
+  articles:[
+    {
+      id: 0,
+      title: ''
+    }
+  ],
+  currentPage: 1,
+  articlesTotal: 0
 });
 
 /**
- * 获取博客列表
+ * 按页获取博客列表
  */
-const getArticleList = () => {
+const getArticleList = (current_page:number) => {
   axios({
     method: 'GET',
-    url: '/blog/getAllBlogs'
+    url: '/blog/getAllBlogs',
+    params: { page: current_page }
   }).then((resp) => {
     data.articles = resp.data;
-    console.log(resp.data);
-    
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+/**
+ * 获取博客总数
+ */
+const getArticlesCount = () => {
+  axios({
+    method: 'GET',
+    url: '/blog/getBlogsCount'
+  }).then((resp)=>{
+    data.articlesTotal =  resp.data;
   }).catch((err)=>{
     console.log(err);    
   })
 }
 
-onMounted(()=>{
-  getArticleList();
+/**
+ * 侦听页码变化并完成分页功能
+ */
+watch(
+  () => data.currentPage,
+  (newVal, preVal) => {
+    getArticleList(data.currentPage);
+  }
+)
+
+onMounted(() => {
+  getArticleList(data.currentPage);
+  getArticlesCount();
 })
 
 </script>
 
 <style scoped lang="less">
-.main-card{
+.main-card {
   min-height: 1300px;
 }
 

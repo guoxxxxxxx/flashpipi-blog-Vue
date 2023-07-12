@@ -16,7 +16,7 @@
           <book-filled /> 分类
         </router-link>
         <router-link to="/" class="header-menu-item">
-          <tags-filled /> 标签
+          <tags-filled /> 合集
         </router-link>
         <router-link to="/" class="header-menu-item">
           <api-filled /> 友链

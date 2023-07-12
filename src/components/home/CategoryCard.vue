@@ -1,7 +1,7 @@
 <template>
     <div class="category-card">
         <div class="category-item-container">
-            <div class="category-item" v-for="item in data" :key="item.id">
+            <div class="category-item" v-for="item in data.categoryList" :key="item.category">
                 <div style="width: 80%;">
                     {{ item.category }}({{ item.count }})
                 </div>
@@ -12,27 +12,46 @@
         </div>
         <!-- 分页按钮 -->
         <div class="pagination">
-            <el-pagination small background layout="prev, pager, next" :total="50" class="mt-4" />
+            <el-pagination small background layout="prev, pager, next" :total="data.allCategoryCount" class="mt-4" />
         </div>
     </div>
 </template>
 
 <script lang='ts' setup>
-import { reactive } from 'vue';
-
+import { reactive, onMounted } from 'vue';
+import axios from 'axios';
+import { baseUrl } from '@/main';
+axios.defaults.baseURL = baseUrl;
+const data = reactive({
+    currentPage: 1,
+    allCategoryCount: 1,
+    categoryList: [
+        {
+            category:'',
+            count: 0,
+        }
+    ]
+});
 /**
- * 测试数据
+ * 获取所有种类以及文章数量 分页
  */
-const data = reactive([
-    { id: 1, category: '机器学习', count: 1 },
-    { id: 2, category: '深度学习', count: 23 },
-    { id: 3, category: '计算机视觉', count: 93 },
-    { id: 4, category: 'Vue开发', count: 88 },
-    // { id: 5, category: 'spring-boot开发' },
-    // { id: 6, category: 'Linux' },
-    // { id: 7, category: 'C++' },
-    // { id: 8, category: 'Pytorch' }
-]);
+const getBlogCategory = ()=>{
+    axios({
+        method: "GET",
+        url: "/blog/getBlogsCategoryList",
+        params: {page: data.currentPage}
+    }).then((resp)=>{
+        console.log(resp);
+        
+        data.categoryList = resp.data;
+    }).catch((err)=>{
+        console.log(err);        
+    })
+}
+
+onMounted(()=>{
+    getBlogCategory();
+})
 </script>
 
 <style scoped lang='less'>
@@ -64,7 +83,7 @@ const data = reactive([
         border: 1px solid gray;
         background-color: var(--theme-category-btn-color);
         color: white;
-        border-radius: 30px;
+        border-radius: 10px;
         font-size: 1.3em;
         width: 100%;
         text-align: left;

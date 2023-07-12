@@ -1,24 +1,28 @@
 <template>
     <div class="carousel-container">
         <el-carousel class="el-container" direction="vertical" :autoplay="false">
-            <el-carousel-item class="item-container" v-for="item in data" :key="item.id">
+            <el-carousel-item class="item-container" v-for="item in data.blogs" :key="item.id">
                 <div class="item">
                     <div class="img-container">
-                        <img :src="item.imgUrl">
+                        <router-link :to="{ path: '/article', query: { id: item.id } }">
+                            <img :src="item.imagePath">
+                        </router-link>
                     </div>
                     <div class="text-container">
-                        <div class="title">
-                            {{ item.title }}
-                        </div>
+                        <router-link :to="{ path: '/article', query: { id: item.id } }">
+                            <div class="title">
+                                🔗{{ item.title }}
+                            </div>
+                        </router-link>
                         <div class="article-meta-data-wrap">
                             <span class="article-meta-data">
                                 <CalendarOutlined />&nbsp;发表于:
-                                {{ item.date }}
+                                {{ item.publishTime }}
                             </span>
                             <span class="article-meta-data-divider">&nbsp;|&nbsp;</span>
                             <span class="article-meta-data">
                                 <SyncOutlined /> &nbsp;更新于:
-                                {{ item.update }}
+                                {{ item.updateTime }}
                             </span>
                             <span class="article-meta-data-divider">&nbsp;|&nbsp;</span>
                             <span class="article-meta-data">
@@ -38,42 +42,43 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 import {
     CalendarOutlined, SyncOutlined, ProfileOutlined
 } from '@ant-design/icons-vue'
-const data = reactive([
-    {
-        id: 1,
-        title: '动手学深度学习',
-        date: '2023-06-29',
-        update: '2023-07-06',
-        imgUrl: '/images/header-cover.jpg',
-        description: '教你使用pytorch框架迅速完成深度学习内容。',
-        category: '深度学习',
-    },
-    {
-        id: 2,
-        title: '标题2',
-        date: '2023-07-29',
-        update: '2023-07-06',
-        imgUrl: '/images/header-cover.jpg',
-        category: '深度学习',
-        description: '这是一段简短的描述',
-    },
-    {
-        id: 3,
-        title: '标题3',
-        update: '2023-07-06',
-        date: '2023-05-29',
-        imgUrl: '/images/header-cover.jpg',
-        category: '深度学习',
-        description: '这是一段这是一段简短的描这是一段简短的描述这这是一段简\
-        短的描述这这是一段简短的描述这述这这是一段简短的描述这一段简短的描述这\
-        这是一段简短的描述这这是一段简短的描述这是一段简短的描述这是一段简短的\
-        描述这是一段简短的描述这是一段简短的描述这是一段简短的描述这是一段简短的描述',
-    }
-]);
+import axios from 'axios';
+import { baseUrl } from '@/main';
+axios.defaults.baseURL = baseUrl;
+
+let data = reactive({
+    blogs: [{
+        id: '',
+        imagePath: '',
+        title: '',
+        category: '',
+        description: '',
+        content: '',
+        publishTime: '',
+        updateTime: ''
+    }],
+});
+/**
+ * 获取最近发布的五篇文章作为轮播图内容
+ */
+const getRecentBlogs = () => {
+    axios({
+        method: "GET",
+        url: "/blog/getRecentBlogs"
+    }).then((resp) => {
+        data.blogs = resp.data
+    }).catch((err) => {
+        console.log(err);
+    });
+}
+
+onMounted(() => {
+    getRecentBlogs();
+});
 </script>
 
 <style scoped lang='less'>

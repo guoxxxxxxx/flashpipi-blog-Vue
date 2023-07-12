@@ -19,6 +19,7 @@ declare module 'vue' {
     Article: typeof import('./src/components/article/Article.vue')['default']
     ArticleCard: typeof import('./src/components/article/ArticleCard.vue')['default']
     Carousel: typeof import('./src/components/article/Carousel.vue')['default']
+    Category: typeof import('./src/components/category/Category.vue')['default']
     CategoryCard: typeof import('./src/components/home/CategoryCard.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']

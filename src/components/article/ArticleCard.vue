@@ -17,7 +17,7 @@
             <div class="img-box">
                 <img class="img" :src="props.data.imagePath">
                 <div class="detail">
-                    {{ props.data.detail }}
+                    {{ props.data.description }}
                 </div>
             </div>
 

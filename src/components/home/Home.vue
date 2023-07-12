@@ -17,8 +17,8 @@
         </div>
         <!-- 分页按钮 -->
         <div class="pagination">
-          <el-pagination background layout="prev, pager, next" :total="data.articlesTotal"
-            v-model:current-page="data.currentPage" :page-size="12"/>
+          <el-pagination background layout="prev, pager, next" :total="data.blogInfo.blogCount"
+            v-model:current-page="data.currentPage" :page-size="12" />
         </div>
       </div>
 
@@ -39,13 +39,13 @@
               <div class="blog-info">
                 <a-row style="font-size: 16px;">
                   <a-col :span="8"><span>文章</span></a-col>
-                  <a-col :span="8"><span>标签</span></a-col>
+                  <a-col :span="8"><span>合集</span></a-col>
                   <a-col :span="8"><span>分类</span></a-col>
                 </a-row>
                 <a-row style="margin-top: 10px; font-style:italic; font-family: sans-serif;">
-                  <a-col :span="8"><span>{{ store.articlesInfo.articleCount }}</span></a-col>
-                  <a-col :span="8"><span>{{ store.articlesInfo.tagsCount }}</span></a-col>
-                  <a-col :span="8"><span>{{ store.articlesInfo.categoryCount }}</span></a-col>
+                  <a-col :span="8"><span>{{ data.blogInfo.blogCount }}</span></a-col>
+                  <a-col :span="8"><span>{{ data.blogInfo.collectionCount }}</span></a-col>
+                  <a-col :span="8"><span>{{ data.blogInfo.categoryCount }}</span></a-col>
                 </a-row>
                 <!-- go to github button -->
                 <el-button type="primary" :round="true" size="large" :icon="GithubOutlined"
@@ -109,7 +109,11 @@
             <hr />
             <div class="notice-text-container" style="color: var(--theme-font-color);">
               <div class="notice-text">
-                🔗本网站域名:<br> <a href="http://www.flashpipi.com" style="font-weight: bold;">www.flashpipi.com</a>
+                🔗本网站域名:<br> <a :href="data.webInfo.url" style="font-weight: bold;">{{ data.webInfo.url }}</a>
+              </div>
+              <hr>
+              <div class="notice-content-text">
+                {{ data.webInfo.notice }}
               </div>
             </div>
           </div>
@@ -128,7 +132,7 @@
                   文章数目:
                 </div>
                 <div class="info-value">
-                  12346
+                  {{ data.blogInfo.blogCount }}
                 </div>
               </div>
               <div class="info-child">
@@ -136,7 +140,7 @@
                   已运行时间:
                 </div>
                 <div class="info-value">
-                  888天
+                  {{ data.webInfo.runningTime }} day
                 </div>
               </div>
               <div class="info-child">
@@ -144,7 +148,7 @@
                   本站总访客量:
                 </div>
                 <div class="info-value">
-                  99999999
+                  {{ data.webInfo.viewsCount }}
                 </div>
               </div>
               <div class="info-child">
@@ -152,7 +156,7 @@
                   最后更新时间:
                 </div>
                 <div class="info-value">
-                  2065-03-15
+                  {{ data.webInfo.lastUpdate }}
                 </div>
               </div>
             </div>
@@ -174,9 +178,33 @@ import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined, LineChartOutl
 import { computed, reactive, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { baseUrl } from "@/main";
+import { getDiffDay } from "@/utils/index"
 axios.defaults.baseURL = baseUrl;
 
 const store = useStore();
+
+// 数据
+const data = reactive({
+  blogInfo: {
+    blogCount: 0,
+    categoryCount: 0,
+    collectionCount: 0,
+  },
+  webInfo: {
+    runningTime: 0,
+    viewsCount: 0,
+    lastUpdate: '',
+    notice: '',
+    url: '',
+  },
+  articles: [
+    {
+      id: 0,
+      title: ''
+    }
+  ],
+  currentPage: 1,
+});
 
 // mailto 跳转到发送邮件界面
 const mailto = () => {
@@ -204,24 +232,8 @@ const getCurrentThemeClass = computed(() => {
   return store.themeName;
 })
 
-/**
- * 数据
- */
-const data = reactive({
-  articles:[
-    {
-      id: 0,
-      title: ''
-    }
-  ],
-  currentPage: 1,
-  articlesTotal: 0
-});
-
-/**
- * 按页获取博客列表
- */
-const getArticleList = (current_page:number) => {
+// 按页获取博客列表
+const getArticleList = (current_page: number) => {
   axios({
     method: 'GET',
     url: '/blog/getAllBlogs',
@@ -233,23 +245,39 @@ const getArticleList = (current_page:number) => {
   })
 }
 
-/**
- * 获取博客总数
- */
-const getArticlesCount = () => {
+// 获取多种数量信息
+const getVariousCount = () => {
+  // 获取卡片信息
   axios({
-    method: 'GET',
-    url: '/blog/getBlogsCount'
-  }).then((resp)=>{
-    data.articlesTotal =  resp.data;
-  }).catch((err)=>{
-    console.log(err);    
+    method: "GET",
+    url: "/blog/getCardInformation"
+  }).then((resp) => {
+    data.blogInfo.blogCount = resp.data.blogCount;
+    data.blogInfo.categoryCount = resp.data.categoryCount;
+    data.blogInfo.collectionCount = resp.data.collectionCount;
+    data.webInfo.viewsCount += parseInt(resp.data.allViews[0].sum);
+    console.log(resp.data);
+    
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  // 获取小站信息
+  axios({
+    method: "GET",
+    url: "/info/getInfo"
+  }).then((resp) => {
+    data.webInfo.notice = resp.data.notice;
+    data.webInfo.url = resp.data.website;
+    data.webInfo.runningTime = getDiffDay(resp.data.createTime, new Date().toLocaleDateString());
+    data.webInfo.lastUpdate = resp.data.updateTime;
+    data.webInfo.viewsCount += parseInt(resp.data.viewsCount);    
+  }).catch((err) => {
+    console.log(err);
   })
 }
 
-/**
- * 侦听页码变化并完成分页功能
- */
+// 侦听页码变化并完成分页功能
 watch(
   () => data.currentPage,
   (newVal, preVal) => {
@@ -257,14 +285,23 @@ watch(
   }
 )
 
+// 钩子函数
 onMounted(() => {
   getArticleList(data.currentPage);
-  getArticlesCount();
+  getVariousCount();
 })
 
 </script>
 
 <style scoped lang="less">
+.notice-content-text {
+  color: var(--theme-font-color);
+  font-size: 1.2em;
+  margin-bottom: 5%;
+  font-weight: lighter;
+  text-indent: 2em;
+}
+
 .main-card {
   min-height: 1300px;
 }
@@ -579,3 +616,4 @@ onMounted(() => {
   }
 }
 </style>
+@/utils

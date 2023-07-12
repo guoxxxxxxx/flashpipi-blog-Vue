@@ -30,9 +30,11 @@
                                 {{ item.category }}
                             </span>
                         </div>
-                        <div class="content">
-                            {{ item.description }}
-                        </div>
+                        <router-link :to="{ path: '/article', query: { id: item.id } }">
+                            <div class="content">
+                                {{ item.description }}
+                            </div>
+                        </router-link>
                     </div>
                 </div>
 
@@ -82,6 +84,11 @@ onMounted(() => {
 </script>
 
 <style scoped lang='less'>
+a {
+    text-decoration: none;
+    color: var(--theme-font-color);
+}
+
 .carousel-container {
     width: 100%;
     color: var(--theme-font-color);

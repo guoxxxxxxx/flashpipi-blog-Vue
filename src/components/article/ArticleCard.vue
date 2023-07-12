@@ -1,21 +1,10 @@
-<!-- 
-    说明:
-    该组件需要收到父组件传递过来的data对象,该对象中包含关键字(下述关键字都是必须要携带的,为了美观!)
-    1. title: 文章的标题
-    2. detail: 文章简要描述<当文字数量小于20时效果最好>
-    3. date: 初次发表时间
-    4. update: 最后一次更新时间
-    5. category: 类别
-    6. tag: 标签(only one)只存一个
-    7. imgUrl: 背景图片
- -->
 <template>
     <!-- 此处动画还有些许bug不过问题不大, 后续再改--debug -->
 
     <div class="card-style animate__animated animate__zoomIn animate__slow">
         <router-link :to="{path: '/article', query:{id: props.data.id}}">
             <div class="img-box">
-                <img class="img" :src="props.data.imagePath">
+                <img class="img" :src="props.data.imagePath" crossorigin="anonymous">
                 <div class="detail">
                     {{ props.data.description }}
                 </div>

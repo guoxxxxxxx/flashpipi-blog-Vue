@@ -12,13 +12,14 @@
         </div>
         <!-- 分页按钮 -->
         <div class="pagination">
-            <el-pagination small background layout="prev, pager, next" :total="data.allCategoryCount" class="mt-4" />
+            <el-pagination small background layout="prev, pager, next" :total="data.allCategoryCount" class="mt-4" 
+            v-model:current-page="data.currentPage" :page-size="4"/>
         </div>
     </div>
 </template>
 
 <script lang='ts' setup>
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { baseUrl } from '@/main';
 axios.defaults.baseURL = baseUrl;
@@ -27,7 +28,7 @@ const data = reactive({
     allCategoryCount: 1,
     categoryList: [
         {
-            category:'',
+            category: '',
             count: 0,
         }
     ]
@@ -35,22 +36,46 @@ const data = reactive({
 /**
  * 获取所有种类以及文章数量 分页
  */
-const getBlogCategory = ()=>{
+const getBlogCategory = (page:number) => {
     axios({
         method: "GET",
         url: "/blog/getBlogsCategoryList",
-        params: {page: data.currentPage}
-    }).then((resp)=>{
-        console.log(resp);
-        
+        params: { page: page }
+    }).then((resp) => {
         data.categoryList = resp.data;
-    }).catch((err)=>{
-        console.log(err);        
+    }).catch((err) => {
+        console.log(err);
     })
 }
 
-onMounted(()=>{
-    getBlogCategory();
+/**
+ * 获取种类数
+ */
+const getCategoryCount = ()=>{
+    axios({
+        method:"GET",
+        url:"/blog/getBlogsCategoryCount"
+    }).then((resp)=>{
+        data.allCategoryCount = resp.data;   
+    }).catch((err)=>{
+        console.log(err);
+    })
+}
+
+/**
+ * 监听页码变化
+ */
+watch(
+    ()=> data.currentPage,
+    (newVal, oldVal)=>{
+        data.currentPage = newVal;
+        getBlogCategory(data.currentPage);
+    }
+)
+
+onMounted(() => {
+    getBlogCategory(data.currentPage);
+    getCategoryCount();
 })
 </script>
 
@@ -59,20 +84,22 @@ onMounted(()=>{
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: space-around;
+    // justify-content: space-around;
+    // margin-top: 20px;
     margin-top: 20px;
+    margin-left: 4%;
 
-    // 当屏幕小于349像素时,卡片充满一行
+    // 当屏幕小于349像素时
     @media (max-width: 449px) {
         height: 270px;
     }
 
-    // 当屏幕介于450-649像素之间时 中部卡片开始合并
+    // 当屏幕介于450-649像素之间时
     @media (min-width: 450px) and (max-width: 649px) {
         height: 140px;
     }
 
-    // 当像素值介于650-1099像素时，右侧卡片消失
+    // 当像素值大于650像素时
     @media (min-width: 650px) {
         height: 80px;
     }
@@ -88,30 +115,27 @@ onMounted(()=>{
         width: 100%;
         text-align: left;
         align-items: center;
-        font-family:'Courier New', Courier, monospace;
+        font-family: 'Courier New', Courier, monospace;
         font-weight: bolder;
         padding-left: 20px;
         display: flex;
         user-select: none;
         cursor: pointer;
 
-        // 当屏幕小于349像素时,卡片充满一行
         @media (max-width: 449px) {
             width: 90%;
         }
 
-        // 当屏幕介于450-649像素之间时 中部卡片开始合并
         @media (min-width: 450px) and (max-width: 649px) {
             width: 45%;
         }
 
-        // 当像素值介于650-1099像素时，右侧卡片消失
-        @media (min-width: 650px){
+        @media (min-width: 650px) {
             width: 22%;
         }
     }
 
-    .category-item:hover{
+    .category-item:hover {
         background-color: var(--theme-category-btn-hover-color);
         animation: pulse;
         animation-duration: 0.5s;

@@ -13,12 +13,6 @@ export const useStore = defineStore('pinia', {
                 name: '闪光皮皮',
                 avator: 'images/avator.jpg',
             },
-            // 网站首页用户各标签信息
-            articlesInfo:{
-                articleCount: 100000,
-                tagsCount: 100000,
-                categoryCount: 100000,
-            },
             // 网站各个页面的背景图
             backgroundImg:{
                 homeUrl: 'images/header-cover.jpg',

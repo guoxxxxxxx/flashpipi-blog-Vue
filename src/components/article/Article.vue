@@ -60,7 +60,7 @@
                                 <span class="copyright-title">文章作者: ✨{{ store.authorInfo.name }}✨</span>
                             </div>
                             <div class="copyright-item">
-                                <span class="copyright-title">本文链接: 🔗https://www.baidu.com</span>
+                                <span class="copyright-title">本文链接: 🔗http://www.flashpipi.com/article?id={{ route.query.id }}</span>
                             </div>
                             <div class="copyright-item">
                                 <span class="copyright-title">版权说明: 💿</span>
@@ -81,9 +81,6 @@
                         🏷️分类：
                         <el-button type="primary">{{ data.category }}</el-button>
                     </div>
-
-                    <!-- 上一篇和下一篇 -->
-
 
                 </a-card>
             </div>

@@ -39,6 +39,7 @@ declare module 'vue' {
     Home: typeof import('./src/components/home/Home.vue')['default']
     HomeCover: typeof import('./src/components/home/HomeCover.vue')['default']
     HomeToolBar: typeof import('./src/components/home/HomeToolBar.vue')['default']
+    PieChart: typeof import('./src/components/category/PieChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopBar: typeof import('./src/components/layout/TopBar.vue')['default']

@@ -10,23 +10,29 @@
         <div class="container">
             <a-card class="archive-card">
                 <el-timeline>
-                    <el-timeline-item center timestamp="2018/4/12" placement="top">
+                    <el-timeline-item v-for="item in data.blogList" v-show="item.id" :key="item.id" center
+                        :timestamp="item.publishTime" placement="top">
                         <el-card class="el-card">
-                            <h4>Update Github template</h4>
-                            <p>Tom committed 2018/4/12 20:46</p>
-                        </el-card>
-                    </el-timeline-item>
-                    <el-timeline-item timestamp="2018/4/3" placement="top">
-                        <el-card class="el-card">
-                            <h4>Update Github template</h4>
-                            <p>Tom committed 2018/4/3 20:46</p>
+                            <router-link :to="{ path: '/article', query: { id: item.id } }"
+                                style="font-size: 1.2em; font-weight: lighter;">
+                                <p style="font-weight: bold;">{{ item.title }}</p>
+                                <p>{{ item.description }}</p>
+                            </router-link>
+                            <!-- 分类 -->
+                            <div class="article-tags">
+                                <span style="text-decoration: none; color: var(--theme-font-color);">🏷️分类：</span>
+                                <el-button class="category-btn">
+                                    {{ item.category }}
+                                </el-button>
+                            </div>
                         </el-card>
                     </el-timeline-item>
                 </el-timeline>
 
                 <!-- 分页按钮 -->
                 <div class="pagination">
-                    <el-pagination background layout="prev, pager, next" :total="1000" />
+                    <el-pagination layout="prev, pager, next" :total="data.totalItem" :page-size="10"
+                        v-model:current-page="data.currentPage" />
                 </div>
             </a-card>
         </div>
@@ -34,12 +40,69 @@
 </template>
 
 <script lang='ts' setup>
-// @ts-ignore
 import HeaderCover from '../header/HeaderCover.vue';
+import axios from 'axios';
+import { baseUrl } from '@/main';
+import { reactive, onMounted, watch } from 'vue';
+axios.defaults.baseURL = baseUrl;
 
+let data = reactive({
+    blogList: [
+        {
+            publishTime: '',
+            title: '',
+            description: '',
+            id: 0,
+            category: '',
+        }
+    ],
+    currentPage: 1,
+    totalItem: 0,
+});
+
+/**
+ * 获取最近十篇文章 以及文章总数
+ */
+const getBlogs = () => {
+    axios({
+        method: "GET",
+        url: "/blog/getRecentBlogs",
+        params: { page: data.currentPage, size: 10 }
+    }).then((resp) => {
+        data.blogList = resp.data
+    }).catch((err) => {
+        console.log(err);
+    });
+
+    axios({
+        method: "GET",
+        url: "/blog/getBlogsCount"
+    }).then((resp) => {
+        data.totalItem = resp.data
+    }).catch((err) => {
+        console.log(err);
+    })
+}
+
+// 监视页码信息的变化
+watch(
+    () => data.currentPage,
+    (newVal, oldVal) => {
+        getBlogs();
+    }
+)
+
+onMounted(() => {
+    getBlogs();
+})
 </script>
 
 <style scoped lang="less">
+.category-btn {
+    background-color: var(--theme-background);
+    color: var(--theme-font-color);
+}
+
 .el-card {
     color: var(--theme-font-color);
     background-color: var(--theme-card-color);
@@ -48,9 +111,30 @@ import HeaderCover from '../header/HeaderCover.vue';
         color: var(--theme-font-color);
     }
 }
+
+.el-card:hover {
+    background-color: gray;
+    color: black;
+    text-decoration: none;
+}
+
+.category-btn:hover {
+    background-color: #03a9f4;
+}
+
+.category-btn:active {
+    background-color: antiquewhite;
+}
+
+
+.el-card:active {
+    background-color: burlywood;
+}
+
 .archive {
     width: 100%;
     height: 100%;
+    min-height: 1000px;
     background-color: var(--theme-background);
     color: var(--theme-color);
 

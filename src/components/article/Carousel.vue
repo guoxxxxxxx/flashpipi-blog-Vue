@@ -70,7 +70,8 @@ let data = reactive({
 const getRecentBlogs = () => {
     axios({
         method: "GET",
-        url: "/blog/getRecentBlogs"
+        url: "/blog/getRecentBlogs",
+        params: {page: 1, size: 5}
     }).then((resp) => {
         data.blogs = resp.data
     }).catch((err) => {

@@ -11,7 +11,7 @@
 
     <!-- 主题切换按钮 -->
     <div class="theme-switch" @click="changeTheme">
-      <icon-font :type="state.themeClass ? 'icon-taiyang' : 'icon-yueliang'" style="font-size: 40px;"/>
+      <icon-font :type="state.themeClass ? 'icon-taiyang' : 'icon-yueliang'" style="font-size: 40px;" />
     </div>
 
     <div>
@@ -57,7 +57,7 @@ const changeTheme = () => {
 }
 </script>
 
-<style scoped>
+<style>
 .theme-switch {
   position: fixed;
   right: 24px;
@@ -66,7 +66,7 @@ const changeTheme = () => {
 }
 
 @media (max-width: 649px) {
-  ::-webkit-scrollbar{
+  ::-webkit-scrollbar {
     display: none;
   }
 }

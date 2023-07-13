@@ -23,21 +23,15 @@ const drawGraph = (data) => {
         legend: {
             top: 'bottom',
             textStyle: {
-                color: "grey",
+                color: "#008B8B",
             }
         },
         toolbox: {
-            show: true,
-            feature: {
-                mark: { show: true },
-                dataView: { show: true, readOnly: false },
-                restore: { show: true },
-                saveAsImage: { show: true }
-            }
+            show: false,
         },
         series: [
             {
-                name: 'Nightingale Chart',
+                name: '分类数据统计',
                 type: 'pie',
                 radius: [50, 250],
                 center: ['50%', '50%'],
@@ -45,7 +39,17 @@ const drawGraph = (data) => {
                 itemStyle: {
                     borderRadius: 8
                 },
-                data: data
+                labelLine: {
+                    show: true,
+                },
+                data: data,
+                label: {
+                    formatter: function (data) {
+                        // @ts-ignore
+                        return `${data.name} ${data.value} (${data.percent.toFixed(1)}%)`
+                    },
+                    color: '#008B8B',
+                }
             }
         ]
     };

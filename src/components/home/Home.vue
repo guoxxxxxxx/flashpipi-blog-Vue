@@ -92,7 +92,7 @@
               <div style="margin-top: 10px;">
                 <span style="text-indent:2em; display: block; font-weight: lighter;
                  font-size: 1.1em; padding-top: 10px;">
-                  本站图片📷托管在Github上, 采用第三方CDN进行分发, 由于是免费💰的, 故稳定性较差, 除图片外所有资源部署在腾讯云☁️, 国内访问速度尚可。经测试, 
+                  本站图片📷托管在Github上, 采用第三方CDN进行分发, 由于是免费💰的, 故稳定性较差, 除图片外所有资源部署在腾讯云☁️, 国内访问速度尚可。经测试,
                   采用科学上网🚀会极大程度提高图片🖼️访问速度, 建议可以实现科学上网🚀的用户采用开启代理🌐后访问该网站🌏, 给您带来不便敬请谅解🥹！
                 </span>
               </div>
@@ -250,7 +250,7 @@ const getVariousCount = () => {
     data.webInfo.viewsCount += parseInt(resp.data.allViews[0].sum);
     console.log(resp.data);
     store.setWebsiteInfo(resp.data.blogCount, resp.data.collectionCount, resp.data.categoryCount)
-    
+
   }).catch((err) => {
     console.log(err);
   });
@@ -264,7 +264,7 @@ const getVariousCount = () => {
     data.webInfo.url = resp.data.website;
     data.webInfo.runningTime = getDiffDay(resp.data.createTime, new Date().toLocaleDateString());
     data.webInfo.lastUpdate = resp.data.updateTime;
-    data.webInfo.viewsCount += parseInt(resp.data.viewsCount);    
+    data.webInfo.viewsCount += parseInt(resp.data.viewsCount);
   }).catch((err) => {
     console.log(err);
   })
@@ -275,6 +275,9 @@ watch(
   () => data.currentPage,
   (newVal, preVal) => {
     getArticleList(data.currentPage);
+    // 回到顶部
+    let h = document.getElementsByClassName("cover")[0].scrollHeight;
+    window.scrollTo({ top: h, behavior: "smooth" });
   }
 )
 
@@ -287,6 +290,25 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
+:deep(.el-pagination.is-background .el-pager li) {
+  background-color: var(--theme-background) !important; //修改默认的背景色
+  color: var(--theme-font-color);
+}
+
+:deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
+  background-color: var(--theme-category-btn-color) !important;
+}
+
+:deep(.el-pagination.is-background .btn-prev) {
+  background-color: var(--theme-background);
+  color: var(--theme-font-color);
+}
+
+:deep(.el-pagination.is-background .btn-next) {
+  background-color: var(--theme-background);
+  color: var(--theme-font-color);
+}
+
 .notice-content-text {
   color: var(--theme-font-color);
   font-size: 1.2em;
@@ -386,6 +408,7 @@ onMounted(() => {
 .home {
   height: 100%;
   width: 100%;
+  overflow-x: hidden;
   background-color: var(--theme-background);
 
   .theme-switch {

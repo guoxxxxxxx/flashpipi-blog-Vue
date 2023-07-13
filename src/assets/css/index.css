@@ -5,7 +5,7 @@
     --theme-card-color: #fff;
     --theme-footer-left:#03a9f4;
     --theme-footer-right:#23a6d5;
-    --theme-font-color: black;
+    --theme-font-color: rgb(71, 71, 71);
     --theme-category-btn-color: #409eff;
     --theme-category-btn-hover-color: #a0cfff;
   }
@@ -13,10 +13,10 @@
   .dark{
     --theme-color: #eee;
     --theme-background: #333;
-    --theme-card-color: #000;
+    --theme-card-color: #141414;
     --theme-footer-left:#333;
     --theme-footer-right:#000;
-    --theme-font-color: white;
+    --theme-font-color: #b4b4b4;
     --theme-category-btn-color:#000080;
     --theme-category-btn-hover-color: rgb(77, 77, 166);
   }

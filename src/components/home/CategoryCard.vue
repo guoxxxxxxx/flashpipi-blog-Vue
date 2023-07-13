@@ -1,7 +1,7 @@
 <template>
     <div class="category-card">
         <div class="category-item-container">
-            <div class="category-item" v-for="item in data.categoryList" :key="item.category">
+            <div class="category-item" v-for="item in data.categoryList" :key="item.category" @click="goCategoryDetail(item.category)">
                 <div style="width: 80%;">
                     {{ item.category }}({{ item.count }})
                 </div>
@@ -12,8 +12,8 @@
         </div>
         <!-- 分页按钮 -->
         <div class="pagination">
-            <el-pagination small background layout="prev, pager, next" :total="data.allCategoryCount" class="mt-4" 
-            v-model:current-page="data.currentPage" :page-size="4"/>
+            <el-pagination small background layout="prev, pager, next" :total="data.allCategoryCount" class="mt-4"
+                v-model:current-page="data.currentPage" :page-size="4" />
         </div>
     </div>
 </template>
@@ -22,6 +22,11 @@
 import { reactive, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { baseUrl } from '@/main';
+import router from '@/router/index';
+
+const goCategoryDetail = (categoryName:string)=>{
+    router.push({name: 'categoryDetail', params: {category: categoryName}})
+}
 axios.defaults.baseURL = baseUrl;
 const data = reactive({
     currentPage: 1,
@@ -36,7 +41,7 @@ const data = reactive({
 /**
  * 获取所有种类以及文章数量 分页
  */
-const getBlogCategory = (page:number) => {
+const getBlogCategory = (page: number) => {
     axios({
         method: "GET",
         url: "/blog/getBlogsCategoryList",
@@ -51,13 +56,13 @@ const getBlogCategory = (page:number) => {
 /**
  * 获取种类数
  */
-const getCategoryCount = ()=>{
+const getCategoryCount = () => {
     axios({
-        method:"GET",
-        url:"/blog/getBlogsCategoryCount"
-    }).then((resp)=>{
-        data.allCategoryCount = resp.data;   
-    }).catch((err)=>{
+        method: "GET",
+        url: "/blog/getBlogsCategoryCount"
+    }).then((resp) => {
+        data.allCategoryCount = resp.data;
+    }).catch((err) => {
         console.log(err);
     })
 }
@@ -66,8 +71,8 @@ const getCategoryCount = ()=>{
  * 监听页码变化
  */
 watch(
-    ()=> data.currentPage,
-    (newVal, oldVal)=>{
+    () => data.currentPage,
+    (newVal, oldVal) => {
         data.currentPage = newVal;
         getBlogCategory(data.currentPage);
     }
@@ -80,6 +85,24 @@ onMounted(() => {
 </script>
 
 <style scoped lang='less'>
+
+:deep(.el-pagination.is-background .el-pager li) {
+  background-color: var(--theme-background) !important; //修改默认的背景色
+  color: var(--theme-font-color);
+}
+:deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
+  background-color: var(--theme-category-btn-color) !important;
+}
+:deep(.el-pagination.is-background .btn-prev){
+    background-color: var(--theme-background);
+    color: var(--theme-font-color);
+}
+:deep(.el-pagination.is-background .btn-next){
+    background-color: var(--theme-background);
+    color: var(--theme-font-color);
+}
+
+
 .category-item-container {
     display: flex;
     flex-wrap: wrap;

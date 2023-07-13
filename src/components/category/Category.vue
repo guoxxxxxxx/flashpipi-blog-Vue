@@ -1,11 +1,19 @@
 <template>
-
+    <div>
+        <header-cover>
+            <div class="article-info">
+                <h1 class="article-title">
+                    <book-filled /> 分类
+                </h1>
+            </div>
+        </header-cover>
+        <PieChart></PieChart>
+    </div>
 </template>
 
 <script lang='ts' setup>
-
+import { BookFilled, } from "@ant-design/icons-vue";
+import PieChart from './PieChart.vue';
 </script>
 
-<style scoped lang=''>
-
-</style>
+<style scoped lang='less'></style>

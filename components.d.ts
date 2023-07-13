@@ -13,6 +13,7 @@ declare module 'vue' {
     ACard: typeof import('ant-design-vue/es')['Card']
     ACardMeta: typeof import('ant-design-vue/es')['CardMeta']
     ACol: typeof import('ant-design-vue/es')['Col']
+    ADrawer: typeof import('ant-design-vue/es')['Drawer']
     AImage: typeof import('ant-design-vue/es')['Image']
     Archive: typeof import('./src/components/archive/Archive.vue')['default']
     ARow: typeof import('ant-design-vue/es')['Row']

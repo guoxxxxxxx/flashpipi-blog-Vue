@@ -7,7 +7,10 @@ export const useStore = defineStore('pinia', {
         return{
             // 网站信息
             websiteInfo:{
-                websiteName: "✨Pipi's Blog"
+                websiteName: "✨Pipi's Blog",
+                blogsCount: 0,
+                collectionCount: 0,
+                categoryCount: 0,
             },
             authorInfo:{
                 name: '闪光皮皮',
@@ -30,6 +33,12 @@ export const useStore = defineStore('pinia', {
             else{
                 this.themeName = 'dark';
             }
+        },
+        // 设置网站数据
+        setWebsiteInfo(blogsCount:number, collectionCount:number, categoryCount:number){
+            this.websiteInfo.blogsCount = blogsCount;
+            this.websiteInfo.collectionCount = collectionCount;
+            this.websiteInfo.categoryCount = categoryCount;
         }
     }
 })

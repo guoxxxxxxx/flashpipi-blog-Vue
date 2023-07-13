@@ -17,7 +17,7 @@
         </div>
         <!-- 分页按钮 -->
         <div class="pagination">
-          <el-pagination background layout="prev, pager, next" :total="data.blogInfo.blogCount"
+          <el-pagination background layout="prev, pager, next" :total="store.websiteInfo.blogsCount"
             v-model:current-page="data.currentPage" :page-size="12" />
         </div>
       </div>
@@ -43,9 +43,9 @@
                   <a-col :span="8"><span>分类</span></a-col>
                 </a-row>
                 <a-row style="margin-top: 10px; font-style:italic; font-family: sans-serif;">
-                  <a-col :span="8"><span>{{ data.blogInfo.blogCount }}</span></a-col>
-                  <a-col :span="8"><span>{{ data.blogInfo.collectionCount }}</span></a-col>
-                  <a-col :span="8"><span>{{ data.blogInfo.categoryCount }}</span></a-col>
+                  <a-col :span="8"><span>{{ store.websiteInfo.blogsCount }}</span></a-col>
+                  <a-col :span="8"><span>{{ store.websiteInfo.collectionCount }}</span></a-col>
+                  <a-col :span="8"><span>{{ store.websiteInfo.categoryCount }}</span></a-col>
                 </a-row>
                 <!-- go to github button -->
                 <el-button type="primary" :round="true" size="large" :icon="GithubOutlined"
@@ -132,7 +132,7 @@
                   文章数目:
                 </div>
                 <div class="info-value">
-                  {{ data.blogInfo.blogCount }}
+                  {{ store.websiteInfo.blogsCount }}
                 </div>
               </div>
               <div class="info-child">
@@ -185,11 +185,6 @@ const store = useStore();
 
 // 数据
 const data = reactive({
-  blogInfo: {
-    blogCount: 0,
-    categoryCount: 0,
-    collectionCount: 0,
-  },
   webInfo: {
     runningTime: 0,
     viewsCount: 0,
@@ -252,11 +247,9 @@ const getVariousCount = () => {
     method: "GET",
     url: "/blog/getCardInformation"
   }).then((resp) => {
-    data.blogInfo.blogCount = resp.data.blogCount;
-    data.blogInfo.categoryCount = resp.data.categoryCount;
-    data.blogInfo.collectionCount = resp.data.collectionCount;
     data.webInfo.viewsCount += parseInt(resp.data.allViews[0].sum);
     console.log(resp.data);
+    store.setWebsiteInfo(resp.data.blogCount, resp.data.collectionCount, resp.data.categoryCount)
     
   }).catch((err) => {
     console.log(err);

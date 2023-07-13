@@ -14,6 +14,10 @@ const router = createRouter({
     {
       path: '/archive',
       component: () => import("../components/archive/Archive.vue")
+    },
+    {
+      path: '/category',
+      component: () => import("@/components/category/Category.vue")
     }
   ]
 })

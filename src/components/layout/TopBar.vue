@@ -12,7 +12,7 @@
         <router-link to="/archive" class="header-menu-item">
           <container-filled /> 归档
         </router-link>
-        <router-link to="/" class="header-menu-item">
+        <router-link to="/category" class="header-menu-item">
           <book-filled /> 分类
         </router-link>
         <router-link to="/" class="header-menu-item">
@@ -21,6 +21,60 @@
         <router-link to="/" class="header-menu-item">
           <api-filled /> 友链
         </router-link>
+      </div>
+
+      <!-- 适配手机端 -->
+      <div class="header-menu-mobile">
+        <a class="header-menu-item">
+          <search-outlined style="font-size: 24px;" />
+        </a>
+        <a class="header-menu-item" @click="showDrawer">
+          <menu-outlined style="font-size: 24px;" />
+        </a>
+        <a-drawer :placement="state.placement" :closable="false" :visible="state.visible" @close="onClose" :width="240"
+          :zIndex="99">
+          <div>
+            <div class="blog-avatar">
+              <a-avatar :src="store.authorInfo.avator" :size="110" />
+            </div>
+            <div style="font-size: 1.375rem;margin-top: 0.625rem;text-align: center;">
+              ✨{{ store.authorInfo.name }}✨
+            </div>
+            <div style="font-size: 0.875rem; text-align: center">
+              个人博客
+            </div>
+            <div class="blog-info">
+              <a-row>
+                <a-col :span="8">文章</a-col>
+                <a-col :span="8">集合</a-col>
+                <a-col :span="8">分类</a-col>
+              </a-row>
+              <a-row>
+                <a-col :span="8">{{ store.websiteInfo.blogsCount }}</a-col>
+                <a-col :span="8">{{ store.websiteInfo.collectionCount }}</a-col>
+                <a-col :span="8">{{ store.websiteInfo.categoryCount }}</a-col>
+              </a-row>
+            </div>
+            <hr />
+            <div class="drawer-menu">
+              <router-link to="/" class="header-menu-item">
+                <home-filled /> <i>首页</i>
+              </router-link>
+              <router-link to="/archive" class="header-menu-item">
+                <container-filled /> <i>归档</i>
+              </router-link>
+              <router-link to="/category" class="header-menu-item">
+                <book-filled /> <i>分类</i>
+              </router-link>
+              <router-link to="/" class="header-menu-item">
+                <tags-filled /> <i>集合</i>
+              </router-link>
+              <router-link to="/" class="header-menu-item">
+                <api-filled /> <i>友链</i>
+              </router-link>
+            </div>
+          </div>
+        </a-drawer>
       </div>
     </header>
   </div>
@@ -41,8 +95,22 @@ import {
   MenuOutlined,
   SearchOutlined
 } from "@ant-design/icons-vue";
-
+import { reactive } from 'vue';
 const store = useStore();
+
+const state = reactive({
+  visible: false,
+  placement: 'right'
+})
+
+const showDrawer = () => {
+  state.visible = true;
+};
+
+const onClose = () => {
+  state.visible = false;
+};
+
 </script>
 
 <style scoped lang="less">

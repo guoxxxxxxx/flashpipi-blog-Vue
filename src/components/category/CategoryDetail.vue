@@ -3,26 +3,35 @@
         <header-cover>
             <div class="article-info">
                 <h1 class="article-title">
-                    <book-filled /> 分类
+                    <book-filled /> {{ route.query.category }}
                 </h1>
             </div>
         </header-cover>
         <div class="list">
-            <a-list item-layout="vertical" size="large" v-for="item in listData">
-                <div class="card">
+            <a-list item-layout="vertical" size="large" v-for="item in data.listData" :key="item.id">
+                <div class="card" @click="toArticle(item.id)">
                     <a-list-item key="item.title">
                         <template #actions>
-                            <span class="content">This is Container</span>
+                            <span class="content">
+                                <CalendarOutlined /> {{ item.publishTime }}
+                            </span>
+                            <span class="content">
+                                <EyeOutlined /> {{ item.viewsCount }}
+                            </span>
                         </template>
                         <template #extra>
-                            <img width="272" alt="logo"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
+                            <img height="165" width="290" alt="logo" :src="item.imagePath" @error="imgError(item.id)" v-if="!item.imgErr"/>
+                            <img height="165" width="290" alt="logo" src="/images/404.png" v-if="item.imgErr"/>
                         </template>
                         <a-list-item-meta>
                             <template #title>
-                                <span class="content"><a>{{ item.title }}</a></span>
+                                <span class="content">
+                                    <router-link :to="{ path: '/article', query: { id: item.id } }">
+                                        🔗{{ item.title }}
+                                    </router-link>
+                                </span>
                                 <div class="description-label">
-                                    {{  item.description }}
+                                    {{ item.description }}
                                 </div>
                             </template>
                         </a-list-item-meta>
@@ -32,53 +41,155 @@
 
             </a-list>
         </div>
+        <div class="page-compoment">
+            <el-pagination background layout="prev, pager, next" :total="data.total" :page-size="data.pageSize"
+                v-model:current-page="data.currentPage" />
+        </div>
     </div>
 </template>
 
 <script lang='ts' setup>
-const listData: Record<string, string>[] = [];
+import { reactive, onMounted, watch } from 'vue';
+import { CalendarOutlined, EyeOutlined } from '@ant-design/icons-vue'
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+import { baseUrl } from '@/main';
+import router from '@/router';
+axios.defaults.baseURL = baseUrl;
+const route = useRoute();
+console.log(route.query.category);
 
-for (let i = 0; i < 5; i++) {
-    listData.push({
-        title: `ant design vue part ${i}`,
-        description:
-            'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-        content:
-            'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    });
+const imgError = (id: number) =>{
+    for(let i=0; i<data.listData.length; i++){
+        if(data.listData[i].id == id){
+            data.listData[i].imgErr = true;
+        }
+    }
 }
 
-const pagination = {
-    onChange: (page: number) => {
-        console.log(page);
-    },
-    pageSize: 3,
-};
+const data = reactive({
+    listData: [{
+        id: 0,
+        title: '',
+        description: '',
+        content: '',
+        imagePath: '',
+        viewsCount: 0,
+        publishTime: '',
+        imgErr: false
+    }],
+    total: 0,
+    pageSize: 5,
+    currentPage: 1,
+})
+
+// 从后端请求分类的数据
+const getBlogsByCategory = (page_size: number, current_page: number) => {
+    axios({
+        method: "GET",
+        url: '/blog/getBlogsByCategory',
+        params: { pageSize: page_size, currentPage: current_page, category: route.query.category }
+    }).then((resp) => {
+        data.listData = resp.data;
+    }).catch((err) => {
+        console.log(err);
+    })
+}
+
+// 获取指定分类的文章数量
+const getBlogsCountByCategory = () => {
+    axios({
+        method: "GET",
+        url: '/blog/getBlogsCountByCategory',
+        params: { category: route.query.category }
+    }).then((resp) => {
+        data.total = resp.data
+    }).catch((err) => {
+        console.log(err);
+    })
+}
+
+// 进入查看文章界面
+const toArticle = (id: number) => {
+    router.push({ name: 'article', query: { id: id } });
+}
+
+// 监听页码变化
+watch(
+    ()=>data.currentPage,
+    (newVal, oldVal)=>{
+        getBlogsByCategory(data.pageSize, data.currentPage);
+    }
+)
+
+onMounted(() => {
+    getBlogsByCategory(data.pageSize, data.currentPage);
+    getBlogsCountByCategory();
+    window.scroll(0, 0)
+})
 </script>
 
 <style scoped lang='less'>
+:deep(.el-pagination.is-background .el-pager li) {
+    background-color: var(--theme-background) !important; //修改默认的背景色
+    color: var(--theme-font-color);
+}
+
+:deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
+    background-color: var(--theme-category-btn-color) !important;
+}
+
+:deep(.el-pagination.is-background .btn-prev) {
+    background-color: var(--theme-background);
+    color: var(--theme-font-color);
+}
+
+:deep(.el-pagination.is-background .btn-next) {
+    background-color: var(--theme-background);
+    color: var(--theme-font-color);
+}
+
+img {
+    margin-left: -15px;
+}
+
+.page-compoment {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+
 .description-label {
     color: var(--theme-font-color);
     font-weight: 500;
     font-style: italic;
     font-size: 0.9em;
+    margin-top: 10px;
 }
+
 .content {
     color: var(--theme-font-color);
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    margin-top: -10px;
 }
 
 .container {
     background-color: var(--theme-background);
+    overflow-x: hidden;
 }
 
 .list {
     padding: 5% 10%;
-    // color: var(--theme-font-color);
+    min-height: 500px;
 }
 
 .card {
     background-color: var(--theme-card-color);
     margin-top: 20px;
+    border: dashed rgb(198, 198, 198);
 }
 
 .card:hover {

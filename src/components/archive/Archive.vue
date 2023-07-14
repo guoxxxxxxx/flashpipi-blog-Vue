@@ -12,18 +12,13 @@
                 <el-timeline>
                     <el-timeline-item v-for="item in data.blogList" v-show="item.id" :key="item.id" center
                         :timestamp="item.publishTime" placement="top" class="animate__animated animate__fadeInDown">
-                        <el-card class="el-card">
-                            <router-link :to="{ path: '/article', query: { id: item.id } }"
-                                style="font-size: 1.2em; font-weight: lighter;">
-                                <p style="font-weight: bold;">{{ item.title }}</p>
-                                <p>{{ item.description }}</p>
-                            </router-link>
+                        <el-card class="el-card" @click="toArticle(item.id)">
+                            <p style="font-weight: bold;">{{ item.title }}</p>
+                            <p>{{ item.description }}</p>
                             <!-- 分类 -->
                             <div class="article-tags">
                                 <span style="text-decoration: none; color: var(--theme-font-color);">🏷️分类：</span>
-                                <el-button class="category-btn">
-                                    {{ item.category }}
-                                </el-button>
+                                <el-tag class="ml-2" type="info">{{ item.category }}</el-tag>
                             </div>
                         </el-card>
                     </el-timeline-item>
@@ -32,7 +27,7 @@
                 <!-- 分页按钮 -->
                 <div class="pagination">
                     <el-pagination layout="prev, pager, next" :total="data.totalItem" :page-size="5"
-                        v-model:current-page="data.currentPage" background/>
+                        v-model:current-page="data.currentPage" background />
                 </div>
             </a-card>
         </div>
@@ -44,6 +39,7 @@ import HeaderCover from '../header/HeaderCover.vue';
 import axios from 'axios';
 import { baseUrl } from '@/main';
 import { reactive, onMounted, watch } from 'vue';
+import router from '@/router';
 axios.defaults.baseURL = baseUrl;
 let data = reactive({
     blogList: [
@@ -81,7 +77,7 @@ const getBlogs = () => {
     }).catch((err) => {
         console.log(err);
     })
-    window.scroll(0 ,0);
+    window.scroll(0, 0);
 }
 
 // 监视页码信息的变化
@@ -92,6 +88,11 @@ watch(
     }
 )
 
+// 进入文章阅读界面
+const toArticle = (id: number) => {
+    router.push({ name: 'article', query: { id: id } })
+}
+
 onMounted(() => {
     getBlogs();
 })
@@ -99,22 +100,20 @@ onMounted(() => {
 
 <style scoped lang="less">
 :deep(.el-pagination.is-background .el-pager li) {
-  background-color: var(--theme-background) !important; //修改默认的背景色
-  color: var(--theme-font-color);
-}
-:deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
-  background-color: var(--theme-category-btn-color) !important;
-}
-:deep(.el-pagination.is-background .btn-prev){
-    background-color: var(--theme-background);
+    background-color: var(--theme-background) !important; //修改默认的背景色
     color: var(--theme-font-color);
 }
-:deep(.el-pagination.is-background .btn-next){
+
+:deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
+    background-color: var(--theme-category-btn-color) !important;
+}
+
+:deep(.el-pagination.is-background .btn-prev) {
     background-color: var(--theme-background);
     color: var(--theme-font-color);
 }
 
-.category-btn {
+:deep(.el-pagination.is-background .btn-next) {
     background-color: var(--theme-background);
     color: var(--theme-font-color);
 }
@@ -132,16 +131,16 @@ onMounted(() => {
     background-color: gray;
     color: black;
     text-decoration: none;
+
+    .ml-2{
+        background-color: rgb(161, 161, 161);
+        color: rgb(230, 230, 230);
+    }
 }
 
-.category-btn:hover {
-    background-color: #03a9f4;
+.ml-2{
+    background-color: var(--theme-background);
 }
-
-.category-btn:active {
-    background-color: antiquewhite;
-}
-
 
 .el-card:active {
     background-color: burlywood;

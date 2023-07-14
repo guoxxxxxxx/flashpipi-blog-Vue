@@ -5,7 +5,8 @@
                 <div class="item">
                     <div class="img-container">
                         <router-link :to="{ path: '/article', query: { id: item.id } }">
-                            <img :src="item.imagePath">
+                            <img :src="item.imagePath" @error="imgErr(item.id)" v-if="!item.imgErr">
+                            <img src="/images/404.png" v-if="item.imgErr">
                         </router-link>
                     </div>
                     <div class="text-container">
@@ -32,7 +33,7 @@
                         </div>
                         <router-link :to="{ path: '/article', query: { id: item.id } }">
                             <div class="content">
-                                {{ item.description }}
+                                {{ item.content }}
                             </div>
                         </router-link>
                     </div>
@@ -52,6 +53,14 @@ import axios from 'axios';
 import { baseUrl } from '@/main';
 axios.defaults.baseURL = baseUrl;
 
+const imgErr = (id: string) => {
+    for (let i = 0; i < data.blogs.length; i++) {
+        if (data.blogs[i].id == id) {
+            data.blogs[i].imgErr = true;
+        }
+    }
+}
+
 let data = reactive({
     blogs: [{
         id: '',
@@ -61,7 +70,8 @@ let data = reactive({
         description: '',
         content: '',
         publishTime: '',
-        updateTime: ''
+        updateTime: '',
+        imgErr: false,
     }],
 });
 /**
@@ -71,7 +81,7 @@ const getRecentBlogs = () => {
     axios({
         method: "GET",
         url: "/blog/getRecentBlogs",
-        params: {page: 1, size: 5}
+        params: { page: 1, size: 5 }
     }).then((resp) => {
         data.blogs = resp.data
     }).catch((err) => {

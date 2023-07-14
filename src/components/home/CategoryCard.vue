@@ -25,7 +25,7 @@ import { baseUrl } from '@/main';
 import router from '@/router/index';
 
 const goCategoryDetail = (categoryName:string)=>{
-    router.push({name: 'categoryDetail', params: {category: categoryName}})
+    router.push({name: 'categoryDetail', query: {category: categoryName}})
 }
 axios.defaults.baseURL = baseUrl;
 const data = reactive({

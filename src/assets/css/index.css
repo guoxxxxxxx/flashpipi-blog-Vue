@@ -13,11 +13,11 @@
   .dark{
     --theme-color: #eee;
     --theme-background: #333;
-    --theme-card-color: #141414;
+    --theme-card-color: #212121;
     --theme-footer-left:#333;
     --theme-footer-right:#000;
     --theme-font-color: #b4b4b4;
-    --theme-category-btn-color:#000080;
+    --theme-category-btn-color:#242424;
     --theme-category-btn-hover-color: rgb(77, 77, 166);
   }
   

@@ -4,7 +4,8 @@
     <div class="card-style animate__animated animate__zoomIn animate__slow">
         <router-link :to="{path: '/article', query:{id: props.data.id}}">
             <div class="img-box">
-                <img class="img" :src="props.data.imagePath" crossorigin="anonymous">
+                <img class="img" :src="props.data.imagePath" @error="imgErr" v-if="!state.imgErr">
+                <img class="img" src="/images/404.png" v-if="state.imgErr">
                 <div class="detail">
                     {{ props.data.description }}
                 </div>
@@ -24,7 +25,16 @@
 </template>
 
 <script lang='ts' setup>
+import { da } from 'element-plus/lib/locale/index.js';
+import { reactive } from 'vue';
+
 const props = defineProps(['data'])
+let state = reactive({
+    imgErr: false,
+})
+const imgErr = ()=>{
+    state.imgErr = true;
+}
 </script>
 
 <style scoped lang='less'>

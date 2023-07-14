@@ -79,7 +79,7 @@
                     <!-- 分类 -->
                     <div class="article-tags">
                         🏷️分类：
-                        <el-button type="primary">{{ data.category }}</el-button>
+                        <el-button type="primary" @click="toCategoryDetail(data.category)">{{ data.category }}</el-button>
                     </div>
 
                 </a-card>
@@ -120,6 +120,7 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 import axios from 'axios';
 import {baseUrl} from "@/main"
+import router from '@/router';
 axios.defaults.baseURL = baseUrl;
 
 const id = 'preview-only';
@@ -136,6 +137,11 @@ let data = reactive({
     viewsCount: '',
     content: '',
 })
+
+// 进入分类详情界面
+const toCategoryDetail = (category:string)=>{
+    router.push({path: 'categoryDetail', query:{category: category}});
+}
 
 // 计算预计阅读时间
 const getTimeUsed = computed(() => {

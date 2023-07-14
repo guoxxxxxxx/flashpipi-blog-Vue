@@ -10,11 +10,11 @@ const router = createRouter({
     {
       name: 'article',
       path: '/article',
-      component: () => import("../components/article/Article.vue")
+      component: () => import("@/components/article/Article.vue")
     },
     {
       path: '/archive',
-      component: () => import("../components/archive/Archive.vue")
+      component: () => import("@/components/archive/Archive.vue")
     },
     {
       path: '/category',
@@ -24,6 +24,15 @@ const router = createRouter({
       name: 'categoryDetail',
       path: '/categoryDetail',
       component: () => import("@/components/category/CategoryDetail.vue")
+    },
+    {
+      path: '/collection',
+      component: ()=> import("@/components/collection/Collection.vue")
+    },
+    {
+      name: 'collectionDetail',
+      path: '/collectionDetail',
+      component: ()=> import("@/components/collection/CollectionDetail.vue")
     }
   ]
 })

@@ -15,7 +15,7 @@
         <router-link to="/category" class="header-menu-item">
           <book-filled /> 分类
         </router-link>
-        <router-link to="/" class="header-menu-item">
+        <router-link to="/collection" class="header-menu-item">
           <tags-filled /> 合集
         </router-link>
         <router-link to="/" class="header-menu-item">

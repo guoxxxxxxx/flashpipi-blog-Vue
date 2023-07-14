@@ -131,7 +131,7 @@ a {
         }
     }
 
-    // 当像素值大于1100px时，界面显示全部东西
+    // 当像素值大于650px时，界面显示全部东西
     @media (min-width: 650px) {
 
         height: 260px;
@@ -139,14 +139,16 @@ a {
 
         .item {
             display: flex;
+            justify-content: space-between;
         }
 
         .img-container {
             width: 50%;
+            max-width: 340px;
         }
 
         .text-container {
-            width: 50%;
+            width: 60%;
         }
 
         .item-container {
@@ -188,7 +190,8 @@ a {
 .content {
     margin-top: 10px;
     text-indent: 2em;
-    font-size: 1.2em;
+    font-size: 1.1em;
+    font-weight: lighter;
     overflow: hidden;
     -webkit-line-clamp: 5;
     display: -webkit-box;

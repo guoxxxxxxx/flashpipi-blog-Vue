@@ -3,8 +3,8 @@
     --theme-color: #333;
     --theme-background: #f3f6f7;
     --theme-card-color: #fff;
-    --theme-footer-left:#03a9f4;
-    --theme-footer-right:#23a6d5;
+    --theme-footer-left:#5994e1;
+    --theme-footer-right:#868ed9;
     --theme-font-color: rgb(71, 71, 71);
     --theme-category-btn-color: #409eff;
     --theme-category-btn-hover-color: #a0cfff;
@@ -13,7 +13,7 @@
   .dark{
     --theme-color: #eee;
     --theme-background: #333;
-    --theme-card-color: #212121;
+    --theme-card-color: #161616;
     --theme-footer-left:#333;
     --theme-footer-right:#000;
     --theme-font-color: #b4b4b4;

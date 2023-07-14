@@ -3,7 +3,7 @@
         <header-cover>
             <div class="article-info">
                 <h1 class="article-title">
-                    <book-filled /> {{ route.query.category }}
+                    <book-filled /> {{ route.query.collection }}--({{ data.total }}篇)
                 </h1>
             </div>
         </header-cover>
@@ -87,8 +87,8 @@ const data = reactive({
 const getBlogsByCategory = (page_size: number, current_page: number) => {
     axios({
         method: "GET",
-        url: '/blog/getBlogsByCategory',
-        params: { pageSize: page_size, currentPage: current_page, category: route.query.category }
+        url: '/blog/getBlogsByCollection',
+        params: { pageSize: page_size, currentPage: current_page, collection: route.query.collection }
     }).then((resp) => {
         data.listData = resp.data;
     }).catch((err) => {
@@ -100,8 +100,8 @@ const getBlogsByCategory = (page_size: number, current_page: number) => {
 const getBlogsCountByCategory = () => {
     axios({
         method: "GET",
-        url: '/blog/getBlogsCountByCategory',
-        params: { category: route.query.category }
+        url: '/blog/getCountByCollection',
+        params: { collection: route.query.collection }
     }).then((resp) => {
         data.total = resp.data
     }).catch((err) => {
@@ -119,6 +119,8 @@ watch(
     ()=>data.currentPage,
     (newVal, oldVal)=>{
         getBlogsByCategory(data.pageSize, data.currentPage);
+        // 回到顶部
+        window.scroll(0,0);
     }
 )
 

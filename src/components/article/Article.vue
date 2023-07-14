@@ -185,9 +185,9 @@ onMounted(()=>{
 
 <style lang="less" scoped>
 .catalog-content {
-    font-size: 0.6em;
+    font-size: 1em;
     font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .catalog-card {
@@ -258,14 +258,14 @@ onMounted(()=>{
         }
 
         @media (min-width: 760px) {
-            padding: 16px 15% 16px 15%;
+            padding: 16px 12% 16px 12%;
 
             .main {
-                width: 80%;
+                width: 75%;
             }
 
             .side {
-                width: 20%;
+                width: 25%;
             }
         }
 

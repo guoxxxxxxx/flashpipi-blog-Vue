@@ -21,8 +21,8 @@ const drawGraph = (data) => {
     var myChart = echarts.init(chartDom);
     option = {
         tooltip: {
-            trigger: 'item'
-        },
+    trigger: 'item'
+  },
         legend: {
             top: 'bottom',
             textStyle: {
@@ -34,19 +34,22 @@ const drawGraph = (data) => {
         },
         series: [
             {
-                name: '分类数据统计',
+                name: '合集数据统计',
                 type: 'pie',
-                radius: [50, 250],
+                radius: ['40%', '70%'],
                 center: ['50%', '50%'],
-                roseType: 'area',
+                avoidLabelOverlap: false,
                 itemStyle: {
-                    borderRadius: 8
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
                 },
                 labelLine: {
                     show: true,
                 },
                 data: data,
                 label: {
+                    show: true,
                     formatter: function (data) {
                         // @ts-ignore
                         return `${data.name} ${data.value} (${data.percent.toFixed(1)}%)`
@@ -63,8 +66,7 @@ const drawGraph = (data) => {
 const getPieChartData = () => {
     axios({
         method: "GET",
-        url: "/blog/getBlogsCategoryList",
-        params: { page: -1 }
+        url: "/blog/getCollectionCount",
     }).then((resp) => {
         drawGraph(resp.data)
     })

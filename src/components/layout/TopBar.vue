@@ -49,7 +49,7 @@
             <div class="blog-info">
               <a-row>
                 <a-col :span="8">文章</a-col>
-                <a-col :span="8">集合</a-col>
+                <a-col :span="8">合集</a-col>
                 <a-col :span="8">分类</a-col>
               </a-row>
               <a-row>
@@ -69,11 +69,14 @@
               <router-link to="/category" class="header-menu-item">
                 <book-filled /> <i>分类</i>
               </router-link>
-              <router-link to="/" class="header-menu-item">
-                <tags-filled /> <i>集合</i>
+              <router-link to="/collection" class="header-menu-item">
+                <tags-filled /> <i>合集</i>
               </router-link>
-              <router-link to="/" class="header-menu-item">
-                <api-filled /> <i>友链</i>
+              <a class="header-menu-item" v-if="store.userInfo.id === -1" @click="showLogin">
+                <api-filled /> <i>登录</i>
+              </a>
+              <router-link to="/manage" class="header-menu-item" v-if="store.userInfo.id === 1">
+                <setting-filled /> <i>管理</i>
               </router-link>
             </div>
           </div>
@@ -115,7 +118,7 @@ const onClose = () => {
 };
 
 // 显示登录框
-const showLogin = ()=>{
+const showLogin = () => {
   store.showLoginBox(true);
 }
 

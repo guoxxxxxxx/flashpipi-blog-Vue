@@ -38,6 +38,16 @@ const router = createRouter({
       name: "manage",
       path: "/manage",
       component: ()=> import("@/components/manage/Manage.vue")
+    },
+    {
+      name: "change",
+      path: "/change",
+      component: ()=> import("@/components/change/Change.vue")
+    },
+    {
+      name: "upload",
+      path: "/upload",
+      component: ()=> import("@/components/change/Upload.vue")
     }
   ]
 })

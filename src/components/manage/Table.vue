@@ -34,10 +34,14 @@
 </template>
   
 <script lang="ts" setup>
-import { computed, reactive, onMounted } from 'vue';
+import { computed, reactive, onMounted, createVNode } from 'vue';
+import {ExclamationCircleOutlined} from '@ant-design/icons-vue';
 import { useStore } from '@/stores';
 import axios from 'axios';
 import { baseUrl } from "@/main"
+import { errTips, successTips } from '@/utils';
+import { Modal } from 'ant-design-vue';
+import router from '@/router';
 axios.defaults.baseURL = baseUrl;
 const store = useStore();
 const state = reactive({
@@ -64,12 +68,36 @@ const filterTableData = computed(() =>
     )
 )
 // 点击编辑按钮
-const handleEdit = (index: number, row) => {
-    console.log(index, row)
+const handleEdit = (index: number, row: Blog) => {
+    router.push({name: 'change', query: {id: row.id}});
 }
 // 点击删除按钮
-const handleDelete = (index: number, row) => {
-    console.log(index, row)
+const handleDelete = (index: number, row: Blog) => {
+    Modal.confirm({
+        title: '警告',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '确定删除吗？(此操作不可逆)',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+            axios({
+                method: "GET",
+                url: "/blog/deleteById",
+                params: {
+                    id: row.id
+                }
+            }).then((resp) => {
+                if (resp.data == 1) {
+                    successTips("删除成功");
+                    getData();
+                }
+                else {
+                    errTips("删除失败");
+                }
+            })
+        }
+    });
+
 }
 
 const tableData = reactive(
@@ -136,5 +164,6 @@ onMounted(() => {
 :deep(.el-pagination.is-background .btn-next) {
     background-color: var(--theme-background);
     color: var(--theme-font-color);
-}</style>
+}
+</style>
   

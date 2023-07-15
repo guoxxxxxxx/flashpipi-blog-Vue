@@ -22,8 +22,8 @@
       <!-- 下部 -->
       <foot-bar></foot-bar>
     </div>
-
-
+    <!-- 登录界面 -->
+    <login></login>
 
     <!-- 组件逻辑测试 -->
     <!-- <button @click="test">测试按钮</button> -->
@@ -31,6 +31,7 @@
 </template>
 
 <script lang='ts' setup>
+import Login from './components/home/Login.vue';
 import { reactive } from 'vue';
 import { useStore } from './stores/index';
 import { UpOutlined, createFromIconfontCN } from '@ant-design/icons-vue';

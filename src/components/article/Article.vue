@@ -54,7 +54,7 @@
 
                     <!-- 版权声明 -->
                     <div class="article-signature">
-                        <img :src="store.authorInfo.avator" alt="头像">
+                        <img :src="store.authorInfo.avatar" alt="头像">
                         <div class="copyright">
                             <div class="copyright-item">
                                 <span class="copyright-title">文章作者: ✨{{ store.authorInfo.name }}✨</span>

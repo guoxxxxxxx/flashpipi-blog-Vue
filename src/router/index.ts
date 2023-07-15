@@ -33,6 +33,11 @@ const router = createRouter({
       name: 'collectionDetail',
       path: '/collectionDetail',
       component: ()=> import("@/components/collection/CollectionDetail.vue")
+    },
+    {
+      name: "manage",
+      path: "/manage",
+      component: ()=> import("@/components/manage/Manage.vue")
     }
   ]
 })

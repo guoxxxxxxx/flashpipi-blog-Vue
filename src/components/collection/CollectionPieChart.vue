@@ -36,7 +36,7 @@ const drawGraph = (data) => {
             {
                 name: '合集数据统计',
                 type: 'pie',
-                radius: ['40%', '70%'],
+                radius: ['30%', '50%'],
                 center: ['50%', '50%'],
                 avoidLabelOverlap: false,
                 itemStyle: {

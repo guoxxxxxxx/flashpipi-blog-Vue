@@ -28,7 +28,7 @@
         <a-card class="card-style">
           <template #cover>
             <div class="blog-avatar">
-              <a-avatar :src="store.authorInfo.avator" :size="110" />
+              <a-avatar :src="store.authorInfo.avatar" :size="110" />
             </div>
             <div class="author-info">
               ✨{{ store.authorInfo.name }}✨
@@ -81,6 +81,29 @@
           </a-card-meta>
         </a-card>
 
+        <!-- 站内欢迎栏 -->
+        <a-card class="card-style" v-if="!(store.userInfo.id == -1 || store.userInfo.id == 1)">
+          <div class="notice-card">
+            <div class="notice-title">
+              🎉 Welcome 🎉
+              <span class="exit" @click="exitConfirm">
+                <ExportOutlined />
+              </span>
+            </div>
+            <hr />
+            <div class="blog-avatar">
+              <a-avatar :src="store.userInfo.avatar" :size="110" />
+            </div>
+            <div class="author-info">
+              {{ store.userInfo.name }}
+            </div>
+            <div class="changeInfo" style="width: 100%; text-align: center; margin-top: 10px;">
+              <a @click="showChangeInfo">修改信息</a>
+            </div>
+            <ChangeInfo></ChangeInfo>
+          </div>
+        </a-card>
+
         <!-- 站内小提示 -->
         <a-card class="card-style">
           <div class="notice-card">
@@ -93,7 +116,8 @@
                 <span style="text-indent:2em; display: block; font-weight: lighter;
                  font-size: 1.1em; padding-top: 10px;">
                   本站图片📷托管在Github上, 采用第三方CDN进行分发, 由于是免费💰的, 故稳定性较差, 除图片外所有资源部署在腾讯云☁️, 国内访问速度尚可。经测试,
-                  采用科学上网🚀会极大程度提高图片🖼️访问速度, 建议可以实现科学上网🚀的用户采用开启代理🌐后访问该网站🌏, 给您带来不便敬请谅解🥹！
+                  采用科学上网🚀会极大程度提高图片🖼️访问速度, 建议可以实现科学上网🚀的用户采用开启代理🌐后访问该网站🌏, 给您带来不便敬请谅解🥹！学科上网
+                  <a href="https://muguacloud.baby/auth/register?code=QBac" target="_blank">🔗链接</a>。
                 </span>
               </div>
             </div>
@@ -173,15 +197,23 @@ import HomeCover from './HomeCover.vue';
 import Carousel from '@/components/article/Carousel.vue'
 import CategoryCard from './CategoryCard.vue';
 import ArticleCard from '../article/ArticleCard.vue';
+import { Modal } from 'ant-design-vue';
 import { useStore } from '@/stores/index';
-import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined, LineChartOutlined } from '@ant-design/icons-vue';
-import { computed, reactive, onMounted, watch } from 'vue';
+import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined, LineChartOutlined, ExportOutlined, ExclamationCircleOutlined }
+  from '@ant-design/icons-vue';
+import { computed, reactive, onMounted, watch, createVNode } from 'vue';
 import axios from 'axios';
 import { baseUrl } from "@/main";
-import { getDiffDay } from "@/utils/index"
+import { getDiffDay, successTips } from "@/utils/index"
+import ChangeInfo from './ChangeInfo.vue';
 axios.defaults.baseURL = baseUrl;
 
 const store = useStore();
+
+// 显示修改信息弹出框
+const showChangeInfo = () => {
+  store.setIsShowChangeInfo(true);
+}
 
 // 数据
 const data = reactive({
@@ -281,6 +313,21 @@ watch(
   }
 )
 
+// 退出确定框
+const exitConfirm = () => {
+  Modal.confirm({
+    title: '警告',
+    icon: createVNode(ExclamationCircleOutlined),
+    content: '确定退出吗？',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: ()=>{
+      store.exit();
+      successTips("退出成功！")
+    }
+  });
+};
+
 // 钩子函数
 onMounted(() => {
   getArticleList(data.currentPage);
@@ -290,6 +337,19 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
+.exit {
+  font-size: 0.8em;
+}
+
+.exit:hover {
+  color: skyblue;
+  cursor: pointer;
+}
+
+.exit:active {
+  color: blue;
+}
+
 :deep(.el-pagination.is-background .el-pager li) {
   background-color: var(--theme-background) !important; //修改默认的背景色
   color: var(--theme-font-color);
@@ -318,7 +378,7 @@ onMounted(() => {
 }
 
 .main-card {
-  min-height: 1300px;
+  min-height: 1800px;
 }
 
 // 分页
@@ -632,4 +692,3 @@ onMounted(() => {
   }
 }
 </style>
-@/utils

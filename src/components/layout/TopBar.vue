@@ -10,7 +10,7 @@
           <home-filled /> 首页
         </router-link>
         <router-link to="/archive" class="header-menu-item">
-          <container-filled /> 归档
+          <container-filled /> 时间轴
         </router-link>
         <router-link to="/category" class="header-menu-item">
           <book-filled /> 分类
@@ -18,8 +18,11 @@
         <router-link to="/collection" class="header-menu-item">
           <tags-filled /> 合集
         </router-link>
-        <router-link to="/" class="header-menu-item">
-          <api-filled /> 友链
+        <a class="header-menu-item" v-if="store.userInfo.id === -1" @click="showLogin">
+          <api-filled /> 登录
+        </a>
+        <router-link to="/manage" class="header-menu-item" v-if="store.userInfo.id === 1">
+          <setting-filled /> 管理
         </router-link>
       </div>
 
@@ -35,7 +38,7 @@
           :zIndex="99">
           <div>
             <div class="blog-avatar">
-              <a-avatar :src="store.authorInfo.avator" :size="110" />
+              <a-avatar :src="store.authorInfo.avatar" :size="110" />
             </div>
             <div style="font-size: 1.375rem;margin-top: 0.625rem;text-align: center;">
               ✨{{ store.authorInfo.name }}✨
@@ -110,6 +113,11 @@ const showDrawer = () => {
 const onClose = () => {
   state.visible = false;
 };
+
+// 显示登录框
+const showLogin = ()=>{
+  store.showLoginBox(true);
+}
 
 </script>
 

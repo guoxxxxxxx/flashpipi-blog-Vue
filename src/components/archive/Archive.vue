@@ -3,7 +3,7 @@
         <header-cover>
             <div class="article-info">
                 <h1 class="article-title">
-                    📑归档
+                    📑时间轴
                 </h1>
             </div>
         </header-cover>
@@ -11,8 +11,8 @@
             <a-card class="archive-card">
                 <el-timeline>
                     <el-timeline-item v-for="item in data.blogList" v-show="item.id" :key="item.id" center
-                        :timestamp="item.publishTime" placement="top" class="animate__animated animate__fadeInDown">
-                        <el-card class="el-card" @click="toArticle(item.id)">
+                        :timestamp="item.publishTime" placement="top">
+                        <el-card class="el-card animate__animated animate__fadeInDown" @click="toArticle(item.id)">
                             <p style="font-weight: bold;">{{ item.title }}</p>
                             <p>{{ item.description }}</p>
                             <!-- 分类 -->

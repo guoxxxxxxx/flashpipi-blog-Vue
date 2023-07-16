@@ -280,7 +280,6 @@ const getVariousCount = () => {
     url: "/blog/getCardInformation"
   }).then((resp) => {
     data.webInfo.viewsCount += parseInt(resp.data.allViews[0].sum);
-    console.log(resp.data);
     store.setWebsiteInfo(resp.data.blogCount, resp.data.collectionCount, resp.data.categoryCount)
 
   }).catch((err) => {

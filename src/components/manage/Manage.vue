@@ -11,6 +11,7 @@
             <a-card class="archive-card">
                 <div class="button">
                    <el-button class="btn" @click="upload">上传</el-button>
+                   <el-button @click="exit" type="danger">退出登录</el-button>
                 </div>
                 <Table></Table>
             </a-card>
@@ -19,11 +20,27 @@
 </template>
 
 <script lang='ts' setup>
-import { SettingFilled, } from "@ant-design/icons-vue";
+import { SettingFilled, ExclamationCircleOutlined} from "@ant-design/icons-vue";
 import Table from "./Table.vue";
 import router from "@/router";
+import { useStore } from "@/stores";
+import { Modal } from "ant-design-vue";
+import { createVNode } from "vue";
 const upload = () => {
     router.push({name: "upload"});
+}
+// 退出操作
+const exit = ()=>{
+    Modal.confirm({
+        title: '警告',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '确定退出吗？',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+            useStore().exit();
+        }
+    });
 }
 </script>
 

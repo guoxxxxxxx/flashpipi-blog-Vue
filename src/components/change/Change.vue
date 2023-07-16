@@ -24,7 +24,7 @@
                             <el-input v-model="state.data.description" />
                         </el-form-item>
                         <el-form-item label="图片地址">
-                            <el-input v-model="state.data.imagePath" style="width: 485px;" />
+                            <el-input v-model="state.data.imagePath"/>
                         </el-form-item>
                         <el-form-item>
                             <el-button @click="state.imgShow = true">点击查看图片</el-button>
@@ -158,6 +158,9 @@ const handleOk = () => {
     border: 1px solid var(--theme-card-color);
 }
 
+.manamge {
+    overflow-x: hidden;
+}
 .button {
     width: 100%;
     display: flex;

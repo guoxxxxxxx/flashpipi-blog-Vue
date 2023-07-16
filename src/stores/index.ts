@@ -1,3 +1,4 @@
+import router from '@/router';
 import { defineStore } from 'pinia';
 
 // 关于pinia的使用文档可以参考 https://pinia.web3doc.top/core-concepts/#defining-a-store
@@ -29,6 +30,7 @@ export const useStore = defineStore('pinia', {
             themeName: 'light',
             showLoginModal: false,
             showChangeInfo: false,
+            isLoading: '',
         }
     },
     actions: {
@@ -63,9 +65,12 @@ export const useStore = defineStore('pinia', {
             this.showChangeInfo = key;
         },
         // 退出登录
-        exit(){
+        exit() {
             this.setUserInfo(-1, '', '', '');
-        }
+            router.replace({
+                path: '/'
+            })
+        },
     },
     persist: true
 })

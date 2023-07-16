@@ -24,7 +24,6 @@
     </div>
     <!-- 登录界面 -->
     <login></login>
-
     <!-- 组件逻辑测试 -->
     <!-- <button @click="test">测试按钮</button> -->
   </div>
@@ -32,7 +31,7 @@
 
 <script lang='ts' setup>
 import Login from './components/home/Login.vue';
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 import { useStore } from './stores/index';
 import { UpOutlined, createFromIconfontCN } from '@ant-design/icons-vue';
 import TopBar from './components/layout/TopBar.vue';
@@ -56,6 +55,10 @@ const changeTheme = () => {
   state.themeClass = !state.themeClass;
   store.switchTheme(state.themeClass);
 }
+
+onMounted(()=>{
+
+})
 </script>
 
 <style>

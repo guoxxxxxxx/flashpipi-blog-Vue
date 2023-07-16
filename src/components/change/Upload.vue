@@ -24,7 +24,7 @@
                             <el-input v-model="state.data.description" placeholder="长度小于20字符效果最佳"/>
                         </el-form-item>
                         <el-form-item label="图片地址">
-                            <el-input v-model="state.data.imagePath" style="width: 485px;" 
+                            <el-input v-model="state.data.imagePath" 
                             placeholder="填入地址后,请点击右侧按钮检查是否可以顺利加载"/>
                         </el-form-item>
                         <el-form-item>
@@ -55,7 +55,7 @@
 
 <script lang='ts' setup>
 import { SettingFilled, ExclamationCircleOutlined} from "@ant-design/icons-vue";
-import { reactive, createVNode } from 'vue';
+import { reactive, createVNode, watch } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import { useStore } from '../../stores';
 import { Modal } from 'ant-design-vue';
@@ -116,7 +116,13 @@ const uploadBlog = () => {
     })
 }
 
-// 
+watch(
+    ()=>state.data.imagePath,
+    (newVal, oldVal)=>{
+        state.data.imagePath = newVal.replace("![](", "").replace(")", "");
+    }
+)
+
 const handleOk = () => {
     state.imgShow = false;
 }
@@ -150,5 +156,9 @@ const handleOk = () => {
 
 .info {
     margin-bottom: 20px;
+}
+
+.manamge {
+    overflow-x: hidden;
 }
 </style>

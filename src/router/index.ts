@@ -1,4 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import { useStore } from '@/stores';
+import { errTips } from '@/utils';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,9 +49,30 @@ const router = createRouter({
     {
       name: "upload",
       path: "/upload",
-      component: ()=> import("@/components/change/Upload.vue")
+      component: ()=> import("@/components/change/Upload.vue"),
+    },
+    {
+      name: "error",
+      path: "/error",
+      component: ()=> import("@/components/others/Error.vue"),
     }
   ]
+})
+
+router.beforeEach((to, from, next)=>{
+  if(to.name == 'upload' || to.name == 'change' || to.name == 'manage'){
+    const store = useStore();
+    if(store.userInfo.id == 1){
+      next();
+    }
+    else{
+      errTips("无权访问！");
+      router.replace({name: 'error'});
+    }
+  }
+  else{
+    next();
+  }
 })
 
 export default router

@@ -33,7 +33,7 @@
                         </div>
                         <router-link :to="{ path: '/article', query: { id: item.id } }">
                             <div class="content">
-                                {{ item.content }}
+                                {{ item.content.replace(new RegExp('[#-|*"]', 'g'), "") }}
                             </div>
                         </router-link>
                     </div>
@@ -83,7 +83,7 @@ const getRecentBlogs = () => {
         url: "/blog/getRecentBlogs",
         params: { page: 1, size: 5 }
     }).then((resp) => {
-        data.blogs = resp.data
+        data.blogs = resp.data;
     }).catch((err) => {
         console.log(err);
     });

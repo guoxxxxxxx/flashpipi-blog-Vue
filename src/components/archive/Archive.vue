@@ -143,7 +143,7 @@ onMounted(() => {
 }
 
 .el-card:active {
-    background-color: burlywood;
+    background-color: rgb(202, 202, 202);
 }
 
 .archive {

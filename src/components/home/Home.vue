@@ -375,7 +375,7 @@ onMounted(() => {
 
 .notice-content-text {
   color: var(--theme-font-color);
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-bottom: 5%;
   font-weight: lighter;
   text-indent: 2em;

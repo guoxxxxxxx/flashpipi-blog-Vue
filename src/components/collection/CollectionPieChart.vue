@@ -7,9 +7,8 @@
 import * as echarts from 'echarts';
 import { useStore } from '@/stores';
 import { onMounted, onBeforeMount } from 'vue';
-import axios from 'axios';
-import { baseUrl } from '@/main';
-axios.defaults.baseURL = baseUrl;
+import request from '@/api/request';
+import { errTips } from '@/utils';
 const store = useStore();
 
 // 根据数据绘制数据图
@@ -64,11 +63,13 @@ const drawGraph = (data) => {
 
 // 请求数据
 const getPieChartData = () => {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getCollectionCount",
     }).then((resp) => {
         drawGraph(resp.data)
+    }).catch((err)=>{
+        errTips("获取信息失败!");
     })
 }
 onMounted(() => {

@@ -52,10 +52,9 @@
 import { reactive, onMounted, watch } from 'vue';
 import { CalendarOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router';
-import axios from 'axios';
-import { baseUrl } from '@/main';
 import router from '@/router';
-axios.defaults.baseURL = baseUrl;
+import request from '@/api/request';
+import { errTips } from '@/utils';
 const route = useRoute();
 console.log(route.query.category);
 
@@ -85,27 +84,27 @@ const data = reactive({
 
 // 从后端请求分类的数据
 const getBlogsByCategory = (page_size: number, current_page: number) => {
-    axios({
+    request({
         method: "GET",
         url: '/blog/getBlogsByCategory',
         params: { pageSize: page_size, currentPage: current_page, category: route.query.category }
     }).then((resp) => {
         data.listData = resp.data;
     }).catch((err) => {
-        console.log(err);
+        errTips("获取信息失败!");
     })
 }
 
 // 获取指定分类的文章数量
 const getBlogsCountByCategory = () => {
-    axios({
+    request({
         method: "GET",
         url: '/blog/getBlogsCountByCategory',
         params: { category: route.query.category }
     }).then((resp) => {
         data.total = resp.data
     }).catch((err) => {
-        console.log(err);
+        errTips("获取信息失败!");
     })
 }
 

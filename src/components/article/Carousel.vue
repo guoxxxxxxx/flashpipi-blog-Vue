@@ -49,9 +49,8 @@ import { reactive, onMounted } from 'vue';
 import {
     CalendarOutlined, SyncOutlined, ProfileOutlined
 } from '@ant-design/icons-vue'
-import axios from 'axios';
-import { baseUrl } from '@/main';
-axios.defaults.baseURL = baseUrl;
+import request from '@/api/request';
+import { errTips } from '@/utils';
 
 const imgErr = (id: string) => {
     for (let i = 0; i < data.blogs.length; i++) {
@@ -78,14 +77,14 @@ let data = reactive({
  * 获取最近发布的五篇文章作为轮播图内容
  */
 const getRecentBlogs = () => {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getRecentBlogs",
         params: { page: 1, size: 5 }
     }).then((resp) => {
         data.blogs = resp.data;
     }).catch((err) => {
-        console.log(err);
+        errTips("获取信息失败!");
     });
 }
 

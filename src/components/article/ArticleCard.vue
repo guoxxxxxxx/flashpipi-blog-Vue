@@ -25,7 +25,6 @@
 </template>
 
 <script lang='ts' setup>
-import { da } from 'element-plus/lib/locale/index.js';
 import { reactive } from 'vue';
 
 const props = defineProps(['data'])

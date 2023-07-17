@@ -37,12 +37,10 @@
 import { computed, reactive, onMounted, createVNode } from 'vue';
 import {ExclamationCircleOutlined} from '@ant-design/icons-vue';
 import { useStore } from '@/stores';
-import axios from 'axios';
-import { baseUrl } from "@/main"
 import { errTips, successTips } from '@/utils';
 import { Modal } from 'ant-design-vue';
 import router from '@/router';
-axios.defaults.baseURL = baseUrl;
+import request from '@/api/request';
 const store = useStore();
 const state = reactive({
     currentPage: 1,
@@ -80,7 +78,7 @@ const handleDelete = (index: number, row: Blog) => {
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
-            axios({
+            request({
                 method: "GET",
                 url: "/blog/deleteById",
                 params: {
@@ -117,7 +115,7 @@ const tableData = reactive(
 
 // 从后端获取数据
 const getData = () => {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getShortBlogsList",
         params: {

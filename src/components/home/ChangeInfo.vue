@@ -15,10 +15,8 @@
 import { useStore } from '@/stores';
 import { successTips, errTips } from "@/utils/index"
 const store = useStore();
-import axios from 'axios';
-import { baseUrl } from '@/main';
 import { reactive } from 'vue';
-axios.defaults.baseURL = baseUrl;
+import request from '@/api/request';
 
 const state = reactive({
     name: '',
@@ -27,7 +25,7 @@ const state = reactive({
 
 // 修改用户信息
 const handleOk = () => {
-axios({
+request({
     method:"POST",
     url: "/user/modifyInfo",
     data:{

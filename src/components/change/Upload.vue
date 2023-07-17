@@ -60,11 +60,9 @@ import { MdEditor } from 'md-editor-v3';
 import { useStore } from '../../stores';
 import { Modal } from 'ant-design-vue';
 import 'md-editor-v3/lib/style.css';
-import axios from "axios";
-import { baseUrl } from '@/main';
 import router from "@/router";
 import { errTips, successTips } from "@/utils";
-axios.defaults.baseURL = baseUrl;
+import request from "@/api/request";
 
 const store = useStore();
 
@@ -102,7 +100,7 @@ const upload = () => {
 
 // 上传博客
 const uploadBlog = () => {
-    axios({
+    request({
         method:"POST",
         url: "/blog/uploadBlog",
         data: state.data
@@ -113,6 +111,8 @@ const uploadBlog = () => {
         else{
             errTips("上传失败");
         }
+    }).catch((err)=>{
+        errTips("获取信息失败!");
     })
 }
 

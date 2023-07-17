@@ -61,10 +61,9 @@
 import { useStore } from "@/stores"
 import { reactive, ref } from "vue";
 import { successTips, errTips } from "@/utils";
-import axios from "axios";
-import { baseUrl } from "@/main";
 import { checkEmail } from "@/utils";
-axios.defaults.baseURL = baseUrl;
+import request from "@/api/request";
+
 const store = useStore();
 const state = reactive({
   owlStyle: "",
@@ -84,7 +83,7 @@ const state = reactive({
 const submit = ()=>{
   // 登录逻辑
   if(state.currentTabIndex == 1){
-    axios({
+    request({
       method:"POST",
       url: "/user/login",
       params: {
@@ -103,11 +102,13 @@ const submit = ()=>{
       else if(resp.data == 3){
         errTips("该邮箱尚未注册!");
       }
+    }).catch((err)=>{
+      errTips("未知错误!")
     })
   }
   // 注册逻辑
   else if(state.currentTabIndex == 2){
-    axios({
+    request({
       method: "POST",
       url: "/user/register",
       params: {
@@ -127,11 +128,13 @@ const submit = ()=>{
       else if(resp.data == -2){
         errTips("验证码错误！");
       }
+    }).then((err)=>{
+      errTips("未知错误");
     })
   }
   // 忘记密码逻辑
   else if(state.currentTabIndex == 3){
-    axios({
+    request({
       method: "POST",
       url: "/user/modifyPassword",
       params: {
@@ -147,13 +150,15 @@ const submit = ()=>{
       else if(resp.data == -1){
         errTips("验证码错误！");
       }
+    }).catch((err)=>{
+      errTips("未知错误")
     })
   }
 }
 
 // 登录成功后加载用户信息
 const getUserInfo = (email:string)=>{
-  axios({
+  request({
     method:"GET",
     url:"/user/getUserInfo",
     params:{email:email}
@@ -166,7 +171,7 @@ const getUserInfo = (email:string)=>{
 const sendCode = (email: string, model: number) => {
   if (checkEmail(email)) {
     countDown();
-    axios({
+    request({
       method: "GET",
       url: "/code/getCode",
       params: {

@@ -6,10 +6,9 @@
 <script lang='ts' setup>
 import * as echarts from 'echarts';
 import { useStore } from '@/stores';
-import { onMounted, onBeforeMount } from 'vue';
-import axios from 'axios';
-import { baseUrl } from '@/main';
-axios.defaults.baseURL = baseUrl;
+import { onMounted } from 'vue';
+import request from '@/api/request';
+import { errTips } from '@/utils';
 const store = useStore();
 
 // 根据数据绘制数据图
@@ -61,12 +60,14 @@ const drawGraph = (data) => {
 
 // 请求数据
 const getPieChartData = () => {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getBlogsCategoryList",
         params: { page: -1 }
     }).then((resp) => {
         drawGraph(resp.data)
+    }).catch((err)=>{
+        errTips("获取信息失败!")
     })
 }
 onMounted(() => {

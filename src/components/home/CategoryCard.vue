@@ -20,14 +20,14 @@
 
 <script lang='ts' setup>
 import { reactive, onMounted, watch } from 'vue';
-import axios from 'axios';
-import { baseUrl } from '@/main';
 import router from '@/router/index';
+import request from '@/api/request';
+import { errTips } from '@/utils';
 
 const goCategoryDetail = (categoryName:string)=>{
     router.push({name: 'categoryDetail', query: {category: categoryName}})
 }
-axios.defaults.baseURL = baseUrl;
+
 const data = reactive({
     currentPage: 1,
     allCategoryCount: 1,
@@ -42,14 +42,14 @@ const data = reactive({
  * 获取所有种类以及文章数量 分页
  */
 const getBlogCategory = (page: number) => {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getBlogsCategoryList",
         params: { page: page }
     }).then((resp) => {
         data.categoryList = resp.data;
     }).catch((err) => {
-        console.log(err);
+        errTips("获取信息失败");
     })
 }
 
@@ -57,13 +57,13 @@ const getBlogCategory = (page: number) => {
  * 获取种类数
  */
 const getCategoryCount = () => {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getBlogsCategoryCount"
     }).then((resp) => {
         data.allCategoryCount = resp.data;
     }).catch((err) => {
-        console.log(err);
+        errTips("获取信息失败");
     })
 }
 

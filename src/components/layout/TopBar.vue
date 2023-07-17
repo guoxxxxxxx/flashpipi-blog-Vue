@@ -94,10 +94,7 @@ import {
   TagsFilled,
   ContainerFilled,
   SettingFilled,
-  LogoutOutlined,
-  UserOutlined,
   ApiFilled,
-  MessageFilled,
   MenuOutlined,
   SearchOutlined
 } from "@ant-design/icons-vue";

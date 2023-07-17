@@ -21,9 +21,8 @@
 
 <script lang='ts' setup>
 import { onMounted, reactive } from "vue";
-import axios from "axios";
-import { baseUrl } from "@/main";
-axios.defaults.baseURL = baseUrl;
+import request from "@/api/request";
+import { errTips } from "@/utils";
 const state = reactive({
   categoryList: [{
     name: "",
@@ -33,12 +32,14 @@ const state = reactive({
 
 // 请求数据
 const getData = () => {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getBlogsCategoryList",
         params: { page: -1 }
     }).then((resp) => {
         state.categoryList = resp.data;
+    }).catch((err)=>{
+      errTips("获取信息失败!");
     })
 }
 

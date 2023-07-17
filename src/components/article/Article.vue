@@ -46,6 +46,7 @@
             <div class="main">
                 <a-card class="article-card">
                     <div class="article-content">
+                        <!-- @vue-ignore -->
                         <MdPreview :editorId="id" :modelValue="data.content" :theme="store.themeName"
                             :showCodeRowNumber="true" />
                     </div>
@@ -118,10 +119,9 @@ import {
 import { useStore } from '@/stores';
 import { useRoute } from 'vue-router';
 const route = useRoute();
-import axios from 'axios';
-import {baseUrl} from "@/main"
 import router from '@/router';
-axios.defaults.baseURL = baseUrl;
+import request from '@/api/request';
+import { errTips } from '@/utils';
 
 const id = 'preview-only';
 const scrollElement = document.documentElement;
@@ -160,7 +160,7 @@ const getTimeUsed = computed(() => {
  * 根据id向后端请求文章详细信息
  */
 function queryArticle(){
-    axios({
+    request({
         method: 'GET',
         url: '/blog/getBlogById',
         params: {id: route.query.id}
@@ -172,7 +172,7 @@ function queryArticle(){
         data.viewsCount = resp.data.viewsCount;
         data.content = resp.data.content;
     }).catch((err)=>{
-        console.log(err);        
+        errTips("获取信息失败!");        
     })
 }
 

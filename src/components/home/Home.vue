@@ -202,11 +202,9 @@ import { useStore } from '@/stores/index';
 import { GithubOutlined, QqOutlined, WechatOutlined, MailOutlined, LineChartOutlined, ExportOutlined, ExclamationCircleOutlined }
   from '@ant-design/icons-vue';
 import { computed, reactive, onMounted, watch, createVNode } from 'vue';
-import axios from 'axios';
-import { baseUrl } from "@/main";
-import { getDiffDay, successTips } from "@/utils/index"
+import { errTips, getDiffDay, successTips } from "@/utils/index"
 import ChangeInfo from './ChangeInfo.vue';
-axios.defaults.baseURL = baseUrl;
+import request from '@/api/request';
 
 const store = useStore();
 
@@ -261,21 +259,21 @@ const getCurrentThemeClass = computed(() => {
 
 // 按页获取博客列表
 const getArticleList = (current_page: number) => {
-  axios({
+  request({
     method: 'GET',
     url: '/blog/getAllBlogs',
     params: { page: current_page }
   }).then((resp) => {
     data.articles = resp.data;
   }).catch((err) => {
-    console.log(err);
+    errTips("获取信息失败");
   })
 }
 
 // 获取多种数量信息
 const getVariousCount = () => {
   // 获取卡片信息
-  axios({
+  request({
     method: "GET",
     url: "/blog/getCardInformation"
   }).then((resp) => {
@@ -283,11 +281,11 @@ const getVariousCount = () => {
     store.setWebsiteInfo(resp.data.blogCount, resp.data.collectionCount, resp.data.categoryCount)
 
   }).catch((err) => {
-    console.log(err);
+    errTips("获取信息失败!")
   });
 
   // 获取小站信息
-  axios({
+  request({
     method: "GET",
     url: "/info/getInfo"
   }).then((resp) => {
@@ -297,7 +295,7 @@ const getVariousCount = () => {
     data.webInfo.lastUpdate = resp.data.updateTime;
     data.webInfo.viewsCount += parseInt(resp.data.viewsCount);
   }).catch((err) => {
-    console.log(err);
+    errTips("获取信息失败")
   })
 }
 

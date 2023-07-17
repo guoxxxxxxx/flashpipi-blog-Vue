@@ -60,11 +60,9 @@ import { MdEditor } from 'md-editor-v3';
 import { useStore } from '../../stores';
 import { Modal } from 'ant-design-vue';
 import 'md-editor-v3/lib/style.css';
-import axios from "axios";
-import { baseUrl } from '@/main';
 import router from "@/router";
 import { errTips, successTips } from "@/utils";
-axios.defaults.baseURL = baseUrl;
+import request from "@/api/request";
 
 const store = useStore();
 const route = useRoute();
@@ -103,7 +101,7 @@ const update = () => {
 
 // 更新博客
 const updateBlog = () => {
-    axios({
+    request({
         method: "POST",
         url: "/blog/updateBlog",
         data: state.data
@@ -115,12 +113,14 @@ const updateBlog = () => {
         else {
             errTips("更新失败")
         }
+    }).catch((err)=>{
+        errTips("获取信息失败!");
     })
 }
 
 // 根据id获取博客的全部信息
 function getBlogById() {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getBlogById",
         params: {
@@ -128,6 +128,8 @@ function getBlogById() {
         }
     }).then((resp) => {
         state.data = resp.data;
+    }).catch((err)=>{
+        errTips("获取信息失败!")
     })
 }
 

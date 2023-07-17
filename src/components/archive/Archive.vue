@@ -36,11 +36,10 @@
 
 <script lang='ts' setup>
 import HeaderCover from '../header/HeaderCover.vue';
-import axios from 'axios';
-import { baseUrl } from '@/main';
 import { reactive, onMounted, watch } from 'vue';
 import router from '@/router';
-axios.defaults.baseURL = baseUrl;
+import request from '@/api/request';
+import { errTips } from '@/utils';
 let data = reactive({
     blogList: [
         {
@@ -59,23 +58,23 @@ let data = reactive({
  * 获取最近十篇文章 以及文章总数
  */
 const getBlogs = () => {
-    axios({
+    request({
         method: "GET",
         url: "/blog/getRecentBlogs",
         params: { page: data.currentPage, size: 5 }
     }).then((resp) => {
         data.blogList = resp.data
     }).catch((err) => {
-        console.log(err);
+        errTips("获取信息失败!");
     });
 
-    axios({
+    request({
         method: "GET",
         url: "/blog/getBlogsCount"
     }).then((resp) => {
         data.totalItem = resp.data
     }).catch((err) => {
-        console.log(err);
+        errTips("获取信息失败!");
     })
     window.scroll(0, 0);
 }

@@ -57,7 +57,7 @@ const router = createRouter({
       name: "error",
       path: "/error",
       component: ()=> import("@/components/others/Error.vue"),
-    }
+    },
   ]
 })
 
@@ -66,7 +66,7 @@ router.beforeEach((to, from, next)=>{
   NProgress.start();
   if(to.name == 'upload' || to.name == 'change' || to.name == 'manage'){
     const store = useStore();
-    if(store.userInfo.id == 1){
+    if(store.userInfo.id == 945855456){
       next();
     }
     else{

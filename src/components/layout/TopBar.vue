@@ -21,7 +21,7 @@
         <a class="header-menu-item" v-if="store.userInfo.id === -1" @click="showLogin">
           <api-filled /> 登录
         </a>
-        <router-link to="/manage" class="header-menu-item" v-if="store.userInfo.id === 1">
+        <router-link to="/manage" class="header-menu-item" v-if="store.userInfo.id === 945855456">
           <setting-filled /> 管理
         </router-link>
       </div>
@@ -75,7 +75,7 @@
               <a class="header-menu-item" v-if="store.userInfo.id === -1" @click="showLogin">
                 <api-filled /> <i>登录</i>
               </a>
-              <router-link to="/manage" class="header-menu-item" v-if="store.userInfo.id === 1">
+              <router-link to="/manage" class="header-menu-item" v-if="store.userInfo.id === 945855456">
                 <setting-filled /> <i>管理</i>
               </router-link>
             </div>

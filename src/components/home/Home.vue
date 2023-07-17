@@ -82,7 +82,7 @@
         </a-card>
 
         <!-- 站内欢迎栏 -->
-        <a-card class="card-style" v-if="!(store.userInfo.id == -1 || store.userInfo.id == 1)">
+        <a-card class="card-style" v-if="!(store.userInfo.id == -1 || store.userInfo.id == 945855456)">
           <div class="notice-card">
             <div class="notice-title">
               🎉 Welcome 🎉
@@ -292,10 +292,17 @@ const getVariousCount = () => {
     data.webInfo.notice = resp.data.notice;
     data.webInfo.url = resp.data.website;
     data.webInfo.runningTime = getDiffDay(resp.data.createTime, new Date().toLocaleDateString());
-    data.webInfo.lastUpdate = resp.data.updateTime;
     data.webInfo.viewsCount += parseInt(resp.data.viewsCount);
   }).catch((err) => {
     errTips("获取信息失败")
+  })
+
+  // 获取网站最后更新时间
+  request({
+    method:"GET",
+    url: '/blog/getLastUpdateTime'
+  }).then((resp)=>{
+    data.webInfo.lastUpdate = resp.data;
   })
 }
 

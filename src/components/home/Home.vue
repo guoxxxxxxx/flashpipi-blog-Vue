@@ -18,7 +18,7 @@
         <!-- 分页按钮 -->
         <div class="pagination">
           <el-pagination background layout="prev, pager, next" :total="store.websiteInfo.blogsCount"
-            v-model:current-page="data.currentPage" :page-size="12" />
+            v-model:current-page="data.currentPage" :page-size="12"/>
         </div>
       </div>
 

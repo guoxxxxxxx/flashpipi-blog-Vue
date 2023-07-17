@@ -9,7 +9,7 @@
         </header-cover>
         <div class="list">
             <a-list item-layout="vertical" size="large" v-for="item in data.listData" :key="item.id">
-                <div class="card animate__animated animate__bounceIn" @click="toArticle(item.id)">
+                <div class="card animate__animated animate__bounceIn" @click="toArticle(item.id)" v-if="item.id != 0">
                     <a-list-item key="item.title">
                         <template #actions>
                             <span class="content">
@@ -35,7 +35,7 @@
                                 </div>
                             </template>
                         </a-list-item-meta>
-                        <span class="content">{{ item.content }}</span>
+                        <span class="content">{{ item.content.replace(new RegExp('[#-|*"]', 'g'), "") }}</span>
                     </a-list-item>
                 </div>
 
@@ -43,7 +43,7 @@
         </div>
         <div class="page-compoment">
             <el-pagination background layout="prev, pager, next" :total="data.total" :page-size="data.pageSize"
-                v-model:current-page="data.currentPage" />
+                v-model:current-page="data.currentPage" hide-on-single-page="true"/>
         </div>
     </div>
 </template>

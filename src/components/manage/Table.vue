@@ -28,7 +28,7 @@
         </el-table>
         <div class="pagination">
             <el-pagination background layout="prev, pager, next" :total="filterTableData.length" :page-size="state.pageSize"
-                v-model:current-page="state.currentPage" />
+                v-model:current-page="state.currentPage" hide-on-single-page="true"/>
         </div>
     </div>
 </template>

@@ -43,7 +43,7 @@
         </div>
         <div class="page-compoment">
             <el-pagination background layout="prev, pager, next" :total="data.total" :page-size="data.pageSize"
-                v-model:current-page="data.currentPage" />
+                v-model:current-page="data.currentPage" hide-on-single-page="true"/>
         </div>
     </div>
 </template>

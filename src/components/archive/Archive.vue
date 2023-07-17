@@ -12,7 +12,7 @@
                 <el-timeline>
                     <el-timeline-item v-for="item in data.blogList" v-show="item.id" :key="item.id" center
                         :timestamp="item.publishTime" placement="top">
-                        <el-card class="el-card animate__animated animate__fadeInDown" @click="toArticle(item.id)">
+                        <el-card class="el-card animate__animated animate__jello" @click="toArticle(item.id)">
                             <p style="font-weight: bold;">{{ item.title }}</p>
                             <p>{{ item.description }}</p>
                             <!-- 分类 -->
@@ -27,7 +27,7 @@
                 <!-- 分页按钮 -->
                 <div class="pagination">
                     <el-pagination layout="prev, pager, next" :total="data.totalItem" :page-size="5"
-                        v-model:current-page="data.currentPage" background />
+                        v-model:current-page="data.currentPage" background hide-on-single-page="true"/>
                 </div>
             </a-card>
         </div>

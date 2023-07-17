@@ -2,6 +2,7 @@
 const baseUrl = "http://localhost:8080"
 
 // 请求加载动画
+// @ts-ignore
 import NProgress from 'nprogress';
 
 

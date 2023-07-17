@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useStore } from '@/stores';
 import { errTips } from '@/utils';
+// @ts-ignore
 import NProgress from 'nprogress';
 
 const router = createRouter({

@@ -56,7 +56,6 @@ import router from '@/router';
 import request from '@/api/request';
 import { errTips } from '@/utils';
 const route = useRoute();
-console.log(route.query.category);
 
 const imgError = (id: number) =>{
     for(let i=0; i<data.listData.length; i++){

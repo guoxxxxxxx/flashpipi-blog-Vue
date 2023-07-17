@@ -124,7 +124,6 @@ const getData = () => {
         }
     }).then((resp) => {
         tableData.data = resp.data;
-        console.log(tableData);
     })
 }
 

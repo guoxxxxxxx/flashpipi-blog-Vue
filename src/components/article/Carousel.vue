@@ -157,7 +157,7 @@ a {
 }
 
 .el-container {
-    height: 240px;
+    height: 250px;
     width: 100%;
     padding: 8px;
 }

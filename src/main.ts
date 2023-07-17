@@ -6,6 +6,7 @@ import router from './router';
 import "@/assets/css/index.css";
 import "ant-design-vue/dist/antd.css";
 import 'animate.css';
+import 'nprogress/nprogress.css';
 
 const app = createApp(App);
 

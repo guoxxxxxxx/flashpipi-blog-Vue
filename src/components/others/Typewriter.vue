@@ -7,7 +7,7 @@
 
 <script lang='ts' setup>
 import axios from 'axios';
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, onBeforeUnmount } from 'vue';
 import EasyTyper from 'easy-typer-js'
 
 const typerOption = reactive({
@@ -21,6 +21,8 @@ const typerOption = reactive({
   sentencePause: false,
 });
 
+let key = false;
+
 // 请求接口获取新的诗句
 const init = () => {
   axios({
@@ -28,16 +30,23 @@ const init = () => {
     url: "https://v1.hitokoto.cn?c=i",
   }).then((resp)=>{
     // 执行回调，每次执行完之后再次调用该函数，实现诗句的循环往复
-    new EasyTyper(typerOption, resp.data.hitokoto, ()=>{init()}, ()=>{});
-  }).catch((err)=>{
-    console.log(err);    
+    new EasyTyper(typerOption, resp.data.hitokoto, ()=>{
+      if(key){
+        init();
+      }
+    }, ()=>{});
   })
 };
 
 // 钩子函数
 onMounted(() => {
   init();
+  key = true;
 });
+
+onBeforeUnmount(()=>{
+  key = false;
+})
 </script>
 
 <style lang="stylus" scoped>

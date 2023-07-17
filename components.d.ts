@@ -72,6 +72,5 @@ declare module 'vue' {
     TopBar: typeof import('./src/components/layout/TopBar.vue')['default']
     Typewriter: typeof import('./src/components/others/Typewriter.vue')['default']
     Upload: typeof import('./src/components/change/Upload.vue')['default']
-    WebsiteInfo: typeof import('./src/components/manage/WebsiteInfo.vue')['default']
   }
 }

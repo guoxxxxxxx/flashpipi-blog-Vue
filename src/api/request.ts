@@ -1,5 +1,5 @@
-// const baseUrl = "http://192.168.50.37:8080";
-const baseUrl = "http://localhost:8080"
+const baseUrl = "http://152.136.170.232:8080";
+// const baseUrl = "http://localhost:8080"
 
 // 请求加载动画
 // @ts-ignore

@@ -122,11 +122,11 @@ a {
         }
 
         .item-container {
-            height: 520px;
+            height: 490px;
         }
 
         .el-container {
-            height: 520px;
+            height: 490px;
         }
     }
 
@@ -157,6 +157,7 @@ a {
 }
 
 .el-container {
+    height: 240px;
     width: 100%;
     padding: 8px;
 }

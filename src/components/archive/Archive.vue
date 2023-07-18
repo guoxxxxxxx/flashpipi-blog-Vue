@@ -12,7 +12,7 @@
                 <el-timeline>
                     <el-timeline-item v-for="item in data.blogList" v-show="item.id" :key="item.id" center
                         :timestamp="item.publishTime" placement="top">
-                        <el-card class="el-card animate__animated animate__jello" @click="toArticle(item.id)">
+                        <el-card class="el-card animate__animated animate__zoomIn" @click="toArticle(item.id)">
                             <p style="font-weight: bold;">{{ item.title }}</p>
                             <p>{{ item.description }}</p>
                             <!-- 分类 -->

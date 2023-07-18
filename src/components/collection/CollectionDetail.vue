@@ -35,7 +35,7 @@
                                 </div>
                             </template>
                         </a-list-item-meta>
-                        <span class="content">{{ item.content }}</span>
+                        <span class="content">{{ item.content.replace(new RegExp('[#-|*"]', 'g'), "") }}</span>
                     </a-list-item>
                 </div>
 

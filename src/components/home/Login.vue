@@ -170,7 +170,7 @@ const getUserInfo = (email:string)=>{
 // 向后端服务器发送验证码 model: 2时为注册请求， model： 3时为找回密码请求
 const sendCode = (email: string, model: number) => {
   if (checkEmail(email)) {
-    countDown();
+    countDown(60);
     request({
       method: "GET",
       url: "/code/getCode",
@@ -182,8 +182,11 @@ const sendCode = (email: string, model: number) => {
       if (resp.data == 1) {
         successTips("验证码发送成功");
       }
-      else if(resp.data == -1){
+      else if(resp.data == -3){
         errTips("邮箱尚未注册");
+      }
+      else if(resp.data == -2){
+        errTips("该邮箱已被注册");
       }
     }).catch((err) => {
       errTips("验证码发送失败");
@@ -195,7 +198,7 @@ const sendCode = (email: string, model: number) => {
 
 }
 //验证码倒计时
-const countDown = () => {
+const countDown = (time : number) => {
   state.sendFlag = true;
   let timer = setInterval(() => {
     state.timeCount--;
@@ -203,7 +206,7 @@ const countDown = () => {
     if (state.timeCount <= 0) {
       clearInterval(timer);
       state.sendBtnText = "发送";
-      state.timeCount = 60;
+      state.timeCount = time;
       state.sendFlag = false;
     }
   }, 1000);

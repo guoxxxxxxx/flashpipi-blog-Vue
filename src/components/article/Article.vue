@@ -61,7 +61,7 @@
                                 <span class="copyright-title">文章作者: ✨{{ store.authorInfo.name }}✨</span>
                             </div>
                             <div class="copyright-item">
-                                <span class="copyright-title">本文链接: 🔗http://www.flashpipi.com/article?id={{ route.query.id }}</span>
+                                <span class="copyright-title">本文链接: 🔗http://flashpipi.com/article?id={{ route.query.id }}</span>
                             </div>
                             <div class="copyright-item">
                                 <span class="copyright-title">版权说明: 💿</span>

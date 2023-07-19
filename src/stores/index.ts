@@ -30,8 +30,12 @@ export const useStore = defineStore('pinia', {
             themeName: 'light',
             showLoginModal: false,
             showChangeInfo: false,
-            isLoading: '',
+            showSearch: false,
         }
+    },
+    persist:{
+        storage: sessionStorage,
+        paths: ['userInfo', 'themeName']
     },
     actions: {
         // 修改主题 白天 | 黑暗
@@ -72,5 +76,4 @@ export const useStore = defineStore('pinia', {
             })
         },
     },
-    persist: true
 })

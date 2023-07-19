@@ -68,6 +68,7 @@ declare module 'vue' {
     PieChart: typeof import('./src/components/category/PieChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Search: typeof import('./src/components/others/Search.vue')['default']
     Table: typeof import('./src/components/manage/Table.vue')['default']
     TopBar: typeof import('./src/components/layout/TopBar.vue')['default']
     Typewriter: typeof import('./src/components/others/Typewriter.vue')['default']

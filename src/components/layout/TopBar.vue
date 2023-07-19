@@ -3,8 +3,8 @@
     <header>
       <router-link class="header-title" to="/">{{ store.websiteInfo.websiteName }}</router-link>
       <div class="header-menu">
-        <a class="header-menu-item">
-          <search-outlined /> 搜索
+        <a class="header-menu-item" @click="openSearch">
+          <search-outlined/> 搜索
         </a>
         <router-link to="/" class="header-menu-item">
           <home-filled /> 首页
@@ -83,11 +83,13 @@
         </a-drawer>
       </div>
     </header>
+    <search></search>
   </div>
 </template>
 
 <script lang='ts' setup>
 import { useStore } from '../../stores/index';
+import Search from '../others/Search.vue';
 import {
   HomeFilled,
   BookFilled,
@@ -113,6 +115,11 @@ const showDrawer = () => {
 const onClose = () => {
   state.visible = false;
 };
+
+// 打开搜索框
+const openSearch = ()=>{
+  store.showSearch = true;
+}
 
 // 显示登录框
 const showLogin = () => {

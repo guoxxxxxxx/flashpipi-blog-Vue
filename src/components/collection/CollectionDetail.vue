@@ -7,7 +7,19 @@
                 </h1>
             </div>
         </header-cover>
+
         <div class="list">
+            <div class="sort">
+                <el-switch v-model="data.isSortByTimeDesc" class="mb-2"
+                    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #49b1f5" active-text="时间顺序"
+                    inactive-text="序号顺序">
+                </el-switch>
+                <div style="width: 20px;"></div>
+                <el-switch v-model="data.isSortDesc" class="ml-2" inline-prompt
+                    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #49b1f5" active-text="降序"
+                    inactive-text="升序">
+                </el-switch>
+            </div>
             <a-list item-layout="vertical" size="large" v-for="item in data.listData" :key="item.id">
                 <div class="card animate__animated animate__bounceIn" @click="toArticle(item.id)">
                     <a-list-item key="item.title">
@@ -20,14 +32,15 @@
                             </span>
                         </template>
                         <template #extra>
-                            <img height="165" width="290" alt="logo" :src="item.imagePath" @error="imgError(item.id)" v-if="!item.imgErr"/>
-                            <img height="165" width="290" alt="logo" src="/images/404.png" v-if="item.imgErr"/>
+                            <img height="165" width="290" alt="logo" :src="item.imagePath" @error="imgError(item.id)"
+                                v-if="!item.imgErr" />
+                            <img height="165" width="290" alt="logo" src="/images/404.png" v-if="item.imgErr" />
                         </template>
                         <a-list-item-meta>
                             <template #title>
                                 <span class="content">
                                     <router-link :to="{ path: '/article', query: { id: item.id } }">
-                                        🔗{{ item.title }}
+                                        <span v-if="item.sortId">【{{ item.sortId }}】</span> 🔗 {{ item.title }}
                                     </router-link>
                                 </span>
                                 <div class="description-label">
@@ -43,7 +56,7 @@
         </div>
         <div class="page-compoment">
             <el-pagination background layout="prev, pager, next" :total="data.total" :page-size="data.pageSize"
-                v-model:current-page="data.currentPage" hide-on-single-page="true"/>
+                v-model:current-page="data.currentPage" hide-on-single-page="true" />
         </div>
     </div>
 </template>
@@ -57,9 +70,9 @@ import request from '@/api/request';
 import { errTips } from '@/utils';
 const route = useRoute();
 
-const imgError = (id: number) =>{
-    for(let i=0; i<data.listData.length; i++){
-        if(data.listData[i].id == id){
+const imgError = (id: number) => {
+    for (let i = 0; i < data.listData.length; i++) {
+        if (data.listData[i].id == id) {
             data.listData[i].imgErr = true;
         }
     }
@@ -74,11 +87,14 @@ const data = reactive({
         imagePath: '',
         viewsCount: 0,
         publishTime: '',
-        imgErr: false
+        imgErr: false,
+        sortId: 0
     }],
     total: 0,
     pageSize: 5,
     currentPage: 1,
+    isSortByTimeDesc: false,
+    isSortDesc: false,
 })
 
 // 从后端请求分类的数据
@@ -86,7 +102,13 @@ const getBlogsByCategory = (page_size: number, current_page: number) => {
     request({
         method: "GET",
         url: '/blog/getBlogsByCollection',
-        params: { pageSize: page_size, currentPage: current_page, collection: route.query.collection }
+        params: {
+            pageSize: page_size,
+            currentPage: current_page,
+            collection: route.query.collection,
+            isSortByTimeDesc: data.isSortByTimeDesc,
+            isSortDesc: data.isSortDesc
+        }
     }).then((resp) => {
         data.listData = resp.data;
     }).catch((err) => {
@@ -99,7 +121,9 @@ const getBlogsCountByCategory = () => {
     request({
         method: "GET",
         url: '/blog/getCountByCollection',
-        params: { collection: route.query.collection }
+        params: {
+            collection: route.query.collection,
+        }
     }).then((resp) => {
         data.total = resp.data
     }).catch((err) => {
@@ -114,11 +138,25 @@ const toArticle = (id: number) => {
 
 // 监听页码变化
 watch(
-    ()=>data.currentPage,
-    (newVal, oldVal)=>{
+    () => data.currentPage,
+    (newVal, oldVal) => {
         getBlogsByCategory(data.pageSize, data.currentPage);
         // 回到顶部
-        window.scroll(0,0);
+        window.scroll(0, 0);
+    }
+)
+
+// 监听排序变化
+watch(
+    ()=> data.isSortByTimeDesc,
+    ()=>{
+        getBlogsByCategory(data.pageSize, data.currentPage);
+    }
+)
+watch(
+    ()=> data.isSortDesc,
+    ()=>{
+        getBlogsByCategory(data.pageSize, data.currentPage);
     }
 )
 
@@ -130,6 +168,12 @@ onMounted(() => {
 </script>
 
 <style scoped lang='less'>
+.sort {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+
 :deep(.el-pagination.is-background .el-pager li) {
     background-color: var(--theme-background) !important; //修改默认的背景色
     color: var(--theme-font-color);

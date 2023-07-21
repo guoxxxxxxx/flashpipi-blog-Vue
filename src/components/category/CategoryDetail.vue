@@ -8,6 +8,12 @@
             </div>
         </header-cover>
         <div class="list">
+            <div class="sort">
+                <el-switch v-model="data.isSortDesc" class="ml-2" inline-prompt
+                    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #49b1f5" active-text="按时间降序"
+                    inactive-text="按时间升序">
+                </el-switch>
+            </div>
             <a-list item-layout="vertical" size="large" v-for="item in data.listData" :key="item.id">
                 <div class="card animate__animated animate__bounceIn" @click="toArticle(item.id)" v-if="item.id != 0">
                     <a-list-item key="item.title">
@@ -20,8 +26,9 @@
                             </span>
                         </template>
                         <template #extra>
-                            <img height="165" width="290" alt="logo" :src="item.imagePath" @error="imgError(item.id)" v-if="!item.imgErr"/>
-                            <img height="165" width="290" alt="logo" src="/images/404.png" v-if="item.imgErr"/>
+                            <img height="165" width="290" alt="logo" :src="item.imagePath" @error="imgError(item.id)"
+                                v-if="!item.imgErr" />
+                            <img height="165" width="290" alt="logo" src="/images/404.png" v-if="item.imgErr" />
                         </template>
                         <a-list-item-meta>
                             <template #title>
@@ -43,7 +50,7 @@
         </div>
         <div class="page-compoment">
             <el-pagination background layout="prev, pager, next" :total="data.total" :page-size="data.pageSize"
-                v-model:current-page="data.currentPage" hide-on-single-page="true"/>
+                v-model:current-page="data.currentPage" hide-on-single-page="true" />
         </div>
     </div>
 </template>
@@ -57,9 +64,9 @@ import request from '@/api/request';
 import { errTips } from '@/utils';
 const route = useRoute();
 
-const imgError = (id: number) =>{
-    for(let i=0; i<data.listData.length; i++){
-        if(data.listData[i].id == id){
+const imgError = (id: number) => {
+    for (let i = 0; i < data.listData.length; i++) {
+        if (data.listData[i].id == id) {
             data.listData[i].imgErr = true;
         }
     }
@@ -79,6 +86,7 @@ const data = reactive({
     total: 0,
     pageSize: 5,
     currentPage: 1,
+    isSortDesc: false,
 })
 
 // 从后端请求分类的数据
@@ -86,7 +94,10 @@ const getBlogsByCategory = (page_size: number, current_page: number) => {
     request({
         method: "GET",
         url: '/blog/getBlogsByCategory',
-        params: { pageSize: page_size, currentPage: current_page, category: route.query.category }
+        params: {
+            pageSize: page_size, currentPage: current_page, category: route.query.category,
+            isSortDesc: data.isSortDesc
+        }
     }).then((resp) => {
         data.listData = resp.data;
     }).catch((err) => {
@@ -114,8 +125,16 @@ const toArticle = (id: number) => {
 
 // 监听页码变化
 watch(
-    ()=>data.currentPage,
-    (newVal, oldVal)=>{
+    () => data.currentPage,
+    (newVal, oldVal) => {
+        getBlogsByCategory(data.pageSize, data.currentPage);
+    }
+)
+
+// 监听排序变化
+watch(
+    () => data.isSortDesc,
+    () => {
         getBlogsByCategory(data.pageSize, data.currentPage);
     }
 )
@@ -128,6 +147,12 @@ onMounted(() => {
 </script>
 
 <style scoped lang='less'>
+.sort {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+
 :deep(.el-pagination.is-background .el-pager li) {
     background-color: var(--theme-background) !important; //修改默认的背景色
     color: var(--theme-font-color);

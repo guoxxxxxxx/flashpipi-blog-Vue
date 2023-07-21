@@ -8,7 +8,7 @@
                     <a-col class="link-wrapper" v-for="item of state.collectionList" :xl="8" :xs="12" :key="item.name">
                         <router-link :to="{ path: '/collectionDetail', query: { collection: item.name } }">
                             <div style="width:100%;z-index:10;">
-                                <div class="link-name">{{ item.name }}</div>
+                                <div class="link-name">{{ item.name !== '' ? item.name : '其他'}}</div>
                                 <div class="link-intro">已发布-{{ item.value }}篇</div>
                             </div>
                         </router-link>

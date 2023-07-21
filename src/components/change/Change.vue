@@ -23,6 +23,9 @@
                         <el-form-item label="描述">
                             <el-input v-model="state.data.description" />
                         </el-form-item>
+                        <el-form-item label="序号">
+                            <el-input v-model="state.data.sortId" />
+                        </el-form-item>
                         <el-form-item label="图片地址">
                             <el-input v-model="state.data.imagePath"/>
                         </el-form-item>
@@ -76,6 +79,7 @@ const state = reactive({
         imagePath: '',
         collection: '',
         category: '',
+        sortId: '',
     },
     imgShow: false,
 });

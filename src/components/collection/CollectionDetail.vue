@@ -21,7 +21,7 @@
                 </el-switch>
             </div>
             <a-list item-layout="vertical" size="large" v-for="item in data.listData" :key="item.id">
-                <div class="card animate__animated animate__bounceIn" @click="toArticle(item.id)">
+                <div class="card animate__animated animate__bounceIn" @click="toArticle(item.id)" v-if="item.id != 0">
                     <a-list-item key="item.title">
                         <template #actions>
                             <span class="content">

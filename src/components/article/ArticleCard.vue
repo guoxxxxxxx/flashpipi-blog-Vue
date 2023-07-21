@@ -1,7 +1,5 @@
 <template>
-    <!-- 此处动画还有些许bug不过问题不大, 后续再改--debug -->
-
-    <div class="card-style animate__animated animate__zoomIn animate__slow">
+    <div class="card-style animate__animated animate__zoomIn animate__slow" v-if="data.id != 0">
         <router-link :to="{path: '/article', query:{id: props.data.id}}">
             <div class="img-box">
                 <img class="img" :src="props.data.imagePath" @error="imgErr" v-if="!state.imgErr">

@@ -29,7 +29,7 @@
       <!-- 适配手机端 -->
       <div class="header-menu-mobile">
         <a class="header-menu-item">
-          <search-outlined style="font-size: 24px;" />
+          <search-outlined style="font-size: 24px;" @click="openSearch"/>
         </a>
         <a class="header-menu-item" @click="showDrawer">
           <menu-outlined style="font-size: 24px;" />

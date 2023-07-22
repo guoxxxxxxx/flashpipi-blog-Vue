@@ -23,6 +23,9 @@
                         <el-form-item label="描述">
                             <el-input v-model="state.data.description" placeholder="长度小于20字符效果最佳"/>
                         </el-form-item>
+                        <el-form-item label="序号">
+                            <el-input v-model="state.data.sortId" />
+                        </el-form-item>
                         <el-form-item label="图片地址">
                             <el-input v-model="state.data.imagePath" 
                             placeholder="填入地址后,请点击右侧按钮检查是否可以顺利加载"/>
@@ -74,6 +77,7 @@ const state = reactive({
         imagePath: '',
         collection: '',
         category: '',
+        sortId: '',
     },
     imgShow: false,
 });

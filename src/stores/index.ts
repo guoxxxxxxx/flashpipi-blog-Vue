@@ -34,7 +34,7 @@ export const useStore = defineStore('pinia', {
         }
     },
     persist:{
-        storage: sessionStorage,
+        storage: localStorage,
         paths: ['userInfo', 'themeName']
     },
     actions: {

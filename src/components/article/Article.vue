@@ -93,7 +93,8 @@
                     <!-- 文章目录 -->
                     <div class="catalog-card">
                         <div class="catalog-card-header">
-                            🔍目录
+                            🔍目录 
+                            <el-button v-if="store.userInfo.id == 945855456" type="primary" @click="change">编辑</el-button>
                         </div>
                         <div class="catalog-content">
                             <MdCatalog :editorId="id" :scrollElement="scrollElement"></MdCatalog>
@@ -174,6 +175,11 @@ function queryArticle(){
     }).catch((err)=>{
         errTips("获取信息失败!");        
     })
+}
+
+// 修改文章信息
+const change = ()=>{
+    router.push({name: 'change', query: {id: route.query.id}});
 }
 
 onMounted(()=>{

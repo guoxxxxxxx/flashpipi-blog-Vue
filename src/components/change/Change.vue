@@ -47,6 +47,7 @@
                     <MdEditor v-model="state.data.content" :theme="store.themeName" style="height: 600px;" />
                 </div>
                 <div class="button">
+                    <el-button type="danger" @click="handleDelete">删除</el-button>
                     <el-button type="primary" @click="update">修改</el-button>
                     <el-button @click="back">返回</el-button>
                 </div>
@@ -135,6 +136,34 @@ function getBlogById() {
     }).catch((err)=>{
         errTips("获取信息失败!")
     })
+}
+
+// 点击删除按钮
+const handleDelete = () => {
+    Modal.confirm({
+        title: '警告',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '确定删除吗？(此操作不可逆)',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+            request({
+                method: "GET",
+                url: "/blog/deleteById",
+                params: {
+                    id: route.query.id
+                }
+            }).then((resp) => {
+                if (resp.data == 1) {
+                    successTips("删除成功");
+                    router.go(-2)
+                }
+                else {
+                    errTips("删除失败");
+                }
+            })
+        }
+    });
 }
 
 // 保存修改后的信息

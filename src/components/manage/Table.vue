@@ -21,6 +21,7 @@
                     <el-input v-model="state.search" size="small" placeholder="Type to search" />
                 </template>
                 <template #default="scope">
+                    <el-button size="small" type="primary" @click="handleSee(scope.$index, scope.row)">查看</el-button>
                     <el-button size="small" type="warning" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </template>
@@ -95,7 +96,10 @@ const handleDelete = (index: number, row: Blog) => {
             })
         }
     });
-
+}
+// 查看功能
+const handleSee = (index: number, row: Blog)=>{
+    router.push({name: 'article', query:{id: row.id}})
 }
 
 const tableData = reactive(

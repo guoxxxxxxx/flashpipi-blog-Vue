@@ -2,7 +2,7 @@
     <div class="category-card">
         <div class="category-item-container">
             <div class="category-item" v-for="item in data.categoryList" :key="item.category" @click="goCategoryDetail(item.category)">
-                <div style="width: 80%;">
+                <div style="width: 80%;" class="content">
                     {{ item.category }}({{ item.count }})
                 </div>
                 <div style="width: 10%;">
@@ -85,6 +85,13 @@ onMounted(() => {
 </script>
 
 <style scoped lang='less'>
+
+.content {
+    overflow: hidden;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
 
 :deep(.el-pagination.is-background .el-pager li) {
   background-color: var(--theme-background) !important; //修改默认的背景色

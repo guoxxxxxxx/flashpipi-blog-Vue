@@ -13,10 +13,10 @@
                 <div class="title">
                     {{ props.data.title.length <= 14 ? props.data.title : props.data.title.substring(0, 13) + '...' }}
                 </div>
-                    <div class="info">
-                        📅发表于: {{ props.data.publishTime }} | 🔄️更新于: {{ props.data.updateTime }} |
-                        📝类别: {{ props.data.category }} | 🔍阅读: {{ props.data.viewsCount }}
-                    </div>
+                <div class="info">
+                    📅发表于: {{ props.data.publishTime }} | 🔄️更新于: {{ props.data.updateTime }} |
+                    📝类别: {{ props.data.category }} | 🔍阅读: {{ props.data.viewsCount }}
+                </div>
             </div>
         </router-link>
     </div>
@@ -39,6 +39,10 @@ const imgErr = ()=>{
     width: 100%;
     text-align: center;
     color: var(--theme-font-color);
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 
 .title {
@@ -48,6 +52,10 @@ const imgErr = ()=>{
     padding: 8px;
     font-weight: bold;
     color: var(--theme-font-color);
+    overflow: hidden;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 
 .text-box {

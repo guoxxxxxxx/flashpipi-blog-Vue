@@ -4,7 +4,8 @@
 </div>
 <div class="footer-wrap">
     <div class="web-info">
-        @ {{ startYear === currentYear ? currentYear : startYear + ' - ' + currentYear }}
+        Copyright © {{ startYear === currentYear ? currentYear : startYear + ' - ' + currentYear }}
+        <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" >冀ICP备2023028227号</a>
     </div>
 </div>
 </template>

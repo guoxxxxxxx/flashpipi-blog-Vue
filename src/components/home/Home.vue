@@ -18,7 +18,7 @@
         <!-- 分页按钮 -->
         <div class="pagination">
           <el-pagination background layout="prev, pager, next" :total="store.websiteInfo.blogsCount"
-            v-model:current-page="data.currentPage" :page-size="12"/>
+            v-model:current-page="data.currentPage" :page-size="12" />
         </div>
       </div>
 
@@ -137,7 +137,7 @@
               </div>
               <hr>
               <div class="notice-content-text">
-                {{ data.webInfo.notice }}
+                <div v-html=data.webInfo.notice></div>                
               </div>
             </div>
           </div>
@@ -299,9 +299,9 @@ const getVariousCount = () => {
 
   // 获取网站最后更新时间
   request({
-    method:"GET",
+    method: "GET",
     url: '/blog/getLastUpdateTime'
-  }).then((resp)=>{
+  }).then((resp) => {
     data.webInfo.lastUpdate = resp.data;
   })
 }
@@ -325,8 +325,16 @@ const exitConfirm = () => {
     content: '确定退出吗？',
     okText: '确认',
     cancelText: '取消',
-    onOk: ()=>{
+    onOk: () => {
       store.exit();
+      request({
+        method: "GET",
+        url: "/user/exit",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          "satoken": store.userInfo.tokenValue
+        },
+      })
       successTips("退出成功！")
     }
   });

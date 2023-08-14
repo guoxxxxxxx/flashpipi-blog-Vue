@@ -66,7 +66,7 @@ router.beforeEach((to, from, next)=>{
   NProgress.start();
   if(to.name == 'upload' || to.name == 'change' || to.name == 'manage'){
     const store = useStore();
-    if(store.userInfo.id == 945855456){
+    if(store.userInfo.rankLevel != 0){
       next();
     }
     else{

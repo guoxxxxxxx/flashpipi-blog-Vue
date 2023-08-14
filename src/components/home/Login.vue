@@ -91,19 +91,18 @@ const submit = ()=>{
         password: state.formState.password
       }
     }).then((resp)=>{
-      if(resp.data == 1){
+      if(resp.data.status == 1){
         successTips("登录成功！");
         getUserInfo(state.formState.username);
         store.showLoginBox(false);
+        store.setToken(resp.data.token.tokenName, resp.data.token.tokenValue);
       }
-      else if(resp.data == 2){
+      else if(resp.data.status == 2){
         errTips("用户密码错误!");
       }
-      else if(resp.data == 3){
+      else if(resp.data.status == 3){
         errTips("该邮箱尚未注册!");
       }
-    }).catch((err)=>{
-      errTips("未知错误!")
     })
   }
   // 注册逻辑
@@ -128,8 +127,6 @@ const submit = ()=>{
       else if(resp.data == -2){
         errTips("验证码错误！");
       }
-    }).then((err)=>{
-      errTips("未知错误");
     })
   }
   // 忘记密码逻辑
@@ -150,8 +147,6 @@ const submit = ()=>{
       else if(resp.data == -1){
         errTips("验证码错误！");
       }
-    }).catch((err)=>{
-      errTips("未知错误")
     })
   }
 }
@@ -163,7 +158,7 @@ const getUserInfo = (email:string)=>{
     url:"/user/getUserInfo",
     params:{email:email}
   }).then((resp)=>{
-    store.setUserInfo(resp.data.id, resp.data.name, resp.data.email, resp.data.avatar);
+    store.setUserInfo(resp.data.id, resp.data.name, resp.data.email, resp.data.avatar, resp.data.rankLevel);
   })
 }
 

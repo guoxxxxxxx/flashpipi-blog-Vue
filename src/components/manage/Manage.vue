@@ -61,6 +61,7 @@ import { Modal } from "ant-design-vue";
 import { createVNode, reactive } from "vue";
 import request from "@/api/request";
 import { errTips, successTips } from "@/utils";
+const store = useStore();
 const data = reactive({
     webInfo: {
         notice: '',
@@ -97,12 +98,21 @@ const exit = () => {
         cancelText: '取消',
         onOk: () => {
             useStore().exit();
+            request({
+                method: "GET",
+                url: "/user/exit",
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded",
+                    "satoken": store.userInfo.tokenValue
+                },
+            })
+            successTips("退出成功!")
         }
     });
 }
 
 // 确定
-const submit = ()=>{
+const submit = () => {
     data.visible = false;
     Modal.confirm({
         title: '警告',
@@ -114,12 +124,17 @@ const submit = ()=>{
             request({
                 method: "GET",
                 url: "/info/updateInfo",
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded",
+                    "satoken": store.userInfo.tokenValue
+                },
                 params: {
                     url: data.webInfo.url,
                     notice: data.webInfo.notice
                 }
-            }).then((resp)=>{
-                successTips("修改成功!");
+            }).then((resp) => {
+                if(resp.data.status != 443)
+                    successTips("修改成功!");
             })
         }
     });

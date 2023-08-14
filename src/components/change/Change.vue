@@ -27,7 +27,7 @@
                             <el-input v-model="state.data.sortId" />
                         </el-form-item>
                         <el-form-item label="图片地址">
-                            <el-input v-model="state.data.imagePath"/>
+                            <el-input v-model="state.data.imagePath" />
                         </el-form-item>
                         <el-form-item>
                             <el-button @click="state.imgShow = true">点击查看图片</el-button>
@@ -47,8 +47,8 @@
                     <MdEditor v-model="state.data.content" :theme="store.themeName" style="height: 600px;" />
                 </div>
                 <div class="button">
-                    <el-button type="danger" @click="handleDelete">删除</el-button>
-                    <el-button type="primary" @click="update">修改</el-button>
+                    <el-button type="danger" :disabled="store.userInfo.rankLevel==1" @click="handleDelete">删除</el-button>
+                    <el-button type="primary" :disabled="store.userInfo.rankLevel==1" @click="update">修改</el-button>
                     <el-button @click="back">返回</el-button>
                 </div>
             </a-card>
@@ -57,7 +57,7 @@
 </template>
 
 <script lang='ts' setup>
-import { SettingFilled, ExclamationCircleOutlined} from "@ant-design/icons-vue";
+import { SettingFilled, ExclamationCircleOutlined } from "@ant-design/icons-vue";
 import { useRoute } from 'vue-router';
 import { reactive, onMounted, createVNode } from 'vue';
 import { MdEditor } from 'md-editor-v3';
@@ -109,6 +109,10 @@ const updateBlog = () => {
     request({
         method: "POST",
         url: "/blog/updateBlog",
+        headers:{
+            "content-type": "application/json",
+            "satoken": store.userInfo.tokenValue
+        },
         data: state.data
     }).then((resp) => {
         if (resp.data == 1) {
@@ -118,7 +122,7 @@ const updateBlog = () => {
         else {
             errTips("更新失败")
         }
-    }).catch((err)=>{
+    }).catch((err) => {
         errTips("获取信息失败!");
     })
 }
@@ -133,7 +137,7 @@ function getBlogById() {
         }
     }).then((resp) => {
         state.data = resp.data;
-    }).catch((err)=>{
+    }).catch((err) => {
         errTips("获取信息失败!")
     })
 }
@@ -152,7 +156,11 @@ const handleDelete = () => {
                 url: "/blog/deleteById",
                 params: {
                     id: route.query.id
-                }
+                },
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded",
+                    "satoken": store.userInfo.tokenValue
+                },
             }).then((resp) => {
                 if (resp.data == 1) {
                     successTips("删除成功");
@@ -196,6 +204,7 @@ const handleOk = () => {
 .manamge {
     overflow-x: hidden;
 }
+
 .button {
     width: 100%;
     display: flex;

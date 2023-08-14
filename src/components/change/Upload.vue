@@ -48,7 +48,7 @@
                     <MdEditor v-model="state.data.content" :theme="store.themeName" style="height: 600px;" />
                 </div>
                 <div class="button">
-                    <el-button type="primary" @click="upload">上传</el-button>
+                    <el-button type="primary" :disabled="store.userInfo.rankLevel==1" @click="upload">上传</el-button>
                     <el-button @click="back">返回</el-button>
                 </div>
             </a-card>
@@ -107,6 +107,10 @@ const uploadBlog = () => {
     request({
         method:"POST",
         url: "/blog/uploadBlog",
+        headers:{
+            "content-type": "application/json",
+            "satoken": store.userInfo.tokenValue
+        },
         data: state.data
     }).then((resp)=>{
         if(resp.data == 1){

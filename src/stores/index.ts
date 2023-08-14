@@ -22,6 +22,9 @@ export const useStore = defineStore('pinia', {
                 name: 'null',
                 avatar: '',
                 email: '',
+                tokenName: '',
+                tokenValue: '',
+                rankLevel: 0,
             },
             // 网站各个页面的背景图
             backgroundImg: {
@@ -58,11 +61,16 @@ export const useStore = defineStore('pinia', {
             this.showLoginModal = key;
         },
         // 设置用户信息
-        setUserInfo(id: number, name: string, email: string, avatar: string) {
+        setUserInfo(id: number, name: string, email: string, avatar: string, rankLevel: number) {
             this.userInfo.id = id;
             this.userInfo.name = name;
             this.userInfo.email = email;
             this.userInfo.avatar = avatar;
+            this.userInfo.rankLevel = rankLevel;
+        },
+        setToken(tokenName: string, tokenValue: string){
+            this.userInfo.tokenName = tokenName;
+            this.userInfo.tokenValue = tokenValue;
         },
         // 是否显示修改用户信息界面
         setIsShowChangeInfo(key: boolean) {
@@ -70,7 +78,7 @@ export const useStore = defineStore('pinia', {
         },
         // 退出登录
         exit() {
-            this.setUserInfo(-1, '', '', '');
+            this.setUserInfo(-1, '', '', '', 0);
             router.replace({
                 path: '/'
             })

@@ -23,20 +23,21 @@
                 <template #default="scope">
                     <el-button size="small" type="primary" @click="handleSee(scope.$index, scope.row)">查看</el-button>
                     <el-button size="small" type="warning" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button size="small" type="danger" :disabled="store.userInfo.rankLevel == 1"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <div class="pagination">
             <el-pagination background layout="prev, pager, next" :total="filterTableData.length" :page-size="state.pageSize"
-                v-model:current-page="state.currentPage" hide-on-single-page="true"/>
+                v-model:current-page="state.currentPage" hide-on-single-page="true" />
         </div>
     </div>
 </template>
   
 <script lang="ts" setup>
 import { computed, reactive, onMounted, createVNode } from 'vue';
-import {ExclamationCircleOutlined} from '@ant-design/icons-vue';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { useStore } from '@/stores';
 import { errTips, successTips } from '@/utils';
 import { Modal } from 'ant-design-vue';
@@ -68,7 +69,7 @@ const filterTableData = computed(() =>
 )
 // 点击编辑按钮
 const handleEdit = (index: number, row: Blog) => {
-    router.push({name: 'change', query: {id: row.id}});
+    router.push({ name: 'change', query: { id: row.id } });
 }
 // 点击删除按钮
 const handleDelete = (index: number, row: Blog) => {
@@ -82,6 +83,10 @@ const handleDelete = (index: number, row: Blog) => {
             request({
                 method: "GET",
                 url: "/blog/deleteById",
+                headers: {
+                    "content-type": "application/json",
+                    "satoken": store.userInfo.tokenValue
+                },
                 params: {
                     id: row.id
                 }
@@ -98,8 +103,8 @@ const handleDelete = (index: number, row: Blog) => {
     });
 }
 // 查看功能
-const handleSee = (index: number, row: Blog)=>{
-    router.push({name: 'article', query:{id: row.id}})
+const handleSee = (index: number, row: Blog) => {
+    router.push({ name: 'article', query: { id: row.id } })
 }
 
 const tableData = reactive(
@@ -122,6 +127,10 @@ const getData = () => {
     request({
         method: "GET",
         url: "/blog/getShortBlogsList",
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+            "satoken": store.userInfo.tokenValue
+        },
         params: {
             currentPage: -1,
             pageSize: state.pageSize

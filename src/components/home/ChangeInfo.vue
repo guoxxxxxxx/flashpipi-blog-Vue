@@ -25,33 +25,37 @@ const state = reactive({
 
 // 修改用户信息
 const handleOk = () => {
-request({
-    method:"POST",
-    url: "/user/modifyInfo",
-    data:{
-        name: state.name,
-        avatar: state.avatar,
-        email: store.userInfo.email
-    }
-}).then((resp)=>{
-    if(resp.data == 1){
-        successTips("修改用户信息成功！");
-        store.userInfo.name = state.name;
-        store.userInfo.avatar = state.avatar;
-        state.name = '';
-        state.avatar = '';
-        store.setIsShowChangeInfo(false);
-    }
-    else{
-        errTips("修改信息失败！")
-    }
-})
+    request({
+        method: "POST",
+        url: "/user/modifyInfo",
+        headers:{
+            "content-type": "application/json",
+            "satoken": store.userInfo.tokenValue
+        },
+        data: {
+            name: state.name,
+            avatar: state.avatar,
+            email: store.userInfo.email
+        }
+    }).then((resp) => {
+        if (resp.data == 1) {
+            successTips("修改用户信息成功！");
+            store.userInfo.name = state.name;
+            store.userInfo.avatar = state.avatar;
+            state.name = '';
+            state.avatar = '';
+            store.setIsShowChangeInfo(false);
+        }
+        else {
+            errTips("修改信息失败！")
+        }
+    })
 }
 
 </script>
 
 <style scoped lang='less'>
-.input-box{
+.input-box {
     display: flex;
     margin-top: 20px;
 

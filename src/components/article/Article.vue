@@ -94,7 +94,7 @@
                     <div class="catalog-card">
                         <div class="catalog-card-header">
                             🔍目录 
-                            <el-button v-if="store.userInfo.id == 945855456" type="primary" @click="change">编辑</el-button>
+                            <el-button v-if="store.userInfo.rankLevel == 2" type="primary" @click="change">编辑</el-button>
                         </div>
                         <div class="catalog-content">
                             <MdCatalog :editorId="id" :scrollElement="scrollElement"></MdCatalog>

@@ -1,6 +1,6 @@
 <template>
     <div class="carousel-container">
-        <el-carousel class="el-container" direction="vertical" :autoplay="false">
+        <el-carousel class="el-container" direction="vertical" :autoplay="true">
             <el-carousel-item class="item-container" v-for="item in data.blogs" :key="item.id">
                 <div class="item">
                     <div class="img-container">

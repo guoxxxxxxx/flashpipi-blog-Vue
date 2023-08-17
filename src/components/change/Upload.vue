@@ -12,23 +12,32 @@
                 <div class="info">
                     <el-form :inline="true" class="demo-form-inline">
                         <el-form-item label="标题">
-                            <el-input v-model="state.data.title" placeholder="长度小于14字符效果最佳"/>
+                            <el-input v-model="state.data.title" placeholder="长度小于14字符效果最佳" />
                         </el-form-item>
                         <el-form-item label="分类">
-                            <el-input v-model="state.data.category" placeholder="category"/>
+                            <el-select v-model="state.data.category" filterable allow-create default-first-option
+                                :reserve-keyword="false" placeholder="请输入所属类别">
+                                <el-option v-for="item in state.categoryList" :key="item.name"
+                                    :label="item.name" :value="item.name" />
+                            </el-select>
+                            <!-- <el-input v-model="state.data.category" placeholder="category" /> -->
                         </el-form-item>
                         <el-form-item label="合集">
-                            <el-input v-model="state.data.collection" placeholder="collection"/>
+                            <el-select v-model="state.data.collection" filterable allow-create default-first-option
+                                :reserve-keyword="false" placeholder="请输入合集">
+                                <el-option v-for="item in state.collectionList" :key="item.collection"
+                                    :label="item.collection" :value="item.collection" />
+                            </el-select>
+                            <!-- <el-input v-model="state.data.collection" placeholder="collection"/> -->
                         </el-form-item>
                         <el-form-item label="描述">
-                            <el-input v-model="state.data.description" placeholder="长度小于20字符效果最佳"/>
+                            <el-input v-model="state.data.description" placeholder="长度小于20字符效果最佳" />
                         </el-form-item>
                         <el-form-item label="序号">
                             <el-input v-model="state.data.sortId" />
                         </el-form-item>
                         <el-form-item label="图片地址">
-                            <el-input v-model="state.data.imagePath" 
-                            placeholder="填入地址后,请点击右侧按钮检查是否可以顺利加载"/>
+                            <el-input v-model="state.data.imagePath" placeholder="填入地址后,请点击右侧按钮检查是否可以顺利加载" />
                         </el-form-item>
                         <el-form-item>
                             <el-button @click="state.imgShow = true">点击查看图片</el-button>
@@ -48,7 +57,7 @@
                     <MdEditor v-model="state.data.content" :theme="store.themeName" style="height: 600px;" />
                 </div>
                 <div class="button">
-                    <el-button type="primary" :disabled="store.userInfo.rankLevel==1" @click="upload">上传</el-button>
+                    <el-button type="primary" :disabled="store.userInfo.rankLevel == 1" @click="upload">上传</el-button>
                     <el-button @click="back">返回</el-button>
                 </div>
             </a-card>
@@ -57,8 +66,8 @@
 </template>
 
 <script lang='ts' setup>
-import { SettingFilled, ExclamationCircleOutlined} from "@ant-design/icons-vue";
-import { reactive, createVNode, watch } from 'vue';
+import { SettingFilled, ExclamationCircleOutlined } from "@ant-design/icons-vue";
+import { reactive, createVNode, watch, onMounted } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import { useStore } from '../../stores';
 import { Modal } from 'ant-design-vue';
@@ -80,11 +89,49 @@ const state = reactive({
         sortId: '',
     },
     imgShow: false,
+    collectionList: [] as any,
+    categoryList: [] as any,
 });
 
 // 返回逻辑
 const back = () => {
     router.back();
+}
+
+// 查询合集
+const getCollectionsName = () => {
+    request({
+        method: 'GET',
+        url: '/blog/getCollectionsName'
+    }).then((resp => {
+        state.collectionList = resp.data;
+    }))
+}
+
+// 查询类别
+const getCategoryList = () => {
+    request({
+        method: "GET",
+        url: "/blog/getBlogsCategoryList",
+        params: {
+            "page": -1
+        }
+    }).then(resp=>{
+        state.categoryList = resp.data;
+    })
+}
+
+// 根据合集查询合集数量
+const getCollectionCount = (collection: string)=>{
+    request({
+        method:"GET",
+        url: "/blog/getCollectionCountByName",
+        params: {
+            "collection": collection
+        }
+    }).then(resp=>{
+        state.data.sortId = resp.data + 1;
+    })
 }
 
 // 更新按钮逻辑
@@ -105,31 +152,43 @@ const upload = () => {
 // 上传博客
 const uploadBlog = () => {
     request({
-        method:"POST",
+        method: "POST",
         url: "/blog/uploadBlog",
-        headers:{
+        headers: {
             "content-type": "application/json",
             "satoken": store.userInfo.tokenValue
         },
         data: state.data
-    }).then((resp)=>{
-        if(resp.data == 1){
+    }).then((resp) => {
+        if (resp.data == 1) {
             successTips("上传成功！");
         }
-        else{
+        else {
             errTips("上传失败");
         }
-    }).catch((err)=>{
+    }).catch((err) => {
         errTips("获取信息失败!");
     })
 }
 
 watch(
-    ()=>state.data.imagePath,
-    (newVal, oldVal)=>{
+    () => state.data.imagePath,
+    (newVal, oldVal) => {
         state.data.imagePath = newVal.replace("![](", "").replace(")", "");
     }
 )
+
+watch(
+    ()=> state.data.collection,
+    (newVal, oldVal)=>{
+        getCollectionCount(newVal);
+    }
+)
+
+onMounted(() => {
+    getCollectionsName(); 
+    getCategoryList();
+});
 
 const handleOk = () => {
     state.imgShow = false;

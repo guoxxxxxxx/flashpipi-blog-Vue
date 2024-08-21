@@ -1,5 +1,4 @@
-// const baseUrl = "http://152.136.170.232:8080";
-const baseUrl = "http://localhost:8080"
+const baseUrl = "http://localhost:8080/api/blog/"
 
 import { errTips } from "@/utils";
 // 请求加载动画

@@ -25,17 +25,17 @@
                         <el-form-item label="合集">
                             <el-select v-model="state.data.collection" filterable allow-create default-first-option
                                 :reserve-keyword="false" placeholder="请输入合集">
-                                <el-option v-for="item in state.collectionList" :key="item.collection"
-                                    :label="item.collection" :value="item.collection" />
+                                <el-option v-for="item in state.collectionList" :key="item"
+                                    :label="item" :value="item" />
                             </el-select>
                             <!-- <el-input v-model="state.data.collection" placeholder="collection"/> -->
                         </el-form-item>
                         <el-form-item label="描述">
                             <el-input v-model="state.data.description" placeholder="长度小于20字符效果最佳" />
                         </el-form-item>
-                        <el-form-item label="序号">
+                        <!-- <el-form-item label="序号">
                             <el-input v-model="state.data.sortId" />
-                        </el-form-item>
+                        </el-form-item> -->
                         <el-form-item label="图片地址">
                             <el-input v-model="state.data.imagePath" placeholder="填入地址后,请点击右侧按钮检查是否可以顺利加载" />
                         </el-form-item>
@@ -104,7 +104,7 @@ const getCollectionsName = () => {
         method: 'GET',
         url: '/blog/getCollectionsName'
     }).then((resp => {
-        state.collectionList = resp.data;
+        state.collectionList = resp.data.data;
     }))
 }
 
@@ -122,17 +122,17 @@ const getCategoryList = () => {
 }
 
 // 根据合集查询合集数量
-const getCollectionCount = (collection: string)=>{
-    request({
-        method:"GET",
-        url: "/blog/getCollectionCountByName",
-        params: {
-            "collection": collection
-        }
-    }).then(resp=>{
-        state.data.sortId = resp.data + 1;
-    })
-}
+// const getCollectionCount = (collection: string)=>{
+//     request({
+//         method:"GET",
+//         url: "/blog/getCollectionCountByName",
+//         params: {
+//             "collection": collection
+//         }
+//     }).then(resp=>{
+//         state.data.sortId = resp.data + 1;
+//     })
+// }
 
 // 更新按钮逻辑
 const upload = () => {
@@ -181,7 +181,7 @@ watch(
 watch(
     ()=> state.data.collection,
     (newVal, oldVal)=>{
-        getCollectionCount(newVal);
+        // getCollectionCount(newVal);
     }
 )
 

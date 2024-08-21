@@ -262,9 +262,9 @@ const getArticleList = (current_page: number) => {
   request({
     method: 'GET',
     url: '/blog/getAllBlogs',
-    params: { page: current_page }
+    params: { pageNumber: current_page, pageSize: 12 }
   }).then((resp) => {
-    data.articles = resp.data;
+    data.articles = resp.data.data.data;
   }).catch((err) => {
     errTips("获取信息失败");
   })

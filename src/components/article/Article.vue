@@ -340,6 +340,8 @@ onMounted(()=>{
             position: sticky;
             top: 20px;
             margin-left: 20px;
+            overflow-y: auto;
+            height: 100vh;
         }
 
         .article-signature {

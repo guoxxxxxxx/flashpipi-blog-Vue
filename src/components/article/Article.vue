@@ -194,6 +194,7 @@ onMounted(()=>{
     font-size: 1em;
     font-family: 'Courier New', Courier, monospace;
     font-weight: normal;
+    padding-top: 20px;
 }
 
 .catalog-card {
@@ -341,7 +342,7 @@ onMounted(()=>{
             top: 20px;
             margin-left: 20px;
             overflow-y: auto;
-            height: 100vh;
+            height: 500px;
         }
 
         .article-signature {

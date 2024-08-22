@@ -37,3 +37,11 @@ export function errTips(msg: string) {
         description: msg,
     });
 };
+// 警告提醒
+export function warningTips(msg: string, duration = 4500) {
+    notification["warning"]({
+        message: 'warning',
+        description: msg,
+        duration: duration
+    });
+}

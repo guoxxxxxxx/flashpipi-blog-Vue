@@ -37,6 +37,7 @@
                     <a-modal v-model:visible="state.imgShow" title="当前图片" style="display: flex; justify-content: center;">
                         <template #footer>
                             <a-button type="primary" @click="handleOk">确认</a-button>
+                            <a-button type="default" @click="randomChange">换一张</a-button>
                         </template>
                         <img :src="state.data.imagePath" width="500">
                     </a-modal>
@@ -183,6 +184,17 @@ onMounted(() => {
 // 
 const handleOk = () => {
     state.imgShow = false;
+}
+
+
+// 随机换一张图
+const randomChange = () => {
+    request({
+        method: "GET",
+        url: "/blog/getRandomImgUrl"
+    }).then((resp) => {
+        state.data.imagePath = resp.data.data;
+    })
 }
 </script>
 

@@ -61,6 +61,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTimeline: typeof import('element-plus/es')['ElTimeline']
     ElTimelineItem: typeof import('element-plus/es')['ElTimelineItem']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     Error: typeof import('./src/components/others/Error.vue')['default']
     FootBar: typeof import('./src/components/layout/FootBar.vue')['default']
     HeaderCover: typeof import('./src/components/header/HeaderCover.vue')['default']

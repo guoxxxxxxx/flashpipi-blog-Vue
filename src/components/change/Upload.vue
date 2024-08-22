@@ -36,6 +36,12 @@
                         <!-- <el-form-item label="序号">
                             <el-input v-model="state.data.sortId" />
                         </el-form-item> -->
+                        <el-form-item label="日期">
+                            <div class="block">
+                                <el-date-picker v-model="state.data.publishTime" type="date" placeholder="请选择发布日期"
+                                    size="default" />
+                            </div>
+                        </el-form-item>
                         <el-form-item label="图片地址">
                             <el-input v-model="state.data.imagePath" placeholder="填入地址后,请点击右侧按钮检查是否可以顺利加载" />
                         </el-form-item>
@@ -107,6 +113,7 @@ const state = reactive({
         collection: '',
         category: '',
         sortId: '',
+        publishTime: Date
     },
     imgShow: false,
     collectionList: [] as any,
@@ -126,6 +133,7 @@ const handleFileChange = (event: Event) => {
     if (file) {
         const formData = new FormData();
         formData.append("textFile", file);
+        formData.append("lastUpdateTime", file.lastModified.toString())
         request({
             method: 'POST',
             data: formData,
@@ -221,22 +229,22 @@ const upload = () => {
 // 上传博客
 const uploadBlog = () => {
     request({
-                method: "POST",
-                url: "/blog/uploadBlog",
-                headers: {
-                    "content-type": "application/json",
-                    "satoken": store.userInfo.tokenValue
-                },
-                data: state.data
-            }).then((resp) => {
-                if (resp.data == 1) {
-                    successTips("上传成功！");
-                }
-                else {
-                    errTips("上传失败");
-                }
-            }).catch((err) => {
-                errTips("获取信息失败!");
+        method: "POST",
+        url: "/blog/uploadBlog",
+        headers: {
+            "content-type": "application/json",
+            "satoken": store.userInfo.tokenValue
+        },
+        data: state.data
+    }).then((resp) => {
+        if (resp.data == 1) {
+            successTips("上传成功！");
+        }
+        else {
+            errTips("上传失败");
+        }
+    }).catch((err) => {
+        errTips("获取信息失败!");
     })
 }
 
@@ -255,7 +263,7 @@ const update = () => {
     request({
         method: "POST",
         url: "/blog/updateBlogByTitle",
-        headers:{
+        headers: {
             "content-type": "application/json",
             "satoken": store.userInfo.tokenValue
         },

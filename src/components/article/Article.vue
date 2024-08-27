@@ -95,6 +95,7 @@
                         <div class="catalog-card-header">
                             🔍目录 
                             <el-button v-if="store.userInfo.rankLevel == 2" type="primary" @click="change">编辑</el-button>
+                            <el-button type="warming" @click="download">下载</el-button>
                         </div>
                         <div class="catalog-content">
                             <MdCatalog :editorId="id" :scrollElement="scrollElement"></MdCatalog>
@@ -138,6 +139,30 @@ let data = reactive({
     viewsCount: '',
     content: '',
 })
+
+// 下载
+const download = () => {
+    request({
+        method: "GET",
+        url: "/blog/downloadById",
+        params: { id: route.query.id },
+        // responseType: 'blob' // 设置响应类型为 blob
+    }).then(response => {
+        // 创建一个 URL 对象，指向下载内容
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        // 创建一个链接元素并模拟点击下载
+        const link = document.createElement('a');
+        link.href = url;
+        console.log(response.headers['content-disposition'])
+        link.setAttribute('download', decodeURIComponent(response.headers['content-disposition'].split('filename=')[1].replace(/"/g, ''))); // 提取文件名
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url); // 释放 URL 对象
+    }).catch(error => {
+        console.error('下载失败:', error);
+    });
+};
 
 // 进入分类详情界面
 const toCategoryDetail = (category:string)=>{

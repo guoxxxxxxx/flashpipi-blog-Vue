@@ -10,6 +10,7 @@
         <div class="container">
             <a-card class="archive-card">
                 <div class="button">
+                    <el-button class="btn" @click="downloadAllBlog" type="success">下载全部</el-button>
                     <el-button class="btn" @click="changeInfo">更改网站信息</el-button>
                     <el-button class="btn" @click="upload">上传</el-button>
                     <el-button @click="exit" type="danger">退出登录</el-button>
@@ -69,6 +70,27 @@ const data = reactive({
     },
     visible: false,
 });
+
+// 下载全部博客
+const downloadAllBlog = () => {
+    request({
+        method: "GET",
+        url: "/blog/downloadZip",
+        responseType: 'blob'
+    }).then((response) => {
+        // 创建一个下载链接
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', (response.headers['content-disposition'].split('filename=')[1].replace(/"/g, ''))); // 提取文件名
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+    }).catch((err) => {
+        errTips("文件下载失败")
+    })
+}
 
 // 修改网站基础信息
 const changeInfo = () => {
@@ -133,7 +155,7 @@ const submit = () => {
                     notice: data.webInfo.notice
                 }
             }).then((resp) => {
-                if(resp.data.status != 443)
+                if (resp.data.status != 443)
                     successTips("修改成功!");
             })
         }

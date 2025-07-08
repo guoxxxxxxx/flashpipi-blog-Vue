@@ -3,7 +3,7 @@
 ## 
 - **本项目后端链接:[🔗闪光皮皮博客后端](https://github.com/guoxxxxxxx/flashpipi-blog-springboot)**
 
-- 目前项目已经上线，域名为: 🔗**http://flashpipi.com**
+- 目前项目已经上线，域名为: 🔗**http://flashpipi.cn**
 
 
 ## 一、所使用到的第三方 package（部分）
